@@ -25,9 +25,6 @@ build_and_push:
     - aws s3 cp build.zip $S3_URL/build.zip
   only:
    - dev
-  artifacts:
-    paths:
-      - build.zip 
 
 deploy:
   stage: deploy
