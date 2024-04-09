@@ -1,0 +1,44 @@
+stages:
+  - build and push
+  - deploy
+
+variables:
+  AWS_ACCESS_KEY_ID: "$AWS_ACCESS_KEY_ID" # Set this in your GitLab CI/CD environment variables
+  AWS_SECRET_ACCESS_KEY: "$AWS_SECRET_ACCESS_KEY"  
+    
+
+build_and_push:
+  stage: build and push
+  tags:
+    - self-hosted
+  variables:
+    S3_URL: "$S3_URL"
+  script:
+    - export NODE_OPTIONS=--max-old-space-size=4096
+    - npm i
+    # - envsubst < .env.tmp > .env
+    - npm run build --prod
+    - zip -r build.zip dist/
+  
+#    - aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID" && aws configure set aws_secret_access_key "$AWS_ACCESS_KEY_SECRET"  && aws configure set region "$AWS_REGION"
+    - ls
+    - aws s3 cp build.zip $S3_URL/build.zip
+  only:
+   - dev
+  artifacts:
+    paths:
+      - build.zip 
+
+deploy:
+  stage: deploy
+  image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
+  tags:
+    - self-hosted
+  variables:
+    # S3_URL: "$S3_URL"
+    AMPLIFY_APP_ID: "$AMPLIFY_APP_ID"
+  script:
+#    - aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID" && aws configure set aws_secret_access_key "$AWS_ACCESS_KEY_SECRET"  && aws configure set region "$AWS_REGION"
+    - aws amplify start-deployment --app-id $AMPLIFY_APP_ID --branch-name $CI_COMMIT_BRANCH --source-url $S3_URL/build.zip
+  only:
+   - dev
