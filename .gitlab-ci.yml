@@ -3,7 +3,7 @@ stages:
   - deploy
 
 variables:
-  AWS_ACCESS_KEY_ID: "$AWS_ACCESS_KEY_ID" # Set this in your GitLab CI/CD environment variables
+  AWS_ACCESS_KEY_ID: "$AWS_ACCESS_KEY_ID"
   AWS_SECRET_ACCESS_KEY: "$AWS_SECRET_ACCESS_KEY"  
     
 
@@ -16,8 +16,9 @@ build_and_push:
   script:
     - export NODE_OPTIONS=--max-old-space-size=4096
     - npm i
-    # - envsubst < .env.tmp > .env
+    - envsubst < .env.tmp > .env
     - npm run build
+    - cp .env dist/web-admin-angular-tractor-tuesday/browser
     - cd dist/web-admin-angular-tractor-tuesday/browser
     - zip -r build.zip ./*
   
@@ -33,7 +34,7 @@ deploy:
   tags:
     - self-hosted
   variables:
-    # S3_URL: "$S3_URL"
+    S3_URL: "$S3_URL"
     AMPLIFY_APP_ID: "$AMPLIFY_APP_ID"
   script:
 #    - aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID" && aws configure set aws_secret_access_key "$AWS_ACCESS_KEY_SECRET"  && aws configure set region "$AWS_REGION"
