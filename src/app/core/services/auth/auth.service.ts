@@ -16,4 +16,25 @@ export class AuthService {
   adminLogin(credentials: any): Observable<any> {
     return this.http.post<any>(this.baseUrl + 'admin/login', credentials);
   }
+
+  verifyViaEmail(payload: any): Observable<any> {
+    return this.http.post<any>(
+      this.baseUrl + 'admin/send-reset-password-email',
+      payload
+    );
+  }
+
+  verifyViaPhone(payload: any): Observable<any> {
+    return this.http.post<any>(
+      this.baseUrl + 'admin/send-reset-password-sms',
+      payload
+    );
+  }
+
+  otpVerify(payload: any): Observable<any> {
+    return this.http.post<any>(
+      this.baseUrl + 'admin/verify-reset-password-sms',
+      payload
+    );
+  }
 }

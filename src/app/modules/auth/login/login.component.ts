@@ -9,12 +9,12 @@ import {
 } from '@angular/forms';
 import { SharedModule } from '../../../shared/shared.module';
 import { AuthService } from '../../../core/services/auth/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [SharedModule, FormsModule, ReactiveFormsModule],
+  imports: [SharedModule, FormsModule, ReactiveFormsModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })

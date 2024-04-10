@@ -1,0 +1,37 @@
+<nz-card>
+  <div class="otp-container">
+    <nz-form-item *ngFor="let index of [0, 1, 2, 3, 4, 5]">
+      <nz-form-control>
+        <input
+          #otpInput
+          type="text"
+          nz-input
+          class="otp-input"
+          maxlength="1"
+          (input)="onOtpInput($event, index)"
+          (keydown)="onOtpKeyDown($event, index)"
+        />
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+  <button
+    nz-button
+    class="login-form-button login-form-margin"
+    [nzType]="'primary'"
+    [disabled]="!resendDisabled"
+    (click)="onResendOtp()"
+  >
+    Resend OTP
+  </button>
+
+  <span class="timer-text">{{ timer }} seconds</span>
+  <button
+    nz-button
+    class="login-form-button login-form-margin"
+    [nzType]="'primary'"
+    [disabled]="isVerifyButtonDisabled()"
+    (click)="onSubmit()"
+  >
+    Verify OTP
+  </button>
+</nz-card>
