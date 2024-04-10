@@ -1,0 +1,28 @@
+.otp-container {
+  display: flex;
+}
+
+.otp-input {
+  width: 50px; /* Adjust width as needed */
+  margin-right: 10px; /* Adjust spacing between input boxes */
+}
+
+.ant-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.login-form-margin {
+  margin-bottom: 16px;
+}
+
+.login-form-forgot {
+  float: right;
+}
+
+.login-form-button {
+  width: 100%;
+}
