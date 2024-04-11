@@ -31,8 +31,28 @@ export class OtpVerifyComponent {
     this.startTimer();
   }
 
+  // Remove this later
+  ngAfterViewInit(): void {
+    const storedOTP = localStorage.getItem('otp');
+    this.isOtpFilled = Array(this.otpInputs.length).fill(false);
+    if (storedOTP) {
+      this.otpValue = storedOTP;
+      this.populateOtpInputs(storedOTP);
+    }
+  }
+
+  populateOtpInputs(otp: string): void {
+    const otpLength = Math.min(otp.length, this.isOtpFilled.length);
+    for (let i = 0; i < otpLength; i++) {
+      const input = this.otpInputs.toArray()[i]
+        .nativeElement as HTMLInputElement;
+      input.value = otp[i];
+      this.isOtpFilled[i] = true;
+    }
+  }
+
   startTimer(): void {
-    this.timer = 10;
+    this.timer = 60;
     this.timerSubscription = interval(1000).subscribe(() => {
       this.timer--;
       if (this.timer === 0) {
@@ -103,5 +123,20 @@ export class OtpVerifyComponent {
   onResendOtp(): void {
     this.resendDisabled = false;
     this.startTimer();
+    let payload = {
+      phoneNumber: String(localStorage.getItem('phoneNumber')),
+    };
+    this.authService.verifyViaPhone(payload).subscribe({
+      next: (data) => {
+        console.log(data);
+        if (data?.data) {
+          localStorage.setItem('otp_token', data?.data?.otpToken);
+          localStorage.setItem('otp', data?.data?.otp); // Remove once aws subscription is taken for sns services.
+        }
+      },
+      error: (error) => {
+        console.error('An error occurred during admin login:', error);
+      },
+    });
   }
 }
