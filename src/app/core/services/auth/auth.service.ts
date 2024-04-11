@@ -37,4 +37,11 @@ export class AuthService {
       payload
     );
   }
+
+  resetPasswordPhone(payload: any): Observable<any> {
+    return this.http.post<any>(
+      this.baseUrl + 'admin/update-Password-using-phoneNumber',
+      payload
+    );
+  }
 }

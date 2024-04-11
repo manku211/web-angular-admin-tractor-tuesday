@@ -83,12 +83,17 @@ export class ForgetPasswordComponent {
         payload = {
           phoneNumber: this.validateForm.controls.phone.value,
         };
+        localStorage.setItem(
+          'phoneNumber',
+          this.validateForm.controls.phone.value
+        );
         this.authService.verifyViaPhone(payload).subscribe({
           next: (data) => {
             console.log(data);
             if (data?.data) {
               this.router.navigate(['/otp-verification']);
               localStorage.setItem('otp_token', data?.data?.otpToken);
+              localStorage.setItem('otp', data?.data?.otp); // Remove once aws subscription is taken for sns services.
             }
           },
           error: (error) => {
