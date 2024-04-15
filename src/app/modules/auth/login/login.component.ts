@@ -10,6 +10,7 @@ import {
 import { SharedModule } from '../../../shared/shared.module';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { Router, RouterModule } from '@angular/router';
+import { MessageService } from '../../../core/services/message/message.service';
 
 @Component({
   selector: 'app-login',
@@ -32,7 +33,8 @@ export class LoginComponent {
   constructor(
     private fb: NonNullableFormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService
   ) {}
   submitForm(): void {
     if (this.validateForm.valid) {
@@ -46,11 +48,14 @@ export class LoginComponent {
           console.log(data);
           if (data) {
             localStorage.setItem('token', data?.data?.accessToken);
+            localStorage.setItem('refresh_token', data?.data?.refreshToken);
+            this.messageService.success('Login Successful!');
             this.router.navigate(['/dashboard']);
           }
         },
         error: (error) => {
           console.error('An error occurred during admin login:', error);
+          this.messageService.error(error);
         },
       });
     } else {

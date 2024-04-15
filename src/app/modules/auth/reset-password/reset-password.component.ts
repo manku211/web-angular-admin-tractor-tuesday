@@ -10,6 +10,7 @@ import {
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/services/auth/auth.service';
+import { MessageService } from '../../../core/services/message/message.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -24,7 +25,8 @@ export class ResetPasswordComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService
   ) {
     this.resetPasswordForm = this.fb.group({
       password: [
@@ -72,6 +74,7 @@ export class ResetPasswordComponent {
         next: (data) => {
           console.log(data);
           if (data?.data) {
+            this.messageService.success('Password reset successfully!');
             this.router.navigate(['/']);
           }
         },
