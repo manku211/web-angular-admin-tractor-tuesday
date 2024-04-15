@@ -12,6 +12,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth/auth.service';
+import { MessageService } from '../../../core/services/message/message.service';
 
 const atLeastOneRequiredValidator = (
   control: AbstractControl
@@ -48,7 +49,8 @@ export class ForgetPasswordComponent {
   constructor(
     private fb: NonNullableFormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService
   ) {
     this.validateForm.get('email')?.valueChanges.subscribe(() => {
       if (!this.updatingDisabledState) {
@@ -74,6 +76,7 @@ export class ForgetPasswordComponent {
         this.authService.verifyViaEmail(payload).subscribe({
           next: (data) => {
             console.log(data);
+            this.messageService.success('Email sent successfully!');
           },
           error: (error) => {
             console.error('An error occurred during admin login:', error);
@@ -91,6 +94,7 @@ export class ForgetPasswordComponent {
           next: (data) => {
             console.log(data);
             if (data?.data) {
+              this.messageService.success('Otp sent successfully!');
               this.router.navigate(['/otp-verification']);
               localStorage.setItem('otp_token', data?.data?.otpToken);
               localStorage.setItem('otp', data?.data?.otp); // Remove once aws subscription is taken for sns services.

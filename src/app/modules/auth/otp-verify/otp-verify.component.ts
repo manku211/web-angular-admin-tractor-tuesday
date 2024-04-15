@@ -9,6 +9,7 @@ import { SharedModule } from '../../../shared/shared.module';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { Router } from '@angular/router';
 import { Subscription, interval } from 'rxjs';
+import { MessageService } from '../../../core/services/message/message.service';
 
 @Component({
   selector: 'app-otp-verify',
@@ -25,7 +26,11 @@ export class OtpVerifyComponent {
   timer: number = 60;
   timerSubscription: Subscription | undefined;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private messageService: MessageService
+  ) {}
 
   ngOnInit(): void {
     this.startTimer();
@@ -107,6 +112,7 @@ export class OtpVerifyComponent {
       next: (data) => {
         console.log(data);
         if (data?.data) {
+          this.messageService.success('Otp verified successfully!');
           this.router.navigate(['/reset-password']);
           localStorage.setItem(
             'resetpassword_token',
@@ -130,6 +136,7 @@ export class OtpVerifyComponent {
       next: (data) => {
         console.log(data);
         if (data?.data) {
+          this.messageService.success('Otp sent successfully!');
           localStorage.setItem('otp_token', data?.data?.otpToken);
           localStorage.setItem('otp', data?.data?.otp); // Remove once aws subscription is taken for sns services.
         }
