@@ -13,6 +13,7 @@ export const httpInterceptorInterceptor: HttpInterceptorFn = (
   next: any
 ) => {
   const authService = inject(AuthService);
+  const router = inject(Router);
   const token = localStorage.getItem('token');
   const refresh_token = localStorage.getItem('refresh_token');
   console.log('req', req);
@@ -31,12 +32,14 @@ export const httpInterceptorInterceptor: HttpInterceptorFn = (
         },
       });
     }
+    // authService.startTokenRefreshCheck();
     return next(cloned).pipe(
       catchError((error: HttpErrorResponse) => {
         console.error('HTTP error occurred:', error);
         if (error?.status === 401) {
           console.log('session is expired');
-          authService.$refreshToken.next(true);
+          router.navigate(['/']);
+          // authService.$refreshToken.next(true);
         }
         return throwError(() => error);
       })

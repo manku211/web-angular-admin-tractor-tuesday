@@ -1,13 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription, interval } from 'rxjs';
 // import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  private refreshSubscription!: Subscription;
   baseUrl = 'https://api-dev.tractortuesday.xyz/api/v1/';
   public $refreshToken = new Subject<boolean>();
 
@@ -68,5 +69,26 @@ export class AuthService {
 
   getAllUsers() {
     return this.http.get<any>(this.baseUrl + 'admin/get-all-users');
+  }
+
+  startTokenRefreshCheck() {
+    this.refreshSubscription = interval(60000).subscribe(() => {
+      const expiresAt = localStorage.getItem('expiresAt');
+      if (expiresAt) {
+        const expiryTime = new Date(expiresAt).getTime();
+        const currentTime = new Date().getTime();
+        const timeDifference = expiryTime - currentTime;
+        const threshold = 300000;
+        if (timeDifference < threshold) {
+          this.getRefreshToken();
+        }
+      }
+    });
+  }
+
+  stopTokenRefreshCheck(): void {
+    if (this.refreshSubscription) {
+      this.refreshSubscription.unsubscribe();
+    }
   }
 }

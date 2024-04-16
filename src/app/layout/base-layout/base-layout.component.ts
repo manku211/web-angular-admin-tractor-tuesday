@@ -31,6 +31,7 @@ export class BaseLayoutComponent {
         console.log(data);
         if (data) {
           localStorage.clear();
+          this.authService.stopTokenRefreshCheck();
           this.messageService.success('Logged out!');
           this.router.navigate(['/']);
         }

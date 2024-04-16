@@ -36,6 +36,14 @@ export class LoginComponent {
     private router: Router,
     private messageService: MessageService
   ) {}
+
+  ngOnInit(): void {
+    const isToken = localStorage.getItem('token');
+    if (isToken) {
+      this.router.navigate(['/dashboard']);
+    }
+  }
+
   submitForm(): void {
     if (this.validateForm.valid) {
       console.log('submit', this.validateForm.value);
@@ -49,6 +57,8 @@ export class LoginComponent {
           if (data) {
             localStorage.setItem('token', data?.data?.accessToken);
             localStorage.setItem('refresh_token', data?.data?.refreshToken);
+            localStorage.setItem('expiresAt', data?.data?.accessTokenExpiresAt);
+            this.authService.startTokenRefreshCheck();
             this.messageService.success('Login Successful!');
             this.router.navigate(['/dashboard']);
           }
