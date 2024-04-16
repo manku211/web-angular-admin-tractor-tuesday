@@ -1,0 +1,17 @@
+<nz-table
+  [nzData]="data"
+  [nzFrontPagination]="false"
+  [nzShowPagination]="showPagination"
+  [nzBordered]="bordered"
+>
+  <thead nz-thead>
+    <tr>
+      <th nz-th nzSortKey="name" nzSort [(nzSortOrder)]="sortOrder">Name</th>
+    </tr>
+  </thead>
+  <tbody nz-tbody>
+    <tr *ngFor="let item of data">
+      <td nz-td>{{ item.name }}</td>
+    </tr>
+  </tbody>
+</nz-table>

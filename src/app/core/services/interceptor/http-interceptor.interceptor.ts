@@ -14,13 +14,24 @@ export const httpInterceptorInterceptor: HttpInterceptorFn = (
 ) => {
   const authService = inject(AuthService);
   const token = localStorage.getItem('token');
-  if (token) {
-    const cloned = req.clone({
-      setHeaders: {
-        authorization: 'Bearer ' + token,
-      },
-    });
-    return next.handle(cloned).pipe(
+  const refresh_token = localStorage.getItem('refresh_token');
+  console.log('req', req);
+  let cloned: any;
+  if (token || refresh_token) {
+    if (req.url.includes('generateAccessTokenUser')) {
+      cloned = req.clone({
+        setHeaders: {
+          authorization: 'Bearer ' + refresh_token,
+        },
+      });
+    } else {
+      cloned = req.clone({
+        setHeaders: {
+          authorization: 'Bearer ' + token,
+        },
+      });
+    }
+    return next(cloned).pipe(
       catchError((error: HttpErrorResponse) => {
         console.error('HTTP error occurred:', error);
         if (error?.status === 401) {
@@ -31,7 +42,7 @@ export const httpInterceptorInterceptor: HttpInterceptorFn = (
       })
     );
   } else {
-    return next.handle(req).pipe(
+    return next(req).pipe(
       catchError((error: HttpErrorResponse) => {
         console.error('HTTP error occurred:', error);
         return throwError(() => error);

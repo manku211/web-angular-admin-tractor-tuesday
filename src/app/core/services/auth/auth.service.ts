@@ -51,20 +51,22 @@ export class AuthService {
   }
 
   getRefreshToken() {
-    const refresh_token = localStorage.getItem('refresh_token');
-    const options = {
-      headers: new HttpHeaders({ Authorization: `Bearer ${refresh_token}` }),
-    };
     this.http
-      .patch<any>(this.baseUrl + 'admin/generateAccessTokenUser', {}, options)
+      .patch<any>(this.baseUrl + 'admin/generateAccessTokenUser', {})
       .subscribe((res: any) => {
         if (res) {
-          console.log('Refresh token', res);
           localStorage.setItem('token', res?.data?.accessToken);
-          localStorage.setItem('refresh_token', res?.data?.refreshToken);
         } else {
           this.router.navigate(['/']);
         }
       });
+  }
+
+  logout() {
+    return this.http.patch<any>(this.baseUrl + 'admin/logoutUser', {});
+  }
+
+  getAllUsers() {
+    return this.http.get<any>(this.baseUrl + 'admin/get-all-users');
   }
 }
