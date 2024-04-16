@@ -1,13 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription, interval } from 'rxjs';
 // import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  private refreshSubscription!: Subscription;
   baseUrl = 'https://api-dev.tractortuesday.xyz/api/v1/';
   public $refreshToken = new Subject<boolean>();
 
@@ -51,20 +52,43 @@ export class AuthService {
   }
 
   getRefreshToken() {
-    const refresh_token = localStorage.getItem('refresh_token');
-    const options = {
-      headers: new HttpHeaders({ Authorization: `Bearer ${refresh_token}` }),
-    };
     this.http
-      .patch<any>(this.baseUrl + 'admin/generateAccessTokenUser', {}, options)
+      .patch<any>(this.baseUrl + 'admin/generateAccessTokenUser', {})
       .subscribe((res: any) => {
         if (res) {
-          console.log('Refresh token', res);
           localStorage.setItem('token', res?.data?.accessToken);
-          localStorage.setItem('refresh_token', res?.data?.refreshToken);
         } else {
           this.router.navigate(['/']);
         }
       });
+  }
+
+  logout() {
+    return this.http.patch<any>(this.baseUrl + 'admin/logoutUser', {});
+  }
+
+  getAllUsers() {
+    return this.http.get<any>(this.baseUrl + 'admin/get-all-users');
+  }
+
+  startTokenRefreshCheck() {
+    this.refreshSubscription = interval(60000).subscribe(() => {
+      const expiresAt = localStorage.getItem('expiresAt');
+      if (expiresAt) {
+        const expiryTime = new Date(expiresAt).getTime();
+        const currentTime = new Date().getTime();
+        const timeDifference = expiryTime - currentTime;
+        const threshold = 300000;
+        if (timeDifference < threshold) {
+          this.getRefreshToken();
+        }
+      }
+    });
+  }
+
+  stopTokenRefreshCheck(): void {
+    if (this.refreshSubscription) {
+      this.refreshSubscription.unsubscribe();
+    }
   }
 }

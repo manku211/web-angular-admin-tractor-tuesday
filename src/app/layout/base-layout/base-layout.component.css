@@ -78,3 +78,9 @@ nz-content {
   background: #fff;
   height: 100%;
 }
+
+.sidebar-bottom-menu {
+  position: absolute;
+  bottom: 2%;
+  width: 100%;
+}
