@@ -11,6 +11,14 @@ interface User {
   phoneNumber: number;
 }
 
+interface ColumnInfo {
+  key: string;
+  label: string;
+  sort: boolean;
+  sortOrder?: string;
+  type?: string;
+}
+
 @Component({
   selector: 'app-user-list',
   standalone: true,
@@ -20,21 +28,71 @@ interface User {
 })
 export class UserListComponent {
   listOfData: User[] = [];
-
+  query: any = { page: 1, limit: 10 };
+  loader: boolean = false;
+  totalRecords: number = 0;
+  listOfColumns: ColumnInfo[] = [
+    {
+      key: 'fullName',
+      label: 'Name',
+      sort: true,
+      sortOrder: 'DESC',
+    },
+    {
+      key: 'email',
+      label: 'Email',
+      sort: true,
+    },
+    {
+      key: 'phoneNumber',
+      label: 'Phone Number',
+      sort: false,
+    },
+    {
+      key: 'createdAt',
+      label: 'Joining Date',
+      sort: false,
+    },
+  ];
   constructor(
     private authService: AuthService,
     private messageService: MessageService,
     private router: Router
   ) {}
   ngOnInit() {
-    this.authService.getAllUsers().subscribe((res) => {
+    this.fetchDetails(this.query);
+  }
+
+  fetchDetails(params: any) {
+    console.log(params);
+    this.loader = true;
+    this.authService.getAllUsers(params).subscribe((res) => {
       console.log('Response', res?.data?.users);
+      this.loader = false;
       this.listOfData = res.data?.users;
+      this.totalRecords = res.data?.count;
     });
   }
 
-  handleSort(args: any) {}
-  handlePageChange(args: any) {}
-  handleSearch(args: any) {}
-  handleActionClick(args: any) {}
+  onSortChange(column: any): void {
+    console.log(column);
+    this.query = { ...this.query, sortOrder: column.sortOrder };
+    console.log(this.query);
+    this.fetchDetails(this.query);
+  }
+
+  onPageChange(page: number): void {
+    this.query = { ...this.query, page: page };
+    this.fetchDetails(this.query);
+  }
+
+  onSearchInput(search: any): void {
+    console.log(search);
+    if (search !== '') {
+      this.query = { ...this.query, search: search };
+    } else {
+      delete this.query.search;
+    }
+    this.fetchDetails(this.query);
+  }
 }

@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subject, Subscription, interval } from 'rxjs';
@@ -67,8 +67,14 @@ export class AuthService {
     return this.http.patch<any>(this.baseUrl + 'admin/logoutUser', {});
   }
 
-  getAllUsers() {
-    return this.http.get<any>(this.baseUrl + 'admin/get-all-users');
+  getAllUsers(params: any) {
+    let queryParams = new HttpParams();
+    Object.keys(params).forEach((key) => {
+      queryParams = queryParams.set(key, params[key]);
+    });
+    return this.http.get<any>(this.baseUrl + 'admin/get-all-users', {
+      params: queryParams,
+    });
   }
 
   startTokenRefreshCheck() {

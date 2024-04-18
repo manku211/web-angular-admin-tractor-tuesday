@@ -1,34 +1,65 @@
-<nz-table *ngIf="data.length > 0" [nzData]="data">
+<nz-row [nzJustify]="'end'" [nzAlign]="'middle'" class="search-container">
+  <nz-col>
+    <nz-input-group [nzSuffix]="suffixIconSearch">
+      <input
+        type="text"
+        nz-input
+        placeholder="search text"
+        [formControl]="searchInput"
+      />
+    </nz-input-group>
+    <ng-template #suffixIconSearch>
+      <span nz-icon nzType="search"></span>
+    </ng-template>
+  </nz-col>
+</nz-row>
+<nz-table
+  *ngIf="data.length > 0"
+  [nzData]="data"
+  [nzBordered]="true"
+  [nzLoading]="loader"
+  [nzPageIndex]="1"
+  [nzPageSize]="10"
+  [nzShowTotal]="rangeTemplate"
+  [nzFrontPagination]="false"
+  [nzTotal]="totalRecords"
+  (nzPageIndexChange)="onPageIndexChange($event)"
+  [nzScroll]="{ y: '400px' }"
+>
+  <ng-template #rangeTemplate let-range="range" let-total>
+    {{ range[0] }}-{{ range[1] }} of {{ total }} items
+  </ng-template>
   <thead>
     <tr>
       <th
         *ngFor="let column of columns"
-        (click)="enableSorting && onSort(column.key)"
+        [id]="column.key"
+        [nzShowSort]="column.sort"
+        (nzSortOrderChange)="onSortChange(column)"
       >
         {{ column.label }}
-        <span *ngIf="enableSorting && sortKey === column.key">
-          <i class="fa fa-caret-up" *ngIf="sortDirection === 'asc'"></i>
-          <i class="fa fa-caret-down" *ngIf="sortDirection === 'desc'"></i>
-        </span>
       </th>
       <th *ngIf="enableActions">Actions</th>
     </tr>
   </thead>
-  <tbody>
+  <!-- <tbody>
     <tr *ngFor="let item of data">
       <td *ngFor="let column of columns">{{ item[column.key] }}</td>
       <td *ngIf="enableActions">
-        <button (click)="onActionClick(item)">Action</button>
+        <button>Action</button>
       </td>
     </tr>
+  </tbody> -->
+  <tbody *ngIf="data.length > 0">
+    <ng-container
+      *ngTemplateOutlet="
+        tableRowTemplate;
+        context: { $implicit: data, columns: columns }
+      "
+    >
+    </ng-container>
   </tbody>
 </nz-table>
-
-<!-- <nz-pagination
-  *ngIf="enablePagination"
-  [(nzPageIndex)]="currentPage"
-  (nzPageIndexChange)="onPageChange($event)"
-></nz-pagination> -->
 
 <!-- <input
   *ngIf="enableSearch"

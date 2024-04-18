@@ -13,6 +13,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { NzFlexModule } from 'ng-zorro-antd/flex';
 const modules = [
   NzButtonModule,
   NzIconModule,
@@ -26,6 +27,7 @@ const modules = [
   NzTableModule,
   NzDividerModule,
   NzPaginationModule,
+  NzFlexModule,
 ];
 @NgModule({
   imports: [CommonModule, RouterOutlet, ...modules],
