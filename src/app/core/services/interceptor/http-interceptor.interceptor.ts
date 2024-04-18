@@ -38,8 +38,8 @@ export const httpInterceptorInterceptor: HttpInterceptorFn = (
         console.error('HTTP error occurred:', error);
         if (error?.status === 401) {
           console.log('session is expired');
+          localStorage.clear();
           router.navigate(['/']);
-          // authService.$refreshToken.next(true);
         }
         return throwError(() => error);
       })
