@@ -6,6 +6,7 @@ import { ForgetPasswordComponent } from './modules/auth/forget-password/forget-p
 import { OtpVerifyComponent } from './modules/auth/otp-verify/otp-verify.component';
 import { ResetPasswordComponent } from './modules/auth/reset-password/reset-password.component';
 import { UserListComponent } from './pages/user-list/user-list.component';
+import { DetailsComponent } from './pages/user-list/details/details.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -18,15 +19,14 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       {
-        path: 'welcome',
+        path: 'user-listing',
         loadChildren: () =>
-          import('./pages/welcome/welcome.routes').then(
-            (m) => m.WELCOME_ROUTES
+          import('./modules/user-listing/user-listing.module').then(
+            (m) => m.UserListingModule
           ),
-      },
-      {
-        path: 'user-list',
-        component: UserListComponent,
+        data: {
+          breadcrumb: 'User-Listing',
+        },
       },
     ],
   },

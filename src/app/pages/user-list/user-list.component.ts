@@ -95,4 +95,8 @@ export class UserListComponent {
     }
     this.fetchDetails(this.query);
   }
+
+  handleViewMore() {
+    this.router.navigate(['/dashboard/user-listing/user-details']);
+  }
 }

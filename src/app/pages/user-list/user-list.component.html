@@ -15,14 +15,14 @@
   <ng-template #tableRowTemplate let-data let-columns="columns">
     <tr *ngFor="let item of data">
       <td>
-        <img src="{{ item['profilePicture'] }}" width="30" height="30" />
+        <img src="{{ item['profilePicture'] }}" class="profile-picture" />
         &nbsp;{{ item["fullName"] }}
       </td>
       <td>{{ item["email"] }}</td>
       <td>{{ item["phoneNumber"] }}</td>
       <td>{{ item["createdAt"] | date : "d MMM, y" }}</td>
       <td>
-        <button>View More</button>
+        <button (click)="handleViewMore()">View More</button>
       </td>
     </tr>
   </ng-template>
