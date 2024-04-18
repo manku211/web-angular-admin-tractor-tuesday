@@ -1,0 +1,34 @@
+<!-- <nz-table #basicTable [nzData]="listOfData">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of basicTable.data">
+      <td>{{ data.username }}</td>
+      <td>{{ data.phoneNumber }}</td>
+      <td>
+        <a>View More</a>
+      </td>
+    </tr>
+  </tbody>
+</nz-table> -->
+<app-table-view
+  [data]="listOfData"
+  [columns]="[
+    { key: 'username', label: 'Name' },
+    { key: 'phoneNumber', label: 'Age' }
+  ]"
+  [enablePagination]="true"
+  [enableSorting]="true"
+  [enableSearch]="true"
+  [enableActions]="true"
+  (sortChange)="handleSort($event)"
+  (pageChange)="handlePageChange($event)"
+  (searchChange)="handleSearch($event)"
+  (actionClick)="handleActionClick($event)"
+>
+</app-table-view>

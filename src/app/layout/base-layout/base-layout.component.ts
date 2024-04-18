@@ -18,10 +18,9 @@ export class BaseLayoutComponent {
     private messageService: MessageService,
     private router: Router
   ) {}
-  ngOnInit() {
-    this.authService.getAllUsers().subscribe((res) => {
-      console.log('Response', res);
-    });
+
+  handleUserList() {
+    this.router.navigate(['dashboard/user-list']);
   }
 
   logout() {
