@@ -5,6 +5,7 @@ import { authGuard } from './core/guards/auth.guard';
 import { ForgetPasswordComponent } from './modules/auth/forget-password/forget-password.component';
 import { OtpVerifyComponent } from './modules/auth/otp-verify/otp-verify.component';
 import { ResetPasswordComponent } from './modules/auth/reset-password/reset-password.component';
+import { UserListComponent } from './pages/user-list/user-list.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -22,6 +23,10 @@ export const routes: Routes = [
           import('./pages/welcome/welcome.routes').then(
             (m) => m.WELCOME_ROUTES
           ),
+      },
+      {
+        path: 'user-list',
+        component: UserListComponent,
       },
     ],
   },

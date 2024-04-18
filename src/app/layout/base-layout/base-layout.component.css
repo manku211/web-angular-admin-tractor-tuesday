@@ -3,6 +3,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  width: 100%;
 }
 
 .app-layout {
@@ -77,6 +78,7 @@ nz-content {
   padding: 24px;
   background: #fff;
   height: 100%;
+  width: 100%;
 }
 
 .sidebar-bottom-menu {

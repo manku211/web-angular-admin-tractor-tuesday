@@ -1,17 +1,39 @@
-<nz-table
-  [nzData]="data"
-  [nzFrontPagination]="false"
-  [nzShowPagination]="showPagination"
-  [nzBordered]="bordered"
->
-  <thead nz-thead>
+<nz-table *ngIf="data.length > 0" [nzData]="data">
+  <thead>
     <tr>
-      <th nz-th nzSortKey="name" nzSort [(nzSortOrder)]="sortOrder">Name</th>
+      <th
+        *ngFor="let column of columns"
+        (click)="enableSorting && onSort(column.key)"
+      >
+        {{ column.label }}
+        <span *ngIf="enableSorting && sortKey === column.key">
+          <i class="fa fa-caret-up" *ngIf="sortDirection === 'asc'"></i>
+          <i class="fa fa-caret-down" *ngIf="sortDirection === 'desc'"></i>
+        </span>
+      </th>
+      <th *ngIf="enableActions">Actions</th>
     </tr>
   </thead>
-  <tbody nz-tbody>
+  <tbody>
     <tr *ngFor="let item of data">
-      <td nz-td>{{ item.name }}</td>
+      <td *ngFor="let column of columns">{{ item[column.key] }}</td>
+      <td *ngIf="enableActions">
+        <button (click)="onActionClick(item)">Action</button>
+      </td>
     </tr>
   </tbody>
 </nz-table>
+
+<!-- <nz-pagination
+  *ngIf="enablePagination"
+  [(nzPageIndex)]="currentPage"
+  (nzPageIndexChange)="onPageChange($event)"
+></nz-pagination> -->
+
+<!-- <input
+  *ngIf="enableSearch"
+  type="text"
+  [(ngModel)]="searchText"
+  (input)="onSearch()"
+  placeholder="Search..."
+/> -->

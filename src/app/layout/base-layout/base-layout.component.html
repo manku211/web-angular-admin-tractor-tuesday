@@ -10,7 +10,7 @@
   >
     <div class="sidebar-logo">
       <a href="https://ng.ant.design/" target="_blank">
-        <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo" />
+        <!-- <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo" /> -->
         <h1>Tractor Tuesday</h1>
       </a>
     </div>
@@ -20,15 +20,16 @@
       nzMode="inline"
       [nzInlineCollapsed]="isCollapsed"
     >
-      <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
-        <ul>
-          <li nz-menu-item nzMatchRouter>
-            <a routerLink="/welcome">Users</a>
-          </li>
-        </ul>
+      <li nz-menu-item>
+        <span nz-icon nzType="dashboard"></span>
+        <span>Dashboard</span>
+      </li>
+      <li nz-menu-item>
+        <span nz-icon nzType="user"></span>
+        <span (click)="handleUserList()">User List</span>
       </li>
       <div class="sidebar-bottom-menu">
-        <li nz-menu-item nzTitle="Dashboard" nzIcon="dashboard">
+        <li nz-menu-item>
           <span nz-icon nzType="logout"></span>
           <span (click)="logout()">Logout</span>
         </li>
