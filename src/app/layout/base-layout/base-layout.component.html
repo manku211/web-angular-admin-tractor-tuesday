@@ -11,7 +11,7 @@
     <div class="sidebar-logo">
       <a href="https://ng.ant.design/" target="_blank">
         <!-- <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo" /> -->
-        <h1>Tractor Tuesday</h1>
+        <h1 *ngIf="!isCollapsed">Tractor Tuesday</h1>
       </a>
     </div>
     <ul
@@ -36,7 +36,7 @@
       </div>
     </ul>
   </nz-sider>
-  <nz-layout>
+  <nz-layout class="main-content" [ngClass]="{ collapsed: isCollapsed }">
     <nz-header>
       <div class="app-header">
         <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
