@@ -20,7 +20,7 @@ export class BaseLayoutComponent {
   ) {}
 
   handleUserList() {
-    this.router.navigate(['dashboard/user-list']);
+    this.router.navigate(['dashboard/user-listing']);
   }
 
   logout() {
