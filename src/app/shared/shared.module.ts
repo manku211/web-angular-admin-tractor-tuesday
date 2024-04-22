@@ -15,6 +15,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
 
 const modules = [
   NzButtonModule,
@@ -31,6 +32,7 @@ const modules = [
   NzPaginationModule,
   NzFlexModule,
   NzBreadCrumbModule,
+  NzSpaceModule,
 ];
 @NgModule({
   imports: [CommonModule, RouterOutlet, ...modules],

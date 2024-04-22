@@ -1,1 +1,58 @@
-<p>details works!</p>
+<nz-card>
+  <div nz-row *ngIf="userInfo">
+    <div nz-col nzSpan="6">
+      <div
+        nz-flex
+        nzJustify="center"
+        nzAlign="center"
+        [nzVertical]="true"
+        nzGap="small"
+      >
+        <img
+          [src]="userInfo.profilePicture"
+          alt="Profile Picture"
+          class="details_picture"
+        />
+        <h4>{{ userInfo.fullName }}</h4>
+      </div>
+    </div>
+    <div nz-col nzOffset="1" nzSpan="17" class="nz-mb-2">
+      <h4>Personal Information</h4>
+      <div nz-row>
+        <div nz-col nzSpan="10">
+          <p>
+            <span nz-icon nzType="user" nzTheme="outline"></span>&nbsp;<span
+              >Full Name:</span
+            >
+            {{ userInfo.fullName }}
+          </p>
+          <p>
+            <span nz-icon nzType="phone" nzTheme="outline"></span>&nbsp;<span
+              >Phone Number:</span
+            >
+            {{ userInfo.phoneNumber }}
+          </p>
+          <p>
+            <span nz-icon nzType="global" nzTheme="outline"></span>&nbsp;<span
+              >Country:</span
+            >
+          </p>
+        </div>
+        <div nz-col nzSpan="12">
+          <p>
+            <span nz-icon nzType="mail" nzTheme="outline"></span>&nbsp;<span
+              >Email Address:</span
+            >
+            {{ userInfo.email }}
+          </p>
+          <p>
+            <span nz-icon nzType="calendar" nzTheme="outline"></span>&nbsp;<span
+              >Joining Date:</span
+            >
+            {{ userInfo.createdAt | date : "d MMM, y" }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</nz-card>

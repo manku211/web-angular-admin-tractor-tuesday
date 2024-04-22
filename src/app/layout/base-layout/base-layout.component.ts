@@ -23,6 +23,10 @@ export class BaseLayoutComponent {
     this.router.navigate(['dashboard/user-listing']);
   }
 
+  handleSellerList() {
+    this.router.navigate(['dashboard/seller-listing']);
+  }
+
   logout() {
     console.log('logout');
     this.authService.logout().subscribe({

@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { SharedModule } from '../../shared/shared.module';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { MessageService } from '../../core/services/message/message.service';
 import { Router } from '@angular/router';
-import { TableViewComponent } from '../../shared/components/table-view/table-view.component';
 import { UserListingService } from '../../core/services/user/user-listing.service';
+import { SharedModule } from '../../shared/shared.module';
+import { TableViewComponent } from '../../shared/components/table-view/table-view.component';
 
-interface User {
+interface Seller {
   _id: string;
   username: string;
   phoneNumber: number;
@@ -21,15 +21,15 @@ interface ColumnInfo {
 }
 
 @Component({
-  selector: 'app-user-list',
+  selector: 'app-seller-list',
   standalone: true,
   imports: [SharedModule, TableViewComponent],
-  templateUrl: './user-list.component.html',
-  styleUrl: './user-list.component.css',
+  templateUrl: './seller-list.component.html',
+  styleUrl: './seller-list.component.css',
 })
-export class UserListComponent {
-  listOfData: User[] = [];
-  query: any = { page: 1, limit: 10, fetch: 'user' };
+export class SellerListComponent {
+  listOfData: Seller[] = [];
+  query: any = { page: 1, limit: 10, fetch: 'seller' };
   loader: boolean = false;
   totalRecords: number = 0;
   listOfColumns: ColumnInfo[] = [
@@ -50,11 +50,17 @@ export class UserListComponent {
       sort: false,
     },
     {
+      key: 'auctions',
+      label: 'Number of auctions',
+      sort: false,
+    },
+    {
       key: 'createdAt',
       label: 'Joining Date',
       sort: false,
     },
   ];
+
   constructor(
     private authService: AuthService,
     private messageService: MessageService,
@@ -100,7 +106,7 @@ export class UserListComponent {
 
   handleViewMore(id: any) {
     console.log(id);
-    this.router.navigate(['/dashboard/user-listing/user-details'], {
+    this.router.navigate(['/dashboard/seller-listing/seller-details'], {
       state: { userId: id },
     });
   }

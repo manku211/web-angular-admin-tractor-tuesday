@@ -67,16 +67,6 @@ export class AuthService {
     return this.http.patch<any>(this.baseUrl + 'admin/logoutUser', {});
   }
 
-  getAllUsers(params: any) {
-    let queryParams = new HttpParams();
-    Object.keys(params).forEach((key) => {
-      queryParams = queryParams.set(key, params[key]);
-    });
-    return this.http.get<any>(this.baseUrl + 'admin/get-all-users', {
-      params: queryParams,
-    });
-  }
-
   startTokenRefreshCheck() {
     this.refreshSubscription = interval(60000).subscribe(() => {
       const expiresAt = localStorage.getItem('expiresAt');
