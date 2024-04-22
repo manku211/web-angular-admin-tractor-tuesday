@@ -11,6 +11,7 @@ import { SharedModule } from '../../../shared/shared.module';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import { MessageService } from '../../../core/services/message/message.service';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -46,18 +47,28 @@ export class LoginComponent {
 
   submitForm(): void {
     if (this.validateForm.valid) {
-      console.log('submit', this.validateForm.value);
       let payload = {
         email: this.validateForm.controls.userName.value,
         password: this.validateForm.controls.password.value,
       };
       this.authService.adminLogin(payload).subscribe({
-        next: (data) => {
+        next: (data: any) => {
           console.log(data);
           if (data) {
-            localStorage.setItem('token', data?.data?.accessToken);
-            localStorage.setItem('refresh_token', data?.data?.refreshToken);
-            localStorage.setItem('expiresAt', data?.data?.accessTokenExpiresAt);
+            localStorage.setItem(
+              'token',
+              data?.data?.accessToken ? data?.data?.accessToken : ''
+            );
+            localStorage.setItem(
+              'refresh_token',
+              data?.data?.refreshToken ? data?.data?.refreshToken : ''
+            );
+            localStorage.setItem(
+              'expiresAt',
+              data?.data?.accessTokenExpiresAt
+                ? data?.data?.accessTokenExpiresAt
+                : ''
+            );
             this.authService.startTokenRefreshCheck();
             this.messageService.success('Login Successful!');
             this.router.navigate(['/dashboard']);

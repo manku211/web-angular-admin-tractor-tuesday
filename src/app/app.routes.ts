@@ -28,6 +28,16 @@ export const routes: Routes = [
           breadcrumb: 'User-Listing',
         },
       },
+      {
+        path: 'seller-listing',
+        loadChildren: () =>
+          import('./modules/seller-listing/seller-listing.module').then(
+            (m) => m.SellerListingModule
+          ),
+        data: {
+          breadcrumb: 'Seller-Listing',
+        },
+      },
     ],
   },
   {

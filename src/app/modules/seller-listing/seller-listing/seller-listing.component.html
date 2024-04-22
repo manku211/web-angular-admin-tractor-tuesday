@@ -1,0 +1,14 @@
+<nz-flex [nzVertical]="true" [nzGap]="15">
+  <nz-card>
+    <nz-breadcrumb
+      nz-page-header-breadcrumb
+      [nzAutoGenerate]="true"
+    ></nz-breadcrumb>
+  </nz-card>
+  <div *ngIf="routePath == '/dashboard/seller-listing'">
+    <app-seller-list></app-seller-list>
+  </div>
+  <div *ngIf="routePath == '/dashboard/seller-listing/seller-details'">
+    <app-details></app-details>
+  </div>
+</nz-flex>
