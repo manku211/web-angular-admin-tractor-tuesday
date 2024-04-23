@@ -56,7 +56,18 @@ export class ResetPasswordComponent {
     // Console URL
     console.log('URL:', this.router.url);
     console.log('Current URL:', window.location.href);
+    this.getUserToken();
   }
+
+  getUserToken = () => {
+    if (typeof window !== 'undefined') {
+      const searchParams = new URLSearchParams(window.location.search);
+      const tokenVal = searchParams.get('token');
+      console.log(decodeURIComponent(String(tokenVal)));
+      return decodeURIComponent(String(tokenVal));
+    }
+    return '';
+  };
 
   validateConfirmPassword(): void {
     setTimeout(() =>
