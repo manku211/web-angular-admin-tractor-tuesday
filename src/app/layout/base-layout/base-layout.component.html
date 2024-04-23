@@ -1,4 +1,3 @@
-<!-- <p>base-layout works!</p> -->
 <nz-layout class="app-layout">
   <nz-sider
     class="menu-sidebar"
@@ -9,10 +8,8 @@
     [nzTrigger]="null"
   >
     <div class="sidebar-logo">
-      <a href="https://ng.ant.design/" target="_blank">
-        <!-- <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo" /> -->
-        <h1 *ngIf="!isCollapsed">Tractor Tuesday</h1>
-      </a>
+      <!-- <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo" /> -->
+      <h1 *ngIf="!isCollapsed">Tractor Tuesday</h1>
     </div>
     <ul
       nz-menu
@@ -24,13 +21,13 @@
         <span nz-icon nzType="dashboard"></span>
         <span>Dashboard</span>
       </li>
-      <li nz-menu-item>
+      <li nz-menu-item (click)="handleUserList()">
         <span nz-icon nzType="user"></span>
-        <span (click)="handleUserList()">User List</span>
+        <span>User List</span>
       </li>
-      <li nz-menu-item>
+      <li nz-menu-item (click)="handleSellerList()">
         <span nz-icon nzType="user"></span>
-        <span (click)="handleSellerList()">Seller List</span>
+        <span>Seller List</span>
       </li>
       <div class="sidebar-bottom-menu">
         <li nz-menu-item>

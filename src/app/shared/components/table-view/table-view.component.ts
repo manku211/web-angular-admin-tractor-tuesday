@@ -65,7 +65,6 @@ export class TableViewComponent {
     });
 
     column.sortOrder = column.sortOrder === 'ASC' ? 'DESC' : 'ASC';
-
     this.sortChange.emit(column);
   }
 

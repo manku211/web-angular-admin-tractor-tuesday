@@ -17,7 +17,8 @@
   <nz-table
     *ngIf="data.length > 0"
     [nzData]="data"
-    [nzBordered]="true"
+    [nzBordered]="false"
+    [nzOuterBordered]="true"
     [nzLoading]="loader"
     [nzPageIndex]="1"
     [nzPageSize]="10"

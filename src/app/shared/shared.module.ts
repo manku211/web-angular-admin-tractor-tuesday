@@ -16,6 +16,9 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
 
 const modules = [
   NzButtonModule,
@@ -33,6 +36,9 @@ const modules = [
   NzFlexModule,
   NzBreadCrumbModule,
   NzSpaceModule,
+  NzModalModule,
+  NzRadioModule,
+  NzTabsModule,
 ];
 @NgModule({
   imports: [CommonModule, RouterOutlet, ...modules],
