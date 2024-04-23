@@ -28,7 +28,7 @@
 .sidebar-logo {
   position: relative;
   height: 64px;
-  padding-left: 24px;
+  padding-left: 54px;
   overflow: hidden;
   line-height: 64px;
   background: #001529;
@@ -37,8 +37,8 @@
 
 .sidebar-logo img {
   display: inline-block;
-  height: 32px;
-  width: 32px;
+  height: 45px;
+  width: 125px;
   vertical-align: middle;
 }
 
@@ -52,6 +52,10 @@
   vertical-align: middle;
 }
 
+.sidebar-logo img.collapsed {
+  height: 30px;
+  width: 30px;
+}
 nz-header {
   padding: 0;
   width: 100%;

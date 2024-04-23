@@ -8,9 +8,15 @@
     [nzTrigger]="null"
   >
     <div class="sidebar-logo">
-      <!-- <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo" /> -->
-      <h1 *ngIf="!isCollapsed">Tractor Tuesday</h1>
+      <img
+        [src]="
+          isCollapsed ? 'assets/icons/Tractor.svg' : 'assets/icons/logo.svg'
+        "
+        alt="logo"
+        [ngClass]="{ collapsed: isCollapsed }"
+      />
     </div>
+
     <ul
       nz-menu
       nzTheme="dark"
