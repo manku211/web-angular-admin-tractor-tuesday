@@ -10,6 +10,8 @@ interface User {
   _id: string;
   username: string;
   phoneNumber: number;
+  country: string;
+  blockStatus: boolean;
 }
 
 interface ColumnInfo {
@@ -32,6 +34,8 @@ export class UserListComponent {
   query: any = { page: 1, limit: 10, fetch: 'user' };
   loader: boolean = false;
   totalRecords: number = 0;
+  countryFlag!: string;
+  countryName!: string;
   listOfColumns: ColumnInfo[] = [
     {
       key: 'fullName',
@@ -45,8 +49,18 @@ export class UserListComponent {
       sort: true,
     },
     {
+      key: 'country',
+      label: 'Country',
+      sort: false,
+    },
+    {
       key: 'phoneNumber',
       label: 'Phone Number',
+      sort: false,
+    },
+    {
+      key: 'blockStatus',
+      label: 'Block Status',
       sort: false,
     },
     {

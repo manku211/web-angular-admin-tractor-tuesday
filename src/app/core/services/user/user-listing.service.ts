@@ -1,6 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
+export interface BlockUserParams {
+  email: string;
+  action: string;
+  reason: string;
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -20,5 +24,12 @@ export class UserListingService {
 
   getUserDetailsById(id: string) {
     return this.http.get<any>(this.baseUrl + `admin/get-user-by-id/${id}`);
+  }
+
+  blockUnblockUser(payload: BlockUserParams) {
+    return this.http.post<any>(
+      this.baseUrl + `admin/deactivate-or-activate-user`,
+      payload
+    );
   }
 }

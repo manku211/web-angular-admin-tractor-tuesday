@@ -7,7 +7,10 @@
         nzAlign="center"
         [nzVertical]="true"
         nzGap="small"
+        class="personal_info"
       >
+        <img src="assets/icons/profile_container.svg" alt="profile" />
+
         <img
           [src]="userInfo.profilePicture"
           alt="Profile Picture"
@@ -17,7 +20,12 @@
       </div>
     </div>
     <div nz-col nzOffset="1" nzSpan="17" class="nz-mb-2">
-      <h4>Personal Information</h4>
+      <div nz-flex nzJustify="space-between" class="personal_info">
+        <h4>Personal Information</h4>
+        <button nz-button nzType="primary" (click)="showBlockReason()">
+          {{ userBlockText }}
+        </button>
+      </div>
       <div nz-row>
         <div nz-col nzSpan="10">
           <p>
@@ -53,6 +61,45 @@
           </p>
         </div>
       </div>
+      <div nz-flex nzGap="middle" *ngIf="userInfo?.isDeleted">
+        <h4>Blocking Reason:</h4>
+        <p>{{ userInfo?.reason }}</p>
+      </div>
     </div>
   </div>
 </nz-card>
+
+<nz-modal [(nzVisible)]="showBlockReasonModal" (nzOnCancel)="handleCancel()">
+  <div *nzModalContent>
+    <nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true">
+      <img src="assets/icons/block.svg" alt="block" width="50" height="50" />
+      <h3>{{ userBlockText }} User Confirmation</h3>
+    </nz-flex>
+    <nz-radio-group [(ngModel)]="selectedReason" *ngIf="!userInfo?.isDeleted">
+      <label
+        *ngFor="let reason of reasons"
+        nz-radio
+        [nzValue]="reason"
+        [attr.for]="'reason-' + reason"
+        >{{ reason }}</label
+      >
+    </nz-radio-group>
+    <h4>Other Reasons:</h4>
+    <textarea
+      nz-input
+      placeholder="Other reasons"
+      [(ngModel)]="otherReason"
+      id="otherReason"
+    ></textarea>
+  </div>
+  <div *nzModalFooter>
+    <button
+      nz-button
+      nzType="primary"
+      (click)="handleUserAccount()"
+      [disabled]="shouldDisableButton()"
+    >
+      {{ userBlockText }} User
+    </button>
+  </div>
+</nz-modal>

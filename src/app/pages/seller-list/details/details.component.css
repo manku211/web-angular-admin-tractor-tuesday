@@ -1,0 +1,10 @@
+.details_picture {
+  width: 64px;
+  height: 64px;
+  border-radius: 50px;
+  position: absolute;
+  top: 14px;
+}
+.personal_info {
+  margin: 10px 0px;
+}
