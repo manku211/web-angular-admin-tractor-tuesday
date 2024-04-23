@@ -8,7 +8,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { MessageService } from '../../../core/services/message/message.service';
 
@@ -26,7 +26,9 @@ export class ResetPasswordComponent {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private route: ActivatedRoute,
+    private location: Location
   ) {
     this.resetPasswordForm = this.fb.group({
       password: [
@@ -40,6 +42,20 @@ export class ResetPasswordComponent {
       ],
       confirmPassword: ['', [this.confirmValidator]],
     });
+  }
+
+  ngOnInit() {
+    this.route.paramMap.subscribe((params) => {
+      const id = params.get('id');
+      const name = params.get('name');
+      console.log('ID:', id);
+      console.log('Name:', name);
+    });
+    // const tokenIndex = url.lastIndexOf('/') + 1;
+    // this.token = url.substring(tokenIndex);
+    // Console URL
+    console.log('URL:', this.router.url);
+    console.log('Current URL:', window.location.href);
   }
 
   validateConfirmPassword(): void {

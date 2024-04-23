@@ -57,13 +57,8 @@ export class DetailsComponent {
       sort: false,
     },
     {
-      key: 'auctionStatus',
-      label: 'Auction Status',
-      sort: false,
-    },
-    {
       key: 'auctionDate',
-      label: 'Auction Date',
+      label: 'Pending Auction Date',
       sort: false,
     },
     {
@@ -84,6 +79,27 @@ export class DetailsComponent {
     this.fetchUserDetails(this.userId);
     this.query = { ...this.query, sellerId: this.userId };
     this.fetchAuctionDetails(this.query);
+  }
+
+  onTabChange(index: any): void {
+    console.log('Selected tab index:', index);
+    if (index === 0) {
+      this.listOfColumns = this.listOfColumns.filter(
+        (column) => column.key !== 'auctionStatus'
+      );
+    } else if (index === 1) {
+      this.listOfColumns.push({
+        key: 'auctionStatus',
+        label: 'Auction Status',
+        sort: false,
+      });
+      const auctionDateColumnIndex = this.listOfColumns.findIndex(
+        (column) => column.key === 'auctionDate'
+      );
+      if (auctionDateColumnIndex !== -1) {
+        this.listOfColumns[auctionDateColumnIndex].label = 'Auction Date';
+      }
+    }
   }
 
   fetchUserDetails(userId: string) {
