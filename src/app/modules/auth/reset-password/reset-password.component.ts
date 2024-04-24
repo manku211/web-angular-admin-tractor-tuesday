@@ -46,7 +46,7 @@ export class ResetPasswordComponent {
   ngOnInit() {
     console.log('URL:', this.router.url);
     console.log('Current URL:', window.location.href);
-    this.getUserToken();
+    localStorage.setItem('resetpassword_token', this.getUserToken());
   }
 
   getUserToken = () => {
