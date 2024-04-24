@@ -1,0 +1,34 @@
+[nz-carousel-content] {
+  text-align: center;
+  height: 300px;
+  max-height: 300px;
+  line-height: 160px;
+  background: #d3d5d7;
+  color: #fff;
+}
+
+/* ::ng-deep .ant-carousel .slick-slider .slick-list {
+  height: 300px !important;
+} */
+h3 {
+  color: #fff;
+  margin-bottom: 0;
+  user-select: none;
+}
+
+.col-wrap {
+  padding: 10px;
+}
+
+.info-container {
+  margin: 10px 0px;
+}
+
+.additonal-info-text {
+  padding: 10px;
+  border: 1px solid var(--bordr_color, #dadce0);
+}
+
+.additional-info span:first-child {
+  width: 180px;
+}

@@ -27,8 +27,7 @@ export class ResetPasswordComponent {
     private authService: AuthService,
     private router: Router,
     private messageService: MessageService,
-    private route: ActivatedRoute,
-    private location: Location
+    private route: ActivatedRoute
   ) {
     this.resetPasswordForm = this.fb.group({
       password: [
@@ -45,15 +44,6 @@ export class ResetPasswordComponent {
   }
 
   ngOnInit() {
-    this.route.paramMap.subscribe((params) => {
-      const id = params.get('id');
-      const name = params.get('name');
-      console.log('ID:', id);
-      console.log('Name:', name);
-    });
-    // const tokenIndex = url.lastIndexOf('/') + 1;
-    // this.token = url.substring(tokenIndex);
-    // Console URL
     console.log('URL:', this.router.url);
     console.log('Current URL:', window.location.href);
     this.getUserToken();
@@ -62,6 +52,7 @@ export class ResetPasswordComponent {
   getUserToken = () => {
     if (typeof window !== 'undefined') {
       const searchParams = new URLSearchParams(window.location.search);
+      console.log(searchParams);
       const tokenVal = searchParams.get('token');
       console.log(decodeURIComponent(String(tokenVal)));
       return decodeURIComponent(String(tokenVal));

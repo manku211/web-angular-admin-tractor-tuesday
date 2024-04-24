@@ -5,6 +5,7 @@ import { MessageService } from '../../../core/services/message/message.service';
 import { AuctionRequestComponent } from '../auction-request/auction-request.component';
 import { TableViewComponent } from '../../../shared/components/table-view/table-view.component';
 import { AuctionService } from '../../../core/services/auction/auction.service';
+import { Router } from '@angular/router';
 
 interface Seller {
   _id: string;
@@ -71,10 +72,11 @@ export class DetailsComponent {
   constructor(
     private auctionService: AuctionService,
     private userService: UserListingService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router
   ) {}
   ngOnInit(): void {
-    this.userId = history.state.userId;
+    this.userId = localStorage.getItem('selectedUserId');
     console.log('User ID:', this.userId);
     this.fetchUserDetails(this.userId);
     this.query = { ...this.query, sellerId: this.userId };
@@ -88,17 +90,18 @@ export class DetailsComponent {
         (column) => column.key !== 'auctionStatus'
       );
     } else if (index === 1) {
-      this.listOfColumns.push({
+      const auctionStatusColumn = {
         key: 'auctionStatus',
         label: 'Auction Status',
         sort: false,
-      });
+      };
       const auctionDateColumnIndex = this.listOfColumns.findIndex(
         (column) => column.key === 'auctionDate'
       );
       if (auctionDateColumnIndex !== -1) {
         this.listOfColumns[auctionDateColumnIndex].label = 'Auction Date';
       }
+      this.listOfColumns.splice(4, 0, auctionStatusColumn);
     }
   }
 
@@ -157,8 +160,9 @@ export class DetailsComponent {
 
   handleViewMore(id: any) {
     console.log(id);
-    // this.router.navigate(['/dashboard/seller-listing/seller-details'], {
-    //   state: { userId: id },
-    // });
+    localStorage.setItem('selectedAuctionId', id);
+    this.router.navigate([
+      '/dashboard/seller-listing/seller-details/vehicle-info',
+    ]);
   }
 }

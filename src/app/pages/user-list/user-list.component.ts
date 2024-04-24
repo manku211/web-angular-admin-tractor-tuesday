@@ -114,8 +114,7 @@ export class UserListComponent {
 
   handleViewMore(id: any) {
     console.log(id);
-    this.router.navigate(['/dashboard/user-listing/user-details'], {
-      state: { userId: id },
-    });
+    localStorage.setItem('selectedUserId', id);
+    this.router.navigate(['/dashboard/user-listing/user-details']);
   }
 }

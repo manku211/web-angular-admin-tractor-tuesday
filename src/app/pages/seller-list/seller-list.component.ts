@@ -106,8 +106,7 @@ export class SellerListComponent {
 
   handleViewMore(id: any) {
     console.log(id);
-    this.router.navigate(['/dashboard/seller-listing/seller-details'], {
-      state: { userId: id },
-    });
+    localStorage.setItem('selectedUserId', id);
+    this.router.navigate(['/dashboard/seller-listing/seller-details']);
   }
 }

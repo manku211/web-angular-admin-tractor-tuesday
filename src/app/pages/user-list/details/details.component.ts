@@ -34,7 +34,7 @@ export class DetailsComponent {
     private messageService: MessageService
   ) {}
   ngOnInit(): void {
-    this.userId = history.state.userId;
+    this.userId = localStorage.getItem('selectedUserId');
     console.log('User ID:', this.userId);
     this.fetchUserDetails(this.userId);
   }
