@@ -20,4 +20,8 @@ export class AuctionService {
       }
     );
   }
+
+  getVehicleDetailsByAuctionId(id: string) {
+    return this.http.get<any>(this.baseUrl + `auctions/get-auction/${id}`);
+  }
 }
