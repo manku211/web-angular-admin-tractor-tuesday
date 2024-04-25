@@ -24,11 +24,15 @@ h3 {
   margin: 10px 0px;
 }
 
-.additonal-info-text {
+.info-text {
   padding: 10px;
   border: 1px solid var(--bordr_color, #dadce0);
 }
 
 .additional-info span:first-child {
   width: 180px;
+}
+.biddetails_container {
+  border-radius: 5px 5px 0px 0px;
+  border: 1px solid var(--bordr_color, #dadce0);
 }

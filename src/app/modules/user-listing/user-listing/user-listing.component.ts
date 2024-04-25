@@ -4,11 +4,17 @@ import { UserListComponent } from '../../../pages/user-list/user-list.component'
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { DetailsComponent } from '../../../pages/user-list/details/details.component';
 import { filter } from 'rxjs';
+import { VehicleInfoComponent } from '../../../pages/vehicle-info/vehicle-info.component';
 
 @Component({
   selector: 'app-user-listing',
   standalone: true,
-  imports: [SharedModule, UserListComponent, DetailsComponent],
+  imports: [
+    SharedModule,
+    UserListComponent,
+    DetailsComponent,
+    VehicleInfoComponent,
+  ],
   templateUrl: './user-listing.component.html',
   styleUrl: './user-listing.component.css',
 })

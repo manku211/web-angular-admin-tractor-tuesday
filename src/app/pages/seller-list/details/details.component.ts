@@ -121,7 +121,7 @@ export class DetailsComponent {
   }
 
   fetchAuctionDetails(query: any) {
-    this.auctionService.getAuctionDetailsById(query).subscribe({
+    this.auctionService.getAuctionDetailsBySellerId(query).subscribe({
       next: (data: any) => {
         console.log(data);
         if (data) {
