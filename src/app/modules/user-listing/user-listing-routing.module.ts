@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { UserListComponent } from '../../pages/user-list/user-list.component';
 import { DetailsComponent } from '../../pages/user-list/details/details.component';
 import { UserListingComponent } from './user-listing/user-listing.component';
+import { VehicleInfoComponent } from '../../pages/vehicle-info/vehicle-info.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,15 @@ const routes: Routes = [
         data: {
           breadcrumb: 'UserDetails',
         },
+        children: [
+          {
+            path: 'vehicle-info',
+            component: VehicleInfoComponent,
+            data: {
+              breadcrumb: 'Vehicle Information',
+            },
+          },
+        ],
       },
     ],
   },

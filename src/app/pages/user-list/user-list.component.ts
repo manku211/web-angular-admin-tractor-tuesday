@@ -31,7 +31,7 @@ interface ColumnInfo {
 })
 export class UserListComponent {
   listOfData: User[] = [];
-  query: any = { page: 1, limit: 10, fetch: 'user' };
+  query: any = { page: 1, limit: 10, fetch: 'all' };
   loader: boolean = false;
   totalRecords: number = 0;
   countryFlag!: string;

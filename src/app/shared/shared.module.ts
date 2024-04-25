@@ -20,6 +20,7 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzCarouselModule } from 'ng-zorro-antd/carousel';
+import { NzListModule } from 'ng-zorro-antd/list';
 
 const modules = [
   NzButtonModule,
@@ -41,6 +42,7 @@ const modules = [
   NzRadioModule,
   NzTabsModule,
   NzCarouselModule,
+  NzListModule,
 ];
 @NgModule({
   imports: [CommonModule, RouterOutlet, ...modules],
