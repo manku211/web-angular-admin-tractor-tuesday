@@ -1,2 +1,173 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../node_modules/ng-zorro-antd/ng-zorro-antd.css";
+
+:root {
+  /* font-size */
+  --font-xs: 12px;
+  --font-s: 14px;
+  --font-m: 16px;
+  --font-l: 20px;
+  --font-xl: 24px;
+  --font-xxl: 36px;
+  --font-xxxl: 54px;
+  /* font-weights */
+  --font-weight-normal: 400;
+  --font-weight-bold: 700;
+  --font-weight-semi-bold: 600;
+  --font-weight-extra-bold: 800;
+  /* colors */
+  --primary-color: #007bff;
+  --secondary-color: #6c757d;
+  --success-color: #28a745;
+  --danger-color: #dc3545;
+  --warning-color: #ffc107;
+  --info-color: #17a2b8;
+  --light-color: #f8f9fa;
+  --white-color: #fff;
+  --black-color: #202224;
+  --thead-bg-color: #f2f2f2;
+  --green-color: #377e7f;
+  --block-color: #fcedcf;
+  --blocktext-color: ##b57803;
+  --border-color: #dadce0;
+}
+
+@font-face {
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 400;
+  src: url("assets/fonts/Lato-Regular.ttf") format("truetype");
+}
+
+/* For Bold weight */
+@font-face {
+  font-family: "Lato-Bold";
+  font-style: normal;
+  font-weight: 700;
+  src: url("assets/fonts/Lato-Bold.ttf") format("truetype");
+}
+
+body {
+  font-family: "Lato", sans-serif;
+}
+
+/* overriding inbuilt classes */
+.ant-breadcrumb > nz-breadcrumb-item:last-child a {
+  color: var(--black-color);
+  font-size: var(--font-s);
+  font-style: normal;
+  font-weight: var(--font-weight-normal);
+  line-height: 22px;
+}
+.ant-table-thead > tr > th {
+  color: var(--black-color);
+  font-size: var(--font-s);
+  font-style: normal;
+  font-weight: var(--font-weight-extra-bold);
+  text-transform: capitalize;
+  background-color: var(--thead-bg-color);
+}
+.ant-table-container table > thead > tr:first-child th:first-child {
+  border-top-left-radius: 14px;
+}
+.ant-table-container table > thead > tr:first-child th:last-child {
+  border-top-right-radius: 14px;
+}
+.nz-table-out-bordered > .ant-table-container {
+  border-radius: 14px 14px 14px 14px;
+}
+.ant-table-container table > tbody > tr:last-child td:first-child {
+  border-bottom-left-radius: 14px;
+}
+.ant-table-container table > tbody > tr:last-child td:last-child {
+  border-bottom-right-radius: 14px;
+}
+.ant-table-tbody > tr > td {
+  color: var(--black-color);
+  font-size: var(--font-s);
+  font-style: normal;
+  font-weight: var(--font-weight-normal);
+}
+/* .ant-table-container table > tbody > tr > td:first-child {
+  text-align: left;
+}
+.ant-table table {
+  text-align: center;
+} */
+
+/* custom classes */
+.viewmore_button {
+  color: var(--green-color);
+  border: 1px solid var(--border-color);
+  background-color: var(--white-color);
+  border-radius: 5px;
+  padding: 8px 0px 8px 0px;
+  width: 90px;
+}
+.block_status {
+  color: #b57803;
+  background-color: var(--block-color);
+  width: 84px;
+  padding: 4px 10px;
+  border-radius: 21px;
+}
+
+.profile-picture {
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  top: 17px;
+  left: 17px;
+  position: absolute;
+}
+
+.country-flag {
+  margin-right: 5px;
+  border-radius: 2px;
+}
+.personal-info-row {
+  padding: 5px 0px;
+}
+.personal-info-title {
+  font-size: 18px;
+  font-weight: var(--font-weight-semi-bold);
+}
+.personal-info-row-key {
+  font-size: 15px;
+  font-weight: var(--font-weight-normal);
+}
+.personal-info-row-value {
+  font-size: 15px;
+  font-weight: 500;
+}
+.details_picture {
+  width: 64px;
+  height: 64px;
+  border-radius: 50px;
+  position: absolute;
+  top: 14px;
+}
+.personal_details {
+  margin: 10px 0px;
+}
+.personal-details-name {
+  font-size: var(--font-l);
+  font-weight: 700;
+}
+.details_card {
+  border-radius: 14px;
+  margin-bottom: 20px;
+}
+.profile-picture {
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  top: 17px;
+  left: 17px;
+  position: absolute;
+}
+.status-button {
+  border-radius: 12px;
+  padding: 4px 16px;
+  text-transform: capitalize;
+}

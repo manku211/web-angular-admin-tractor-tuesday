@@ -8,6 +8,8 @@ import { AuctionService } from '../../../core/services/auction/auction.service';
 import { Router } from '@angular/router';
 import { DenyModalComponent } from '../deny-modal/deny-modal.component';
 import { ApproveModalComponent } from '../approve-modal/approve-modal.component';
+import { DetailsCardComponent } from '../../../shared/components/details-card/details-card.component';
+import { styleObject } from '../../../utilities/helpers/helper';
 
 interface Seller {
   _id: string;
@@ -32,6 +34,7 @@ interface ColumnInfo {
     TableViewComponent,
     DenyModalComponent,
     ApproveModalComponent,
+    DetailsCardComponent,
   ],
   templateUrl: './details.component.html',
   styleUrl: './details.component.css',
@@ -43,6 +46,7 @@ export class DetailsComponent {
   loader: boolean = false;
   auctionInfo: any[] = [];
   totalRecords: number = 0;
+  styleObject: any = styleObject;
   openDenialModal: boolean = false;
   openApproveModal: boolean = false;
   tractorData: any;

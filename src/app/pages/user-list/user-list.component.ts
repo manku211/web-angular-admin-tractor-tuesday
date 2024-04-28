@@ -5,6 +5,8 @@ import { MessageService } from '../../core/services/message/message.service';
 import { Router } from '@angular/router';
 import { TableViewComponent } from '../../shared/components/table-view/table-view.component';
 import { UserListingService } from '../../core/services/user/user-listing.service';
+import { countryCodes } from '../../core/models/countryCodes';
+import { CountryHelperService } from '../../utilities/helpers/country-helper.service';
 
 interface User {
   _id: string;
@@ -12,6 +14,7 @@ interface User {
   phoneNumber: number;
   country: string;
   blockStatus: boolean;
+  isDeleted: boolean;
 }
 
 interface ColumnInfo {
@@ -36,6 +39,7 @@ export class UserListComponent {
   totalRecords: number = 0;
   countryFlag!: string;
   countryName!: string;
+  countryCodes = countryCodes;
   listOfColumns: ColumnInfo[] = [
     {
       key: 'fullName',
@@ -73,7 +77,8 @@ export class UserListComponent {
     private authService: AuthService,
     private messageService: MessageService,
     private router: Router,
-    private userService: UserListingService
+    private userService: UserListingService,
+    public countryHelper: CountryHelperService
   ) {}
   ngOnInit() {
     this.fetchDetails(this.query);
@@ -116,5 +121,5 @@ export class UserListComponent {
     console.log(id);
     localStorage.setItem('selectedUserId', id);
     this.router.navigate(['/dashboard/user-listing/user-details']);
-  }
+  } // Assign the imported countryCodes array to a property in your component
 }

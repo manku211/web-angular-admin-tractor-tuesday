@@ -15,7 +15,6 @@
     </nz-col>
   </nz-row>
   <nz-table
-    *ngIf="totalRecords > 0"
     [nzData]="data"
     [nzBordered]="false"
     [nzOuterBordered]="true"
@@ -43,15 +42,7 @@
         <th *ngIf="enableActions">Actions</th>
       </tr>
     </thead>
-    <!-- <tbody>
-    <tr *ngFor="let item of data">
-      <td *ngFor="let column of columns">{{ item[column.key] }}</td>
-      <td *ngIf="enableActions">
-        <button>Action</button>
-      </td>
-    </tr>
-  </tbody> -->
-    <tbody *ngIf="data.length > 0">
+    <tbody>
       <ng-container
         *ngTemplateOutlet="
           tableRowTemplate;

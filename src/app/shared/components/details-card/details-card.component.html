@@ -1,0 +1,109 @@
+<nz-card class="details_card">
+  <div nz-row *ngIf="userInfo">
+    <div nz-col nzSpan="6">
+      <div
+        nz-flex
+        nzJustify="center"
+        nzAlign="center"
+        [nzVertical]="true"
+        nzGap="small"
+        class="personal_details"
+      >
+        <img src="assets/icons/profile_container.svg" alt="profile" />
+
+        <img
+          [src]="userInfo.profilePicture"
+          alt="Profile Picture"
+          class="details_picture"
+        />
+        <span class="personal-details-name">
+          {{ userInfo.fullName ? userInfo.fullName : userInfo?.username }}</span
+        >
+      </div>
+    </div>
+    <div nz-col nzOffset="1" nzSpan="17" class="nz-mb-2">
+      <div nz-flex nzJustify="space-between" class="personal_info">
+        <span class="personal-info-title">Personal Information</span>
+        <button
+          *ngIf="isUser"
+          nz-button
+          nzType="primary"
+          (click)="displayBlockReason()"
+          class="block-unblock-button"
+        >
+          {{ userBlockText }} User
+        </button>
+      </div>
+      <div nz-row>
+        <div nz-col nzSpan="10">
+          <div nz-flex nzGap="small" class="personal-info-row">
+            <div class="personal-info-row-key">
+              <span nz-icon nzType="user" nzTheme="outline"></span>&nbsp;<span
+                >Full name:</span
+              >
+            </div>
+            <span class="personal-info-row-value">
+              {{
+                userInfo.fullName ? userInfo.fullName : userInfo?.username
+              }}</span
+            >
+          </div>
+          <div nz-flex nzGap="small" class="personal-info-row">
+            <div class="personal-info-row-key">
+              <span nz-icon nzType="phone" nzTheme="outline"></span>&nbsp;<span
+                >Phone Number:</span
+              >
+            </div>
+            <span class="personal-info-row-value">
+              {{ userInfo.phoneNumber }}</span
+            >
+          </div>
+          <div nz-flex nzGap="small" class="personal-info-row">
+            <div class="personal-info-row-key">
+              <span nz-icon nzType="global" nzTheme="outline"></span>&nbsp;<span
+                >Country:</span
+              >
+            </div>
+            <div class="personal-info-row-value">
+              <img
+                src="assets/icons/{{
+                  countryHelper.getFlag(userInfo['countryCode'])
+                }}"
+                alt="flag"
+                class="country-flag"
+                width="22"
+                height="18"
+              />
+              <span>{{
+                countryHelper.getCountryName(userInfo["countryCode"])
+              }}</span>
+            </div>
+          </div>
+        </div>
+        <div nz-col nzSpan="12">
+          <div nz-flex nzGap="small" class="personal-info-row">
+            <div class="personal-info-row-key">
+              <span nz-icon nzType="mail" nzTheme="outline"></span>&nbsp;<span
+                >Email Address:</span
+              >
+            </div>
+            <span class="personal-info-row-value">{{ userInfo.email }}</span>
+          </div>
+          <div nz-flex nzGap="small" class="personal-info-row">
+            <div class="personal-info-row-key">
+              <span nz-icon nzType="calendar" nzTheme="outline"></span
+              >&nbsp;<span>Joining Date:</span>
+            </div>
+            <span class="personal-info-row-value">
+              {{ userInfo.createdAt | date : "d MMM, y" }}</span
+            >
+          </div>
+        </div>
+      </div>
+      <div nz-flex nzGap="middle" *ngIf="userInfo?.isDeleted && isUser">
+        <h4>Blocking Reason:</h4>
+        <p>{{ userInfo?.reason }}</p>
+      </div>
+    </div>
+  </div>
+</nz-card>

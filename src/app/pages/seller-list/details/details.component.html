@@ -1,67 +1,6 @@
-<nz-card>
-  <div nz-row *ngIf="userInfo">
-    <div nz-col nzSpan="6">
-      <div
-        nz-flex
-        nzJustify="center"
-        nzAlign="center"
-        [nzVertical]="true"
-        nzGap="small"
-        class="personal_info"
-      >
-        <img src="assets/icons/profile_container.svg" alt="profile" />
-        <img
-          [src]="userInfo.profilePicture"
-          alt="Profile Picture"
-          class="details_picture"
-        />
-        <h4>
-          {{ userInfo.fullName ? userInfo.fullName : userInfo?.username }}
-        </h4>
-      </div>
-    </div>
-    <div nz-col nzOffset="1" nzSpan="17" class="nz-mb-2">
-      <div nz-flex nzJustify="space-between" class="personal_info">
-        <h4>Personal Information</h4>
-      </div>
-      <div nz-row>
-        <div nz-col nzSpan="10">
-          <p>
-            <span nz-icon nzType="user" nzTheme="outline"></span>&nbsp;<span
-              >Full Name:</span
-            >
-            {{ userInfo.fullName ? userInfo.fullName : userInfo?.username }}
-          </p>
-          <p>
-            <span nz-icon nzType="phone" nzTheme="outline"></span>&nbsp;<span
-              >Phone Number:</span
-            >
-            {{ userInfo.phoneNumber }}
-          </p>
-          <p>
-            <span nz-icon nzType="global" nzTheme="outline"></span>&nbsp;<span
-              >Country:</span
-            >
-          </p>
-        </div>
-        <div nz-col nzSpan="12">
-          <p>
-            <span nz-icon nzType="mail" nzTheme="outline"></span>&nbsp;<span
-              >Email Address:</span
-            >
-            {{ userInfo.email }}
-          </p>
-          <p>
-            <span nz-icon nzType="calendar" nzTheme="outline"></span>&nbsp;<span
-              >Joining Date:</span
-            >
-            {{ userInfo.createdAt | date : "d MMM, y" }}
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</nz-card>
+<div *ngIf="userInfo">
+  <app-details-card [userInfo]="userInfo"></app-details-card>
+</div>
 <nz-card>
   <nz-tabset (nzSelectedIndexChange)="onTabChange($event)">
     <nz-tab nzTitle="Auction Request"
@@ -84,12 +23,35 @@
             <td>{{ item["tractorId"]?.name }}</td>
             <td>{{ item["tractorId"]?.category }}</td>
             <td>{{ item["tractorId"]?.vin }}</td>
-            <td>{{ item["reservedPrice"] > 0 ? "Reserved" : "N/A" }}</td>
+            <td>
+              <span
+                class="status-button"
+                [ngStyle]="
+                  item['reservedPrice'] > 0
+                    ? { background: '#2FC07C', color: '#fff' }
+                    : {}
+                "
+              >
+                {{ item["reservedPrice"] > 0 ? "Reserved" : "N/A" }}
+              </span>
+            </td>
             <td>{{ item["createdAt"] | date : "dd-MM-yyyy" }}</td>
             <td>{{ item["currentBid"]?.amount }}</td>
             <td>
-              <button (click)="handleRequest(item, 'accept')">Accept</button>
-              <button (click)="handleRequest(item, 'deny')">Deny</button>
+              <div nz-flex nzGap="small">
+                <button
+                  (click)="handleRequest(item, 'accept')"
+                  class="viewmore_button"
+                >
+                  Approve
+                </button>
+                <button
+                  (click)="handleRequest(item, 'deny')"
+                  class="viewmore_button"
+                >
+                  Deny
+                </button>
+              </div>
             </td>
           </tr>
         </ng-template>
@@ -116,12 +78,34 @@
               <td>{{ item["tractorId"]?.name }}</td>
               <td>{{ item["tractorId"]?.category }}</td>
               <td>{{ item["tractorId"]?.vin }}</td>
-              <td>{{ item["reservedPrice"] > 0 ? "Reserved" : "N/A" }}</td>
-              <td>{{ item["auctionStatus"] }}</td>
+              <td>
+                <span
+                  class="status-button"
+                  [ngStyle]="
+                    item['reservedPrice'] > 0
+                      ? { background: '#2FC07C', color: '#fff' }
+                      : {}
+                  "
+                >
+                  {{ item["reservedPrice"] > 0 ? "Reserved" : "N/A" }}
+                </span>
+              </td>
+              <td>
+                <span
+                  [ngStyle]="styleObject(item['auctionStatus'])"
+                  class="status-button"
+                  >{{ item["auctionStatus"] | titlecase }}</span
+                >
+              </td>
               <td>{{ item["createdAt"] | date : "dd-MM-yyyy" }}</td>
               <td>{{ item["currentBid"]?.amount }}</td>
               <td>
-                <button (click)="handleViewMore(item['_id'])">View More</button>
+                <button
+                  (click)="handleViewMore(item['_id'])"
+                  class="viewmore_button"
+                >
+                  View More
+                </button>
               </td>
             </tr>
           </ng-template>
