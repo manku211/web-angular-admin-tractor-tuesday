@@ -1,0 +1,46 @@
+<p>deny-modal works!</p>
+<app-modal [showModal]="true" (handleCancelModal)="handleCancel()">
+  <div modal-content>
+    <nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true">
+      <img src="assets/icons/tick.svg" alt="block" width="50" height="50" />
+      <h3>Accepting Seller Listing</h3>
+      <span>Are you sure you want to confirm this listing</span>
+    </nz-flex>
+    <div nz-flex class="tractor-info">
+      <img
+        *ngIf="exteriorImageUrl"
+        [src]="exteriorImageUrl"
+        alt="Exterior Image"
+        width="30"
+        height="30"
+      />
+      <div nz-flex [nzVertical]="true">
+        <h4>{{ tractorData?.tractorId?.name }}</h4>
+        <span>{{ tractorData?.tractorId?.vin }}</span>
+        <span>{{ tractorData?.tractorId?.category }}</span>
+      </div>
+    </div>
+    <div class="auction-card">
+      <div nz-flex nzJustify="space-between">
+        <span>Auction Date</span>
+      </div>
+      <div nz-flex nzJustify="space-between">
+        <span>Auction Start time</span>
+      </div>
+      <div nz-flex nzJustify="space-between">
+        <span>Auction End time</span>
+      </div>
+      <div nz-flex nzJustify="space-between">
+        <span>Bidding Amount</span>
+      </div>
+      <div nz-flex nzJustify="space-between">
+        <span>Reserve Status</span>
+      </div>
+    </div>
+  </div>
+  <div modal-footer>
+    <button nz-button nzType="primary" (click)="handleUserAccount()">
+      Approve
+    </button>
+  </div>
+</app-modal>

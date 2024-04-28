@@ -6,6 +6,8 @@ import { AuctionRequestComponent } from '../auction-request/auction-request.comp
 import { TableViewComponent } from '../../../shared/components/table-view/table-view.component';
 import { AuctionService } from '../../../core/services/auction/auction.service';
 import { Router } from '@angular/router';
+import { DenyModalComponent } from '../deny-modal/deny-modal.component';
+import { ApproveModalComponent } from '../approve-modal/approve-modal.component';
 
 interface Seller {
   _id: string;
@@ -24,7 +26,13 @@ interface ColumnInfo {
 @Component({
   selector: 'app-details',
   standalone: true,
-  imports: [SharedModule, AuctionRequestComponent, TableViewComponent],
+  imports: [
+    SharedModule,
+    AuctionRequestComponent,
+    TableViewComponent,
+    DenyModalComponent,
+    ApproveModalComponent,
+  ],
   templateUrl: './details.component.html',
   styleUrl: './details.component.css',
 })
@@ -35,6 +43,9 @@ export class DetailsComponent {
   loader: boolean = false;
   auctionInfo: any[] = [];
   totalRecords: number = 0;
+  openDenialModal: boolean = false;
+  openApproveModal: boolean = false;
+  tractorData: any;
   listOfColumns: ColumnInfo[] = [
     {
       key: 'tractorId',
@@ -164,5 +175,20 @@ export class DetailsComponent {
     this.router.navigate([
       '/dashboard/seller-listing/seller-details/vehicle-info',
     ]);
+  }
+
+  handleRequest(data: any, type: string) {
+    if (type === 'deny') {
+      this.openDenialModal = true;
+    }
+    if (type === 'accept') {
+      this.openApproveModal = true;
+      this.tractorData = data;
+    }
+  }
+
+  handleClose() {
+    this.openDenialModal = false;
+    this.openApproveModal = false;
   }
 }

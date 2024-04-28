@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TableViewComponent } from '../../../shared/components/table-view/table-view.component';
 import { Router } from '@angular/router';
 import { AuctionService } from '../../../core/services/auction/auction.service';
+import { ModalComponent } from '../../../shared/components/modal/modal.component';
 
 interface User {
   _id: string;
@@ -29,7 +30,13 @@ interface ColumnInfo {
 @Component({
   selector: 'app-details',
   standalone: true,
-  imports: [SharedModule, ReactiveFormsModule, FormsModule, TableViewComponent],
+  imports: [
+    SharedModule,
+    ReactiveFormsModule,
+    FormsModule,
+    TableViewComponent,
+    ModalComponent,
+  ],
   templateUrl: './details.component.html',
   styleUrl: './details.component.css',
 })
