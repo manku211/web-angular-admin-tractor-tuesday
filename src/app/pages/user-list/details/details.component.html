@@ -99,8 +99,46 @@
     >
   </app-table-view>
 </nz-card>
+<app-modal
+  [showModal]="showBlockReasonModal"
+  (handleCancelModal)="handleCancel()"
+>
+  <div modal-content>
+    <nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true">
+      <img src="assets/icons/block.svg" alt="block" width="50" height="50" />
+      <h3>{{ userBlockText }} User Confirmation</h3>
+    </nz-flex>
+    <nz-radio-group [(ngModel)]="selectedReason" *ngIf="!userInfo?.isDeleted">
+      <label
+        *ngFor="let reason of reasons"
+        nz-radio
+        [nzValue]="reason"
+        [attr.for]="'reason-' + reason"
+      >
+        {{ reason }}
+      </label>
+    </nz-radio-group>
+    <h4>Other Reasons:</h4>
+    <textarea
+      nz-input
+      placeholder="Other reasons"
+      [(ngModel)]="otherReason"
+      id="otherReason"
+    ></textarea>
+  </div>
+  <div modal-footer>
+    <button
+      nz-button
+      nzType="primary"
+      (click)="handleUserAccount()"
+      [disabled]="shouldDisableButton()"
+    >
+      {{ userBlockText }} User
+    </button>
+  </div>
+</app-modal>
 
-<nz-modal [(nzVisible)]="showBlockReasonModal" (nzOnCancel)="handleCancel()">
+<!-- <nz-modal [(nzVisible)]="showBlockReasonModal" (nzOnCancel)="handleCancel()">
   <div *nzModalContent>
     <nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true">
       <img src="assets/icons/block.svg" alt="block" width="50" height="50" />
@@ -133,4 +171,4 @@
       {{ userBlockText }} User
     </button>
   </div>
-</nz-modal>
+</nz-modal> -->

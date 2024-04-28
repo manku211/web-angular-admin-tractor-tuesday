@@ -1,0 +1,5 @@
+.auction-card {
+  border-radius: 10px;
+  border: 1px solid var(--bordr_color, #dadce0);
+  padding: 10px;
+}

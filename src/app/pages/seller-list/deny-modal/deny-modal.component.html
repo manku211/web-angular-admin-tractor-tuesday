@@ -1,0 +1,32 @@
+<p>deny-modal works!</p>
+<app-modal [showModal]="true" (handleCancelModal)="handleCancel()">
+  <div modal-content>
+    <nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true">
+      <img src="assets/icons/block.svg" alt="block" width="50" height="50" />
+      <h3>Deny Seller Listing</h3>
+      <span>Reason for denying the vehicle listed by the admin</span>
+    </nz-flex>
+    <nz-radio-group [(ngModel)]="selectedReason">
+      <label
+        *ngFor="let reason of reasons"
+        nz-radio
+        [nzValue]="reason"
+        [attr.for]="'reason-' + reason"
+      >
+        {{ reason }}
+      </label>
+    </nz-radio-group>
+    <h4>Other Reasons:</h4>
+    <textarea
+      nz-input
+      placeholder="Other reasons"
+      [(ngModel)]="otherReason"
+      id="otherReason"
+    ></textarea>
+  </div>
+  <div modal-footer>
+    <button nz-button nzType="primary" (click)="handleUserAccount()">
+      Deny
+    </button>
+  </div>
+</app-modal>

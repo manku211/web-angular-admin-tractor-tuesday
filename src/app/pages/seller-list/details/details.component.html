@@ -88,8 +88,8 @@
             <td>{{ item["createdAt"] | date : "dd-MM-yyyy" }}</td>
             <td>{{ item["currentBid"]?.amount }}</td>
             <td>
-              <button (click)="handleViewMore(item['_id'])">Accept</button>
-              <button (click)="handleViewMore(item['_id'])">Deny</button>
+              <button (click)="handleRequest(item, 'accept')">Accept</button>
+              <button (click)="handleRequest(item, 'deny')">Deny</button>
             </td>
           </tr>
         </ng-template>
@@ -130,3 +130,12 @@
     >
   </nz-tabset>
 </nz-card>
+<div *ngIf="openDenialModal">
+  <app-deny-modal (handleClose)="handleClose()"></app-deny-modal>
+</div>
+<div *ngIf="openApproveModal">
+  <app-approve-modal
+    (handleClose)="handleClose()"
+    [tractorData]="tractorData"
+  ></app-approve-modal>
+</div>
