@@ -25,7 +25,7 @@ export const routes: Routes = [
             (m) => m.UserListingModule
           ),
         data: {
-          breadcrumb: 'User-Listing',
+          breadcrumb: 'User Listing',
         },
       },
       {
@@ -35,7 +35,7 @@ export const routes: Routes = [
             (m) => m.SellerListingModule
           ),
         data: {
-          breadcrumb: 'Seller-Listing',
+          breadcrumb: 'Seller Listing',
         },
       },
     ],

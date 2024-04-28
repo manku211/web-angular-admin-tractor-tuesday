@@ -1,104 +1,58 @@
-<nz-card>
-  <div nz-row *ngIf="userInfo">
-    <div nz-col nzSpan="6">
-      <div
-        nz-flex
-        nzJustify="center"
-        nzAlign="center"
-        [nzVertical]="true"
-        nzGap="small"
-        class="personal_info"
-      >
-        <img src="assets/icons/profile_container.svg" alt="profile" />
-
-        <img
-          [src]="userInfo.profilePicture"
-          alt="Profile Picture"
-          class="details_picture"
-        />
-        <h4>{{ userInfo.fullName }}</h4>
-      </div>
-    </div>
-    <div nz-col nzOffset="1" nzSpan="17" class="nz-mb-2">
-      <div nz-flex nzJustify="space-between" class="personal_info">
-        <h4>Personal Information</h4>
-        <button nz-button nzType="primary" (click)="showBlockReason()">
-          {{ userBlockText }}
+<app-details-card
+  [userInfo]="userInfo"
+  (showBlockReason)="showBlockReason()"
+  [userBlockText]="userBlockText"
+  [isUser]="true"
+></app-details-card>
+<app-table-view
+  [data]="auctionInfo"
+  [columns]="listOfColumns"
+  [enablePagination]="true"
+  [enableSorting]="true"
+  [enableSearch]="true"
+  [enableActions]="true"
+  (sortChange)="onSortChange($event)"
+  [loader]="loader"
+  [totalRecords]="totalRecords"
+  [tableRowTemplate]="tableRowTemplate"
+  (pageChange)="onPageChange($event)"
+  (search)="onSearchInput($event)"
+>
+  <ng-template #tableRowTemplate let-data let-columns="columns">
+    <tr *ngFor="let item of data">
+      <td>{{ item["tractorId"]?.name }}</td>
+      <td>{{ item["tractorId"]?.category }}</td>
+      <td>{{ item["tractorId"]?.vin }}</td>
+      <td>
+        <span
+          class="status-button"
+          [ngStyle]="
+            item['reservedPrice'] > 0
+              ? { background: '#2FC07C', color: '#fff' }
+              : {}
+          "
+        >
+          {{ item["reservedPrice"] > 0 ? "Reserved" : "N/A" }}
+        </span>
+      </td>
+      <td>
+        <span
+          [ngStyle]="styleObject(item['auctionStatus'])"
+          class="status-button"
+        >
+          {{ item["auctionStatus"] | titlecase }}
+        </span>
+      </td>
+      <td>{{ item["createdAt"] | date : "dd-MM-yyyy" }}</td>
+      <td>{{ item["currentBid"]?.amount }}</td>
+      <td>
+        <button (click)="handleViewMore(item['_id'])" class="viewmore_button">
+          View More
         </button>
-      </div>
-      <div nz-row>
-        <div nz-col nzSpan="10">
-          <p>
-            <span nz-icon nzType="user" nzTheme="outline"></span>&nbsp;<span
-              >Full Name:</span
-            >
-            {{ userInfo.fullName }}
-          </p>
-          <p>
-            <span nz-icon nzType="phone" nzTheme="outline"></span>&nbsp;<span
-              >Phone Number:</span
-            >
-            {{ userInfo.phoneNumber }}
-          </p>
-          <p>
-            <span nz-icon nzType="global" nzTheme="outline"></span>&nbsp;<span
-              >Country:</span
-            >
-          </p>
-        </div>
-        <div nz-col nzSpan="12">
-          <p>
-            <span nz-icon nzType="mail" nzTheme="outline"></span>&nbsp;<span
-              >Email Address:</span
-            >
-            {{ userInfo.email }}
-          </p>
-          <p>
-            <span nz-icon nzType="calendar" nzTheme="outline"></span>&nbsp;<span
-              >Joining Date:</span
-            >
-            {{ userInfo.createdAt | date : "d MMM, y" }}
-          </p>
-        </div>
-      </div>
-      <div nz-flex nzGap="middle" *ngIf="userInfo?.isDeleted">
-        <h4>Blocking Reason:</h4>
-        <p>{{ userInfo?.reason }}</p>
-      </div>
-    </div>
-  </div>
-</nz-card>
-<nz-card>
-  <app-table-view
-    [data]="auctionInfo"
-    [columns]="listOfColumns"
-    [enablePagination]="true"
-    [enableSorting]="true"
-    [enableSearch]="true"
-    [enableActions]="true"
-    (sortChange)="onSortChange($event)"
-    [loader]="loader"
-    [totalRecords]="totalRecords"
-    [tableRowTemplate]="tableRowTemplate"
-    (pageChange)="onPageChange($event)"
-    (search)="onSearchInput($event)"
+      </td>
+    </tr></ng-template
   >
-    <ng-template #tableRowTemplate let-data let-columns="columns">
-      <tr *ngFor="let item of data">
-        <td>{{ item["tractorId"]?.name }}</td>
-        <td>{{ item["tractorId"]?.category }}</td>
-        <td>{{ item["tractorId"]?.vin }}</td>
-        <td>{{ item["reservedPrice"] > 0 ? "Reserved" : "N/A" }}</td>
-        <td>{{ item["auctionStatus"] }}</td>
-        <td>{{ item["createdAt"] | date : "dd-MM-yyyy" }}</td>
-        <td>{{ item["currentBid"]?.amount }}</td>
-        <td>
-          <button (click)="handleViewMore(item['_id'])">View More</button>
-        </td>
-      </tr></ng-template
-    >
-  </app-table-view>
-</nz-card>
+</app-table-view>
 <app-modal
   [showModal]="showBlockReasonModal"
   (handleCancelModal)="handleCancel()"
@@ -137,38 +91,3 @@
     </button>
   </div>
 </app-modal>
-
-<!-- <nz-modal [(nzVisible)]="showBlockReasonModal" (nzOnCancel)="handleCancel()">
-  <div *nzModalContent>
-    <nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true">
-      <img src="assets/icons/block.svg" alt="block" width="50" height="50" />
-      <h3>{{ userBlockText }} User Confirmation</h3>
-    </nz-flex>
-    <nz-radio-group [(ngModel)]="selectedReason" *ngIf="!userInfo?.isDeleted">
-      <label
-        *ngFor="let reason of reasons"
-        nz-radio
-        [nzValue]="reason"
-        [attr.for]="'reason-' + reason"
-        >{{ reason }}</label
-      >
-    </nz-radio-group>
-    <h4>Other Reasons:</h4>
-    <textarea
-      nz-input
-      placeholder="Other reasons"
-      [(ngModel)]="otherReason"
-      id="otherReason"
-    ></textarea>
-  </div>
-  <div *nzModalFooter>
-    <button
-      nz-button
-      nzType="primary"
-      (click)="handleUserAccount()"
-      [disabled]="shouldDisableButton()"
-    >
-      {{ userBlockText }} User
-    </button>
-  </div>
-</nz-modal> -->

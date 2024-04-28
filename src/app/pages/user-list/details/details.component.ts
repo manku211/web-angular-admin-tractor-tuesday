@@ -10,7 +10,9 @@ import { TableViewComponent } from '../../../shared/components/table-view/table-
 import { Router } from '@angular/router';
 import { AuctionService } from '../../../core/services/auction/auction.service';
 import { ModalComponent } from '../../../shared/components/modal/modal.component';
-
+import { CountryHelperService } from '../../../utilities/helpers/country-helper.service';
+import { DetailsCardComponent } from '../../../shared/components/details-card/details-card.component';
+import { styleObject } from '../../../utilities/helpers/helper';
 interface User {
   _id: string;
   username: string;
@@ -36,6 +38,7 @@ interface ColumnInfo {
     FormsModule,
     TableViewComponent,
     ModalComponent,
+    DetailsCardComponent,
   ],
   templateUrl: './details.component.html',
   styleUrl: './details.component.css',
@@ -49,6 +52,7 @@ export class DetailsComponent {
   otherReason!: string;
   totalRecords: number = 0;
   query: any = { skip: 1, take: 10 };
+  styleObject: any = styleObject;
   loader: boolean = false;
   reasons = [
     'Violation of terms of service',
@@ -102,7 +106,8 @@ export class DetailsComponent {
     private userService: UserListingService,
     private messageService: MessageService,
     private router: Router,
-    private auctionService: AuctionService
+    private auctionService: AuctionService,
+    public countryHelper: CountryHelperService
   ) {}
   ngOnInit(): void {
     this.userId = localStorage.getItem('selectedUserId');
@@ -220,4 +225,10 @@ export class DetailsComponent {
     localStorage.setItem('selectedAuctionId', id);
     this.router.navigate(['/dashboard/user-listing/user-details/vehicle-info']);
   }
+  // styleObject(status: any): Object {
+  //   if (status == 'ONGOING') {
+  //     return { background: '#DED1F7', color: '#000 ' };
+  //   }
+  //   return {};
+  // }
 }
