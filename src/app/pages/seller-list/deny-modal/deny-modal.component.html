@@ -3,8 +3,10 @@
   <div modal-content>
     <nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true">
       <img src="assets/icons/block.svg" alt="block" width="50" height="50" />
-      <h3>Deny Seller Listing</h3>
-      <span>Reason for denying the vehicle listed by the admin</span>
+      <div class="modal-header-text">
+        <h2>Deny Seller Listing</h2>
+        <span>Reason for denying the vehicle listed by the admin</span>
+      </div>
     </nz-flex>
     <nz-radio-group [(ngModel)]="selectedReason">
       <label
@@ -25,7 +27,7 @@
     ></textarea>
   </div>
   <div modal-footer>
-    <button nz-button nzType="primary" (click)="handleUserAccount()">
+    <button nz-button class="modal-button" (click)="handleUserAccount()">
       Deny
     </button>
   </div>

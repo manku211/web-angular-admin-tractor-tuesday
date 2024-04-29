@@ -4,7 +4,3 @@
   line-height: 32px;
   margin: 10px;
 }
-::ng-deep .ant-modal-footer {
-  text-align: center !important;
-  border-top: none;
-}

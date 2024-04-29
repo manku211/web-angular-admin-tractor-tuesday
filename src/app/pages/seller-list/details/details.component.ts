@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { SharedModule } from '../../../shared/shared.module';
 import { UserListingService } from '../../../core/services/user/user-listing.service';
 import { MessageService } from '../../../core/services/message/message.service';
-import { AuctionRequestComponent } from '../auction-request/auction-request.component';
 import { TableViewComponent } from '../../../shared/components/table-view/table-view.component';
 import { AuctionService } from '../../../core/services/auction/auction.service';
 import { Router } from '@angular/router';
@@ -30,7 +29,6 @@ interface ColumnInfo {
   standalone: true,
   imports: [
     SharedModule,
-    AuctionRequestComponent,
     TableViewComponent,
     DenyModalComponent,
     ApproveModalComponent,
@@ -182,12 +180,12 @@ export class DetailsComponent {
   }
 
   handleRequest(data: any, type: string) {
+    this.tractorData = data;
     if (type === 'deny') {
       this.openDenialModal = true;
     }
     if (type === 'accept') {
       this.openApproveModal = true;
-      this.tractorData = data;
     }
   }
 
