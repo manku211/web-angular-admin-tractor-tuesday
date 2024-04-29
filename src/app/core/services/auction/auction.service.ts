@@ -37,4 +37,11 @@ export class AuctionService {
   getVehicleDetailsByAuctionId(id: string) {
     return this.http.get<any>(this.baseUrl + `auctions/get-auction/${id}`);
   }
+
+  updateAuction(id: any, payload: any) {
+    return this.http.patch<any>(
+      this.baseUrl + `auctions/update-auction/${id}`,
+      payload
+    );
+  }
 }

@@ -21,6 +21,8 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzCarouselModule } from 'ng-zorro-antd/carousel';
 import { NzListModule } from 'ng-zorro-antd/list';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 
 const modules = [
   NzButtonModule,
@@ -43,6 +45,8 @@ const modules = [
   NzTabsModule,
   NzCarouselModule,
   NzListModule,
+  NzDatePickerModule,
+  NzTimePickerModule,
 ];
 @NgModule({
   imports: [CommonModule, RouterOutlet, ...modules],

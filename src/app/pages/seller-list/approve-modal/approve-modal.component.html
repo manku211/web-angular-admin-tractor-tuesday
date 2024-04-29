@@ -1,12 +1,13 @@
-<p>deny-modal works!</p>
 <app-modal [showModal]="true" (handleCancelModal)="handleCancel()">
   <div modal-content>
     <nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true">
-      <img src="assets/icons/tick.svg" alt="block" width="50" height="50" />
-      <h3>Accepting Seller Listing</h3>
-      <span>Are you sure you want to confirm this listing</span>
+      <img src="assets/icons/tick.svg" alt="block" width="37" height="37" />
+      <div class="modal-header-text">
+        <h2>Accepting Seller Listing</h2>
+        <span>Are you sure you want to confirm this listing</span>
+      </div>
     </nz-flex>
-    <div nz-flex class="tractor-info">
+    <div nz-flex class="tractor-info" nzGap="middle">
       <img
         *ngIf="exteriorImageUrl"
         [src]="exteriorImageUrl"
@@ -15,32 +16,59 @@
         height="30"
       />
       <div nz-flex [nzVertical]="true">
-        <h4>{{ tractorData?.tractorId?.name }}</h4>
-        <span>{{ tractorData?.tractorId?.vin }}</span>
-        <span>{{ tractorData?.tractorId?.category }}</span>
+        <h3>{{ tractorData?.tractorId?.name }}</h3>
+        <span class="tractor-info-subtext">{{
+          tractorData?.tractorId?.vin
+        }}</span>
+        <span class="tractor-info-subtext">{{
+          tractorData?.tractorId?.category
+        }}</span>
       </div>
     </div>
     <div class="auction-card">
-      <div nz-flex nzJustify="space-between">
+      <div nz-flex nzJustify="space-between" nzAlign="center">
         <span>Auction Date</span>
+        <nz-date-picker
+          [(ngModel)]="date"
+          (ngModelChange)="onChange($event)"
+        ></nz-date-picker>
       </div>
-      <div nz-flex nzJustify="space-between">
+      <div nz-flex nzJustify="space-between" nzAlign="center">
         <span>Auction Start time</span>
+        <nz-time-picker
+          [(ngModel)]="start_time"
+          (ngModelChange)="start_time_log($event)"
+          nzAlign="center"
+        ></nz-time-picker>
       </div>
-      <div nz-flex nzJustify="space-between">
+      <div nz-flex nzJustify="space-between" nzAlign="center">
         <span>Auction End time</span>
+        <nz-time-picker
+          [(ngModel)]="end_time"
+          (ngModelChange)="end_time_log($event)"
+        ></nz-time-picker>
       </div>
-      <div nz-flex nzJustify="space-between">
+      <div nz-flex nzJustify="space-between" nzAlign="center">
         <span>Bidding Amount</span>
+        <span>{{ tractorData?.currentBid?.amount }}</span>
       </div>
       <div nz-flex nzJustify="space-between">
         <span>Reserve Status</span>
+        <span
+          class="status-button"
+          [ngStyle]="
+            tractorData?.reservedPrice > 0
+              ? { background: '#2FC07C', color: '#fff' }
+              : {}
+          "
+          >{{ tractorData?.reservedPrice > 0 ? "Reserved" : "NA" }}</span
+        >
       </div>
     </div>
   </div>
   <div modal-footer>
-    <button nz-button nzType="primary" (click)="handleUserAccount()">
-      Approve
+    <button nz-button (click)="handleUserAccount()" class="modal-button">
+      Confirm
     </button>
   </div>
 </app-modal>

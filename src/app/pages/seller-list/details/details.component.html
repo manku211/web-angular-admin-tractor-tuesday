@@ -115,7 +115,10 @@
   </nz-tabset>
 </nz-card>
 <div *ngIf="openDenialModal">
-  <app-deny-modal (handleClose)="handleClose()"></app-deny-modal>
+  <app-deny-modal
+    (handleClose)="handleClose()"
+    [tractorData]="tractorData"
+  ></app-deny-modal>
 </div>
 <div *ngIf="openApproveModal">
   <app-approve-modal

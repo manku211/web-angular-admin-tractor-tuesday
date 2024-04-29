@@ -1,6 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../node_modules/ng-zorro-antd/ng-zorro-antd.css";
 
+h1,
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+}
+
 :root {
   /* font-size */
   --font-xs: 12px;
@@ -23,6 +31,7 @@
   --warning-color: #ffc107;
   --info-color: #17a2b8;
   --light-color: #f8f9fa;
+  --grey-color: #a7a7a7;
   --white-color: #fff;
   --black-color: #202224;
   --thead-bg-color: #f2f2f2;
@@ -88,6 +97,25 @@ body {
   font-style: normal;
   font-weight: var(--font-weight-normal);
 }
+.ant-table-wrapper {
+  overflow-x: scroll;
+}
+
+.ant-modal-content {
+  border-radius: 10px;
+  box-shadow: 0px 14px 34px 0px rgba(0, 0, 0, 0.05);
+}
+.ant-modal-body {
+  padding: 34px;
+}
+.ant-modal-footer {
+  text-align: center !important;
+  border-top: none;
+}
+.ant-picker {
+  height: 25px;
+}
+
 /* .ant-table-container table > tbody > tr > td:first-child {
   text-align: left;
 }
@@ -170,4 +198,23 @@ body {
   border-radius: 12px;
   padding: 4px 16px;
   text-transform: capitalize;
+}
+.modal-header-text {
+  text-align: center;
+  margin: 10px 0px;
+  span {
+    opacity: 0.7;
+  }
+}
+.tractor-info-subtext {
+  color: var(--grey-color);
+  font-size: var(--font-xs);
+}
+.modal-button {
+  width: 100%;
+  border-radius: 5px;
+  background: var(--black-color);
+  box-shadow: 0px 2px 8px 0px rgba(46, 47, 54, 0.08);
+  color: var(--white-color);
+  margin-bottom: 10px;
 }
