@@ -1,0 +1,14 @@
+.comments-wrapper {
+  margin: 10px 0px;
+}
+.comments-wrapper span.active {
+  color: black;
+  opacity: 1; /* Active link color */
+}
+.comments-wrapper span {
+  opacity: 0.5; /* Default link opacity */
+  cursor: pointer; /* Add pointer cursor */
+}
+.user-info img {
+  border-radius: 15px;
+}

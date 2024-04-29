@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { AuctionService } from '../../core/services/auction/auction.service';
 import { SharedModule } from '../../shared/shared.module';
+import { CommentsBidsComponent } from '../comments-bids/comments-bids.component';
 
 @Component({
   selector: 'app-vehicle-info',
   standalone: true,
-  imports: [SharedModule],
+  imports: [SharedModule, CommentsBidsComponent],
   templateUrl: './vehicle-info.component.html',
   styleUrl: './vehicle-info.component.css',
 })

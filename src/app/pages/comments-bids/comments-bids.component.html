@@ -1,0 +1,107 @@
+<div class="comments-wrapper">
+  <div nz-flex nzJustify="space-between" class="">
+    <div nz-flex nzAlign="center">
+      <h3>Comments & Bids</h3>
+      <span>({{ totalCommentsAndBids }})</span>
+    </div>
+    <div nz-flex nzGap="small">
+      <span
+        (click)="fetchData('newest')"
+        [ngClass]="{ active: activeLink === 'newest' }"
+        >Newest</span
+      >
+      <span
+        (click)="fetchData('comments')"
+        [ngClass]="{ active: activeLink === 'comments' }"
+        >Comments&Reply</span
+      >
+      <span
+        (click)="fetchData('bids')"
+        [ngClass]="{ active: activeLink === 'bids' }"
+        >Bid History</span
+      >
+    </div>
+  </div>
+
+  <div class="comment-history" *ngIf="activeLink === 'newest'">
+    <div *ngFor="let item of newest" class="comment-item">
+      <div *ngIf="item.message">
+        <div class="user-info" nz-flex nzGap="small">
+          <img [src]="item?.adminId?.profilePicture" alt="Profile" />
+          <div nz-flex nzGap="small" [nzVertical]="true">
+            <div nz-flex nzGap="small">
+              <span class="username">{{ item?.adminId?.email }}</span>
+              <span class="time-difference">{{
+                calculateTimeDifference(item.createdAt)
+              }}</span>
+            </div>
+            <div class="comment-amount">{{ item.message }}</div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="item.amount">
+        <div class="user-info" nz-flex nzGap="small">
+          <img
+            [src]="item.userId.profilePicture"
+            alt="Profile"
+            width="30"
+            height="30"
+          />
+          <div nz-flex nzGap="small" [nzVertical]="true">
+            <div nz-flex nzGap="small">
+              <span class="username">{{ item.userId.username }}</span>
+              <span class="time-difference">{{
+                calculateTimeDifference(item.createdAt)
+              }}</span>
+            </div>
+            <div class="bid-amount">{{ item.amount }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="comment-history" *ngIf="activeLink === 'comments'">
+    <div *ngFor="let item of commentHistory" class="comment-item">
+      <div class="user-info" nz-flex nzGap="small">
+        <img
+          [src]="item?.adminId?.profilePicture"
+          alt="Profile Picture"
+          width="30"
+          height="30"
+        />
+        <div nz-flex nzGap="small" [nzVertical]="true">
+          <div nz-flex nzGap="small">
+            <span class="username">{{ item?.adminId?.email }}</span>
+            <span class="time-difference">{{
+              calculateTimeDifference(item.createdAt)
+            }}</span>
+          </div>
+          <div class="comment-amount">{{ item.message }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bid-history" *ngIf="activeLink === 'bids'">
+    <div *ngFor="let item of bidHistory" class="bid-item">
+      <div class="user-info" nz-flex nzGap="small">
+        <img
+          [src]="item.userId.profilePicture"
+          alt="Profile"
+          width="30"
+          height="30"
+        />
+        <div nz-flex nzGap="small" [nzVertical]="true">
+          <div nz-flex nzGap="small">
+            <span class="username">{{ item.userId.username }}</span>
+            <span class="time-difference">{{
+              calculateTimeDifference(item.createdAt)
+            }}</span>
+          </div>
+          <div class="bid-amount">{{ item.amount }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
