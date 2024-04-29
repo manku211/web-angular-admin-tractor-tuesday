@@ -104,5 +104,10 @@
         </div>
       </div>
     </div>
+    <div *ngIf="vehicleInfo?.tractorId?._id">
+      <app-comments-bids
+        [tractorId]="vehicleInfo?.tractorId?._id"
+      ></app-comments-bids>
+    </div>
   </div>
 </div>
