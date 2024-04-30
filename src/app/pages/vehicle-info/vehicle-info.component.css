@@ -10,29 +10,51 @@
 /* ::ng-deep .ant-carousel .slick-slider .slick-list {
   height: 300px !important;
 } */
-h3 {
-  color: #fff;
-  margin-bottom: 0;
-  user-select: none;
-}
 
 .col-wrap {
-  padding: 10px;
+  padding: 15px;
 }
 
 .info-container {
-  margin: 10px 0px;
+  margin: 20px 0px;
 }
 
 .info-text {
+  font-size: var(--font-l);
+  height: 43px;
+  font-weight: var(--font-weight-extra-bold);
   padding: 10px;
-  border: 1px solid var(--bordr_color, #dadce0);
+  border: 1px solid var(--border-color);
+  background: var(--light-color);
+  margin-bottom: 10px;
 }
-
+.additional-info {
+  padding: 10px;
+  margin: 0px 5px;
+  border-bottom: 1px solid var(--border-color);
+}
 .additional-info span:first-child {
   width: 180px;
 }
 .biddetails_container {
+  margin: 10px 0px;
   border-radius: 5px 5px 0px 0px;
   border: 1px solid var(--bordr_color, #dadce0);
+}
+.timeleft-card {
+  margin: 10px 0px;
+  box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.05);
+}
+.time-left-value {
+  font-size: var(--font-m);
+  font-weight: var(--font-weight-bold);
+}
+.top-bid-key {
+  font-size: 13;
+  font-weight: var(--font-weight-bold);
+  color: var(--green-color);
+}
+.top-bid-amount {
+  font-size: var(--font-xxxl);
+  font-weight: var(--font-weight-extra-bold);
 }

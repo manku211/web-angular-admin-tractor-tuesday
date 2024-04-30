@@ -1,113 +1,147 @@
-<div nz-row>
-  <div nz-col nzSpan="12" class="col-wrap">
-    <div nz-row>
-      <nz-carousel>
-        @for (index of array; track index) {
-        <div nz-carousel-content>
-          <h3>{{ index }}</h3>
+<nz-card>
+  <div nz-row>
+    <div nz-col nzSpan="12" class="col-wrap">
+      <div nz-row>
+        <nz-carousel>
+          @for (index of array; track index) {
+          <div nz-carousel-content>
+            <img
+              [src]="index || 'assets/images/image.svg'"
+              alt="tractorpic"
+              width="100%"
+              height="100%"
+            />
+          </div>
+          }
+        </nz-carousel>
+      </div>
+      <div class="info-container">
+        <div class="info-text" nz-flex nzAlign="center">
+          <span>Additional Information</span>
         </div>
-        }
-      </nz-carousel>
-    </div>
-    <div class="info-container">
-      <h4 class="info-text">Additional Information</h4>
-      <div
-        *ngFor="let item of additionalInfo; let i = index"
-        class="additional-info"
-        nz-flex
-      >
-        <span>{{ item.label }}</span>
-        <span class="info-value">{{ item.value }}</span>
+        <div
+          *ngFor="let item of additionalInfo; let i = index"
+          class="additional-info"
+          nz-flex
+        >
+          <span>{{ item.label }}</span>
+          <span class="info-value">{{ item.value }}</span>
+        </div>
+      </div>
+      <div class="info-container">
+        <div class="info-text" nz-flex nzAlign="center">
+          <span>Modifications</span>
+        </div>
+        <ul class="modifications-list">
+          <li
+            *ngFor="let modification of vehicleInfo?.tractorId?.modifications"
+          >
+            {{ modification }}
+          </li>
+        </ul>
+      </div>
+      <div class="info-container">
+        <div class="info-text" nz-flex nzAlign="center">
+          <span>Service Logs</span>
+        </div>
+        <div *ngFor="let log of vehicleInfo?.tractorId?.serviceLogs">
+          <span>Service Date: {{ log.serviceDate | date : "dd-M-yyyy" }}</span>
+          <nz-divider nzType="vertical"></nz-divider>
+          <span>
+            Download file:
+            <a href="{{ log.fileUrl }}" download>
+              <i nz-icon nzType="download"></i>
+            </a>
+            {{ log.message }}
+          </span>
+        </div>
+      </div>
+      <div class="info-container">
+        <div class="info-text" nz-flex nzAlign="center">
+          <span>Flaws</span>
+        </div>
+        <div
+          *ngFor="let flaw of vehicleInfo?.tractorId?.flaws"
+          nz-flex
+          [nzGap]="20"
+          nzAlign="center"
+        >
+          <img
+            src="flaw?.image || 'assets/images/image.svg'"
+            alt="Flaw"
+            width="100"
+            height="85"
+          />
+          <span class="flaw-description">{{ flaw.flaw }}</span>
+        </div>
       </div>
     </div>
-    <div class="info-container">
-      <h4 class="info-text">Modifications</h4>
-      <ul class="modifications-list">
-        <li *ngFor="let modification of vehicleInfo?.tractorId?.modifications">
-          {{ modification }}
-        </li>
-      </ul>
-    </div>
-    <div class="info-container">
-      <h4 class="info-text">Service Logs</h4>
-      <div *ngFor="let log of vehicleInfo?.tractorId?.serviceLogs">
-        <span>Service Date: {{ log.serviceDate | date : "dd-M-yyyy" }}</span>
-        <nz-divider nzType="vertical"></nz-divider>
-        <span>
-          Download file:
-          <a href="{{ log.fileUrl }}" download>
-            <i nz-icon nzType="download"></i>
-          </a>
-          {{ log.message }}
-        </span>
+    <div nz-col nzSpan="11" class="col-wrap">
+      <span class="title">{{ vehicleInfo?.title }}</span>
+      <div class="timeleft-wrapper">
+        <div nz-flex nzGap="small" nzAlign="center">
+          <img
+            src="assets/icons/clock.svg"
+            alt="clock"
+            width="20"
+            height="20"
+          />
+          <span class="thin-text">Time Left:</span>
+        </div>
+        <nz-card class="timeleft-card">
+          <div nz-flex nzJustify="center" nzAlign="center" [nzGap]="20">
+            <div nz-flex [nzVertical]="true" nzAlign="center">
+              <span class="time-left-value">{{ hours }}</span>
+              <span class="time-left-label">HOURS</span>
+            </div>
+            <div nz-flex [nzVertical]="true" nzAlign="center">
+              <span class="time-left-value">{{ minutes }}</span>
+              <span class="time-left-label">MINUTES</span>
+            </div>
+            <div nz-flex [nzVertical]="true" nzAlign="center">
+              <span class="time-left-value">{{ seconds }}</span>
+              <span class="time-left-label">SECONDS</span>
+            </div>
+          </div>
+        </nz-card>
+        <div nz-flex nzJustify="space-between">
+          <span
+            >Auction ends:{{ vehicleInfo?.endTime | date : "medium" }}
+          </span>
+          <span>Status: {{ vehicleInfo?.auctionStatus }}</span>
+        </div>
+        <div class="biddetails_container">
+          <div nz-row nzAlign="middle">
+            <div nz-col nzSpan="12" class="col-wrap" nzAlign="middle">
+              <div nz-flex [nzVertical]="true" nzAlign="center">
+                <span class="top-bid-key">Top Current Bid:</span>
+                <span class="top-bid-amount">$54000</span>
+              </div>
+            </div>
+            <div nz-col nzSpan="12" class="col-wrap" nzAlign="middle">
+              <div nz-flex nzGap="small">
+                <div nz-flex [nzVertical]="true" nzAlign="flex-start">
+                  <span>Seller</span>
+                  <span>Ending</span>
+                  <span>Bids</span>
+                  <span>Views</span>
+                </div>
+                <div nz-flex [nzVertical]="true" nzAlign="flex-start">
+                  <span>{{ vehicleInfo?.userId?.username }}</span>
+                  <span>{{ vehicleInfo?.endTime | date : "short" }}</span>
+                  <span>{{ vehicleInfo?.totalBids }}</span>
+                  <span>{{ vehicleInfo?.views }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="info-container">
-      <h4 class="info-text">Flaws</h4>
-      <div
-        *ngFor="let flaw of vehicleInfo?.tractorId?.flaws"
-        nz-flex
-        [nzGap]="20"
-        nzAlign="center"
-      >
-        <img
-          [src]="flaw.image"
-          alt="Flaw Image"
-          class="flaw-image"
-          width="100"
-          height="85"
-        />
-        <span class="flaw-description">{{ flaw.flaw }}</span>
+      <div *ngIf="vehicleInfo?.tractorId?._id">
+        <app-comments-bids
+          [tractorId]="vehicleInfo?.tractorId?._id"
+        ></app-comments-bids>
       </div>
     </div>
   </div>
-  <div nz-col nzSpan="12" class="col-wrap">
-    <h1>{{ vehicleInfo?.title }}</h1>
-    <div class="timeleft-wrapper">
-      <span>Time Left:</span>
-      <nz-card>
-        <div nz-flex nzJustify="center" nzAlign="center" [nzGap]="20">
-          <div nz-flex [nzVertical]="true" nzAlign="center">
-            <span class="time-left-value">{{ hours }}</span>
-            <span class="time-left-label">HOURS</span>
-          </div>
-          <div nz-flex [nzVertical]="true" nzAlign="center">
-            <span class="time-left-value">{{ minutes }}</span>
-            <span class="time-left-label">MINUTES</span>
-          </div>
-          <div nz-flex [nzVertical]="true" nzAlign="center">
-            <span class="time-left-value">{{ seconds }}</span>
-            <span class="time-left-label">SECONDS</span>
-          </div>
-        </div>
-      </nz-card>
-      <div nz-flex nzJustify="space-between">
-        <span>Auction ends:{{ vehicleInfo?.endTime | date : "medium" }} </span>
-        <span>Status: {{ vehicleInfo?.auctionStatus }}</span>
-      </div>
-      <div class="biddetails_container">
-        <div nz-row nzAlign="middle">
-          <div nz-col nzSpan="12" class="col-wrap" nzAlign="middle">
-            <div nz-flex [nzVertical]="true" nzAlign="center">
-              <span>Top Current Bid:</span>
-              <h1>$54000</h1>
-            </div>
-          </div>
-          <div nz-col nzSpan="12" class="col-wrap" nzAlign="middle">
-            <div nz-flex [nzVertical]="true" nzAlign="center">
-              <span>Seller:</span>
-              <span>Ending:</span>
-              <span>Bids:</span>
-              <span>Views:</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div *ngIf="vehicleInfo?.tractorId?._id">
-      <app-comments-bids
-        [tractorId]="vehicleInfo?.tractorId?._id"
-      ></app-comments-bids>
-    </div>
-  </div>
-</div>
+</nz-card>

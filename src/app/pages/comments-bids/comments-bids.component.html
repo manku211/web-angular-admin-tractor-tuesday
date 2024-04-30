@@ -22,39 +22,77 @@
       >
     </div>
   </div>
-
+  <!-- Need to Refactor -->
   <div class="comment-history" *ngIf="activeLink === 'newest'">
     <div *ngFor="let item of newest" class="comment-item">
       <div *ngIf="item.message">
-        <div class="user-info" nz-flex nzGap="small">
-          <img [src]="item?.adminId?.profilePicture" alt="Profile" />
-          <div nz-flex nzGap="small" [nzVertical]="true">
+        <div class="user-info" nz-flex nzGap="small" nzAlign="flex-start">
+          <img
+            [src]="item?.adminId?.profilePicture || 'assets/icons/profile.svg'"
+            alt="Profile"
+          />
+          <div nz-flex [nzGap]="2" [nzVertical]="true">
             <div nz-flex nzGap="small">
               <span class="username">{{ item?.adminId?.email }}</span>
               <span class="time-difference">{{
                 calculateTimeDifference(item.createdAt)
               }}</span>
             </div>
-            <div class="comment-amount">{{ item.message }}</div>
+            <div class="comment-amount">
+              {{ item.message }}
+              <div *ngIf="item?.replyCount > 0">
+                <span class="thin-text"> View Replies</span> &nbsp;<span
+                  (click)="handleReplies(item?._id)"
+                  nz-icon
+                  nzType="caret-right"
+                  nzTheme="outline"
+                ></span>
+                <div *ngFor="let item of replies" class="comment-item">
+                  <div
+                    class="user-info"
+                    nz-flex
+                    nzGap="small"
+                    nzAlign="flex-start"
+                  >
+                    <img
+                      [src]="
+                        item?.adminId?.profilePicture ||
+                        'assets/icons/profile.svg'
+                      "
+                      alt="Profile"
+                    />
+                    <div nz-flex [nzGap]="2" [nzVertical]="true">
+                      <div nz-flex nzGap="small">
+                        <span class="username">{{ item?.adminId?.email }}</span>
+                        <span class="time-difference">{{
+                          calculateTimeDifference(item.createdAt)
+                        }}</span>
+                      </div>
+                      <div class="comment-amount">{{ item.message }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
       <div *ngIf="item.amount">
-        <div class="user-info" nz-flex nzGap="small">
+        <div class="user-info" nz-flex nzGap="small" nzAlign="flex-start">
           <img
-            [src]="item.userId.profilePicture"
+            [src]="item.userId.profilePicture || 'assets/icons/profile.svg'"
             alt="Profile"
             width="30"
             height="30"
           />
-          <div nz-flex nzGap="small" [nzVertical]="true">
+          <div nz-flex [nzGap]="2" [nzVertical]="true">
             <div nz-flex nzGap="small">
-              <span class="username">{{ item.userId.username }}</span>
+              <span class="username">{{ item?.userId?.username }}</span>
               <span class="time-difference">{{
-                calculateTimeDifference(item.createdAt)
+                calculateTimeDifference(item?.createdAt)
               }}</span>
             </div>
-            <div class="bid-amount">{{ item.amount }}</div>
+            <div class="bid-amount">{{ item?.amount }}</div>
           </div>
         </div>
       </div>
@@ -63,21 +101,56 @@
 
   <div class="comment-history" *ngIf="activeLink === 'comments'">
     <div *ngFor="let item of commentHistory" class="comment-item">
-      <div class="user-info" nz-flex nzGap="small">
+      <div class="user-info" nz-flex nzGap="small" nzAlign="flex-start">
         <img
-          [src]="item?.adminId?.profilePicture"
+          [src]="item?.adminId?.profilePicture || 'assets/icons/profile.svg'"
           alt="Profile Picture"
           width="30"
           height="30"
         />
-        <div nz-flex nzGap="small" [nzVertical]="true">
+        <div nz-flex [nzGap]="2" [nzVertical]="true">
           <div nz-flex nzGap="small">
             <span class="username">{{ item?.adminId?.email }}</span>
             <span class="time-difference">{{
-              calculateTimeDifference(item.createdAt)
+              calculateTimeDifference(item?.createdAt)
             }}</span>
           </div>
-          <div class="comment-amount">{{ item.message }}</div>
+          <div class="comment-amount">
+            {{ item?.message }}
+            <div *ngIf="item?.replyCount > 0">
+              <span class="thin-text"> View Replies</span> &nbsp;<span
+                (click)="handleReplies(item?._id)"
+                nz-icon
+                nzType="caret-right"
+                nzTheme="outline"
+              ></span>
+              <div *ngFor="let item of replies" class="comment-item">
+                <div
+                  class="user-info"
+                  nz-flex
+                  nzGap="small"
+                  nzAlign="flex-start"
+                >
+                  <img
+                    [src]="
+                      item?.adminId?.profilePicture ||
+                      'assets/icons/profile.svg'
+                    "
+                    alt="Profile"
+                  />
+                  <div nz-flex [nzGap]="2" [nzVertical]="true">
+                    <div nz-flex nzGap="small">
+                      <span class="username">{{ item?.adminId?.email }}</span>
+                      <span class="time-difference">{{
+                        calculateTimeDifference(item.createdAt)
+                      }}</span>
+                    </div>
+                    <div class="comment-amount">{{ item.message }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -85,14 +158,14 @@
 
   <div class="bid-history" *ngIf="activeLink === 'bids'">
     <div *ngFor="let item of bidHistory" class="bid-item">
-      <div class="user-info" nz-flex nzGap="small">
+      <div class="user-info" nz-flex nzGap="small" nzAlign="flex-start">
         <img
-          [src]="item.userId.profilePicture"
+          [src]="item.userId.profilePicture || 'assets/icons/profile.svg'"
           alt="Profile"
           width="30"
           height="30"
         />
-        <div nz-flex nzGap="small" [nzVertical]="true">
+        <div nz-flex [nzGap]="2" [nzVertical]="true">
           <div nz-flex nzGap="small">
             <span class="username">{{ item.userId.username }}</span>
             <span class="time-difference">{{
