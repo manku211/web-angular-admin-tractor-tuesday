@@ -17,14 +17,12 @@ export class CommentsBidsComponent {
   commentHistory: any[] = [];
   newest: any[] = [];
   totalCommentsAndBids!: number;
+  replies: any[] = [];
   activeLink: string = 'newest';
   constructor(private commentsBidsService: CommentsBidsService) {}
 
   ngOnInit() {
     this.newestQuery = { ...this.newestQuery, tractorId: this.tractorId };
-    // this.fetchNewest(this.newestQuery);
-    // this.commentsQuery = { ...this.commentsQuery, tractorId: this.tractorId };
-    // this.fetchComments(this.commentsQuery);
     this.fetchData('newest');
   }
 
@@ -89,11 +87,48 @@ export class CommentsBidsComponent {
     });
   }
 
+  fetchReplies(params: any) {
+    this.commentsBidsService.getRepliesForComment(params).subscribe({
+      next: (data) => {
+        console.log(data);
+        this.replies = data?.data?.comments;
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }
+
+  handleReplies(commentId: any) {
+    const params = { commentId: commentId };
+    this.fetchReplies(params);
+  }
+
   calculateTimeDifference(createdAt: string): string {
     const createdDate = new Date(createdAt);
     const currentDate = new Date();
     const difference = Math.abs(currentDate.getTime() - createdDate.getTime());
+    const minutesDifference = Math.floor(difference / (1000 * 60));
+    if (minutesDifference < 60) {
+      return minutesDifference + 'm';
+    }
     const hoursDifference = Math.floor(difference / (1000 * 3600));
-    return hoursDifference + 'h'; // Return the time difference in hours
+    if (hoursDifference < 24) {
+      return hoursDifference + 'h';
+    }
+    const daysDifference = Math.floor(difference / (1000 * 3600 * 24));
+    if (daysDifference < 7) {
+      return daysDifference + 'd';
+    }
+    const weeksDifference = Math.floor(daysDifference / 7);
+    if (weeksDifference < 4) {
+      return weeksDifference + 'w';
+    }
+    const monthsDifference = Math.floor(daysDifference / 30);
+    if (monthsDifference < 12) {
+      return monthsDifference + 'm';
+    }
+    const yearsDifference = Math.floor(daysDifference / 365);
+    return yearsDifference + 'y';
   }
 }

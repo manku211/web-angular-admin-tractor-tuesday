@@ -17,7 +17,7 @@ export class VehicleInfoComponent {
   hours: number = 0;
   minutes: number = 0;
   seconds: number = 0;
-  array = [1, 2, 3, 4];
+  array = ['', '', '', ''];
   additionalInfo: any[] = [
     { label: 'Name', key: 'tractorId', subkey: 'name' },
     { label: 'Vin', key: 'tractorId', subkey: 'vin' },
@@ -26,8 +26,8 @@ export class VehicleInfoComponent {
     { label: 'Vehicle Year', key: 'tractorId', subkey: 'year' },
     { label: 'Brand Category', key: 'tractorId', subkey: 'category' },
     { label: 'Engine Power', key: 'tractorId', subkey: 'power' },
-    { label: 'Seller Name', key: 'tractorId', subkey: 'name' },
-    { label: 'Seller Type', key: 'tractorId', subkey: 'name' },
+    { label: 'Seller Name', key: 'userId', subkey: 'username' },
+    { label: 'Seller Type', key: 'sellerType', subkey: '' },
     { label: 'Vehicle Color', key: 'tractorId', subkey: 'name' },
     { label: 'Transmission', key: 'tractorId', subkey: 'transmissionType' },
     { label: 'Tyre Conditions', key: 'tractorId', subkey: 'condition' },
