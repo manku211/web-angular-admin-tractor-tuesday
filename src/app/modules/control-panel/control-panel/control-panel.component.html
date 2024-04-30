@@ -1,0 +1,15 @@
+<nz-flex [nzVertical]="true" [nzGap]="15">
+  <nz-card>
+    <nz-breadcrumb
+      nz-page-header-breadcrumb
+      [nzAutoGenerate]="true"
+    ></nz-breadcrumb>
+  </nz-card>
+  <nz-tabset>
+    <nz-tab nzTitle="Auction Management">
+      <app-auction-management></app-auction-management>
+    </nz-tab>
+    <nz-tab nzTitle="Platform Management">Platform Management</nz-tab>
+    <nz-tab nzTitle="Content Management">Content Management</nz-tab>
+  </nz-tabset>
+</nz-flex>

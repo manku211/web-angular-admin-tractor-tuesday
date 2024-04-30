@@ -23,6 +23,7 @@ import { NzCarouselModule } from 'ng-zorro-antd/carousel';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 
 const modules = [
   NzButtonModule,
@@ -47,6 +48,7 @@ const modules = [
   NzListModule,
   NzDatePickerModule,
   NzTimePickerModule,
+  NzSkeletonModule,
 ];
 @NgModule({
   imports: [CommonModule, RouterOutlet, ...modules],

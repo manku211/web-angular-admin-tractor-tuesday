@@ -27,6 +27,10 @@ export class BaseLayoutComponent {
     this.router.navigate(['dashboard/seller-listing']);
   }
 
+  handleControlPanel() {
+    this.router.navigate(['dashboard/control-panel']);
+  }
+
   logout() {
     console.log('logout');
     this.authService.logout().subscribe({

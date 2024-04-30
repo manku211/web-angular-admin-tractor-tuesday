@@ -1,6 +1,5 @@
-<div *ngIf="userInfo">
-  <app-details-card [userInfo]="userInfo"></app-details-card>
-</div>
+<app-details-card [userInfo]="userInfo"></app-details-card>
+
 <nz-card>
   <nz-tabset (nzSelectedIndexChange)="onTabChange($event)">
     <nz-tab nzTitle="Auction Request"

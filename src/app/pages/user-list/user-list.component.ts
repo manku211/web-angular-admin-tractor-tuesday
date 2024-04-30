@@ -7,6 +7,7 @@ import { TableViewComponent } from '../../shared/components/table-view/table-vie
 import { UserListingService } from '../../core/services/user/user-listing.service';
 import { countryCodes } from '../../core/models/countryCodes';
 import { CountryHelperService } from '../../utilities/helpers/country-helper.service';
+import { AlgoliaSearchService } from '../../utilities/helpers/algolia-search.service';
 
 interface User {
   _id: string;
@@ -23,6 +24,8 @@ interface ColumnInfo {
   sort: boolean;
   sortOrder?: string;
   type?: string;
+  sortField?: string;
+  altSortField?: string;
 }
 
 @Component({
@@ -46,11 +49,15 @@ export class UserListComponent {
       label: 'Name',
       sort: true,
       sortOrder: 'DESC',
+      sortField: 'fullName',
+      altSortField: 'username',
     },
     {
       key: 'email',
       label: 'Email',
       sort: true,
+      sortField: 'email',
+      sortOrder: 'DESC',
     },
     {
       key: 'country',
@@ -73,13 +80,17 @@ export class UserListComponent {
       sort: false,
     },
   ];
+  algoliaquery: string = '';
+  searchResults: any[] = [];
   constructor(
     private authService: AuthService,
     private messageService: MessageService,
     private router: Router,
     private userService: UserListingService,
-    public countryHelper: CountryHelperService
+    public countryHelper: CountryHelperService,
+    private algoliaService: AlgoliaSearchService
   ) {}
+
   ngOnInit() {
     this.fetchDetails(this.query);
   }
@@ -87,17 +98,28 @@ export class UserListComponent {
   fetchDetails(params: any) {
     console.log(params);
     this.loader = true;
-    this.userService.getAllUsers(params).subscribe((res) => {
-      console.log('Response', res?.data?.users);
-      this.loader = false;
-      this.listOfData = res.data?.users;
-      this.totalRecords = res.data?.count;
+    this.userService.getAllUsers(params).subscribe({
+      next: (res) => {
+        console.log('Response', res?.data?.users);
+        this.loader = false;
+        this.listOfData = res.data?.users;
+        this.totalRecords = res.data?.count;
+      },
+      error: (err) => {
+        this.loader = false;
+        this.messageService.error(err?.error?.error);
+        console.error(err?.error?.error);
+      },
     });
   }
 
   onSortChange(column: any): void {
     console.log(column);
-    this.query = { ...this.query, sortOrder: column.sortOrder };
+    this.query = {
+      ...this.query,
+      sortOrder: column.sortOrder,
+      sortField: column.sortField ? column.sortField : column.altSortField,
+    };
     console.log(this.query);
     this.fetchDetails(this.query);
   }
@@ -107,8 +129,10 @@ export class UserListComponent {
     this.fetchDetails(this.query);
   }
 
-  onSearchInput(search: any): void {
+  async onSearchInput(search: any): Promise<void> {
     console.log(search);
+    // this.searchResults = await this.algoliaService.userSearch(search);
+    // console.log(this.searchResults);
     if (search !== '') {
       this.query = { ...this.query, search: search };
     } else {
