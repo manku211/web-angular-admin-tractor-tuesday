@@ -44,4 +44,14 @@ export class AuctionService {
       payload
     );
   }
+
+  getAllAuctions(params: any) {
+    let queryParams = new HttpParams();
+    Object.keys(params).forEach((key) => {
+      queryParams = queryParams.set(key, params[key]);
+    });
+    return this.http.get<any>(this.baseUrl + `auctions/get-all-auctions`, {
+      params: queryParams,
+    });
+  }
 }

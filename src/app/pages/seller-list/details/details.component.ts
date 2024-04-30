@@ -48,6 +48,7 @@ export class DetailsComponent {
   openDenialModal: boolean = false;
   openApproveModal: boolean = false;
   tractorData: any;
+  tabIndex: number = 0;
   listOfColumns: ColumnInfo[] = [
     {
       key: 'tractorId',
@@ -92,22 +93,39 @@ export class DetailsComponent {
     this.userId = localStorage.getItem('selectedUserId');
     console.log('User ID:', this.userId);
     this.fetchUserDetails(this.userId);
-    this.query = { ...this.query, sellerId: this.userId };
+    this.query = {
+      ...this.query,
+      sellerId: this.userId,
+      auctionStatus: 'PENDING',
+    };
     this.fetchAuctionDetails(this.query);
   }
 
   onTabChange(index: any): void {
     console.log('Selected tab index:', index);
+    this.tabIndex = index;
     if (index === 0) {
       this.listOfColumns = this.listOfColumns.filter(
         (column) => column.key !== 'auctionStatus'
       );
+      this.query = {
+        ...this.query,
+        sellerId: this.userId,
+        auctionStatus: 'PENDING',
+      };
+      this.fetchAuctionDetails(this.query);
     } else if (index === 1) {
       const auctionStatusColumn = {
         key: 'auctionStatus',
         label: 'Auction Status',
         sort: false,
       };
+      this.query = {
+        ...this.query,
+        sellerId: this.userId,
+        auctionStatus: 'ALL',
+      };
+      this.fetchAuctionDetails(this.query);
       const auctionDateColumnIndex = this.listOfColumns.findIndex(
         (column) => column.key === 'auctionDate'
       );
@@ -119,7 +137,7 @@ export class DetailsComponent {
   }
 
   fetchUserDetails(userId: string) {
-    this.userService.getUserDetailsById(this.userId).subscribe({
+    this.userService.getUserDetailsById(userId).subscribe({
       next: (data: any) => {
         console.log(data);
         if (data) {
@@ -134,15 +152,23 @@ export class DetailsComponent {
   }
 
   fetchAuctionDetails(query: any) {
+    this.loader = true;
     this.auctionService.getAuctionDetailsBySellerId(query).subscribe({
       next: (data: any) => {
         console.log(data);
         if (data) {
-          this.auctionInfo = data?.data;
-          this.totalRecords = data?.data?.length;
+          this.loader = false;
+          if (this.tabIndex === 0) this.auctionInfo = data?.data?.auctions;
+          else if (this.tabIndex === 1) {
+            this.auctionInfo = data?.data?.auctions.filter(
+              (auction: any) => auction?.auctionStatus !== 'PENDING'
+            );
+          }
+          this.totalRecords = data?.data?.count;
         }
       },
       error: (error) => {
+        this.loader = false;
         console.error('An error occurred during admin login:', error);
         this.messageService.error(error);
       },

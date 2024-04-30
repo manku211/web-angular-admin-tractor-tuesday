@@ -1,5 +1,5 @@
 <nz-card class="details_card">
-  <div nz-row *ngIf="userInfo">
+  <div nz-row *ngIf="userInfo; else skeleton">
     <div nz-col nzSpan="6">
       <div
         nz-flex
@@ -27,7 +27,6 @@
         <button
           *ngIf="isUser"
           nz-button
-          nzType="primary"
           (click)="displayBlockReason()"
           class="block-unblock-button"
         >
@@ -106,4 +105,26 @@
       </div>
     </div>
   </div>
+  <ng-template #skeleton>
+    <div nz-row>
+      <div nz-col nzSpan="6">
+        <div
+          nz-flex
+          nzJustify="center"
+          nzAlign="center"
+          [nzVertical]="true"
+          nzGap="small"
+          class="personal_details"
+        >
+          <nz-skeleton-element
+            nzType="avatar"
+            [nzSize]="100"
+          ></nz-skeleton-element>
+        </div>
+      </div>
+      <div nz-col nzOffset="1" nzSpan="17" class="nz-mb-2">
+        <nz-skeleton [nzActive]="true"></nz-skeleton>
+      </div>
+    </div>
+  </ng-template>
 </nz-card>

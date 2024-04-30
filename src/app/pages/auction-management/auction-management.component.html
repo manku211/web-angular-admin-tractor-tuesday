@@ -1,0 +1,72 @@
+<app-table-view
+  [data]="listOfData"
+  [columns]="listOfColumns"
+  [enablePagination]="true"
+  [enableSorting]="true"
+  [enableSearch]="true"
+  [enableActions]="true"
+  (sortChange)="onSortChange($event)"
+  [loader]="loader"
+  [totalRecords]="totalRecords"
+  [tableRowTemplate]="tableRowTemplate"
+  (pageChange)="onPageChange($event)"
+  (search)="onSearchInput($event)"
+>
+  <ng-template #tableRowTemplate let-data let-columns="columns">
+    <tr *ngFor="let item of data">
+      <td>
+        <img
+          src="assets/icons/profile_container.svg"
+          alt="profile"
+          width="40"
+          height="40"
+        />
+        <img
+          [src]="exteriorImageUrl || 'assets/icons/Tractor.svg'"
+          class="tractor-picture"
+          alt="profile"
+        />
+        &nbsp;<span>{{ item["tractorId"]?.name }}</span>
+      </td>
+      <!-- <td>
+        <span>{{ item["tractorId"]?.category }}</span>
+      </td> -->
+      <td>
+        <span>{{ item["userId"]?.username }}</span>
+      </td>
+      <td>
+        <span>{{ item["currentBid"]?.userId?.username }}</span>
+      </td>
+      <td>
+        <span
+          class="status-button"
+          [ngStyle]="
+            item['reservedPrice'] > 0
+              ? { background: '#2FC07C', color: '#fff' }
+              : {}
+          "
+        >
+          {{ item["reservedPrice"] > 0 ? "Reserved" : "N/A" }}
+        </span>
+      </td>
+      <td>
+        <span
+          [ngStyle]="styleObject(item['auctionStatus'])"
+          class="status-button"
+          >{{ item["auctionStatus"] | titlecase }}</span
+        >
+      </td>
+      <td>
+        <span>{{ item["startTime"] * 1000 | date : "d MMM, y" }}</span>
+      </td>
+      <td>
+        <span>{{ item["currentBid"]?.amount }}</span>
+      </td>
+      <td>
+        <button class="viewmore_button" (click)="handleSendEmail(item['_id'])">
+          View More
+        </button>
+      </td>
+    </tr>
+  </ng-template>
+</app-table-view>

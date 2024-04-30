@@ -3,6 +3,7 @@ import { SharedModule } from '../../../shared/shared.module';
 import { ModalComponent } from '../../../shared/components/modal/modal.component';
 import { FormsModule } from '@angular/forms';
 import { AuctionService } from '../../../core/services/auction/auction.service';
+import { getExteriorImageUrl } from '../../../utilities/helpers/helper';
 
 @Component({
   selector: 'app-approve-modal',
@@ -23,21 +24,21 @@ export class ApproveModalComponent {
 
   ngOnInit() {
     console.log('tractor', this.tractorData);
-    this.getExteriorImageUrl();
+    this.exteriorImageUrl = getExteriorImageUrl(this.tractorData);
     this.populateDateTime();
   }
 
-  getExteriorImageUrl(): void {
-    if (this.tractorData && this.tractorData?.tractorId?.images) {
-      const exteriorImage = this.tractorData.tractorId.images.find(
-        (image: any) => image.type === 'exterior'
-      );
-      console.log(exteriorImage);
-      if (exteriorImage) {
-        this.exteriorImageUrl = exteriorImage.link;
-      }
-    }
-  }
+  // getExteriorImageUrl(): void {
+  //   if (this.tractorData && this.tractorData?.tractorId?.images) {
+  //     const exteriorImage = this.tractorData.tractorId.images.find(
+  //       (image: any) => image.type === 'exterior'
+  //     );
+  //     console.log(exteriorImage);
+  //     if (exteriorImage) {
+  //       this.exteriorImageUrl = exteriorImage.link;
+  //     }
+  //   }
+  // }
 
   populateDateTime(): void {
     if (this.tractorData) {

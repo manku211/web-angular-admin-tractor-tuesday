@@ -38,6 +38,16 @@ export const routes: Routes = [
           breadcrumb: 'Seller Listing',
         },
       },
+      {
+        path: 'control-panel',
+        loadChildren: () =>
+          import('./modules/control-panel/control-panel.module').then(
+            (m) => m.ControlPanelModule
+          ),
+        data: {
+          breadcrumb: 'Control Panel',
+        },
+      },
     ],
   },
   {
