@@ -66,6 +66,10 @@ body {
   font-size: var(--font-xxl);
   font-weight: var(--font-weight-extra-bold);
 }
+.sub-title {
+  font-size: var(--font-ml);
+  font-weight: var(--font-weight-extra-bold);
+}
 .thin-text {
   font-size: var(--font-s);
   font-weight: var(--font-weight-small);

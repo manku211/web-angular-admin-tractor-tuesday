@@ -1,0 +1,22 @@
+<div nz-row>
+  <div nz-col nzSpan="4">
+    <ul nz-menu [nzMode]="'vertical'">
+      <li nz-menu-item (click)="selectMenuItem('faq')">
+        <span>FAQ</span>
+      </li>
+      <li nz-menu-item (click)="selectMenuItem('privacy')">
+        <span>Privacy Policy</span>
+      </li>
+      <li nz-menu-item (click)="selectMenuItem('terms')">
+        <span>T&C</span>
+      </li>
+    </ul>
+  </div>
+  <div nz-col nzSpan="20" class="content-wrapper">
+    <app-faq *ngIf="selectedMenuItem === 'faq'"></app-faq>
+    <app-privacy-policy
+      *ngIf="selectedMenuItem === 'privacy'"
+    ></app-privacy-policy>
+    <app-terms-cond *ngIf="selectedMenuItem === 'terms'"></app-terms-cond>
+  </div>
+</div>

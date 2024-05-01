@@ -43,7 +43,7 @@
           {{ item["auctionStatus"] | titlecase }}
         </span>
       </td>
-      <td>{{ item["createdAt"] | date : "dd-MM-yyyy" }}</td>
+      <td>{{ item["startTime"] * 1000 | date : "dd-MM-yyyy" }}</td>
       <td>{{ item["currentBid"]?.amount }}</td>
       <td>
         <button (click)="handleViewMore(item['_id'])" class="viewmore_button">
