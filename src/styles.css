@@ -70,6 +70,10 @@ body {
   font-size: var(--font-ml);
   font-weight: var(--font-weight-extra-bold);
 }
+.sub-text {
+  font-size: var(--font-m);
+  font-weight: var(--font-weight-normal);
+}
 .thin-text {
   font-size: var(--font-s);
   font-weight: var(--font-weight-small);
