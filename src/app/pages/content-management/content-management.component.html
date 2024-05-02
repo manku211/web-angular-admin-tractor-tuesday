@@ -15,8 +15,8 @@
   <div nz-col nzSpan="20" class="content-wrapper">
     <app-faq *ngIf="selectedMenuItem === 'faq'"></app-faq>
     <app-privacy-policy
-      *ngIf="selectedMenuItem === 'privacy'"
+      *ngIf="selectedMenuItem === 'privacy' || selectedMenuItem === 'terms'"
+      [selectedMenuItem]="selectedMenuItem"
     ></app-privacy-policy>
-    <app-terms-cond *ngIf="selectedMenuItem === 'terms'"></app-terms-cond>
   </div>
 </div>

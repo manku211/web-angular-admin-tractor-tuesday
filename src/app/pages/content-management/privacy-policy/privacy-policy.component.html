@@ -1,1 +1,20 @@
-<p>privacy-policy works!</p>
+<div *ngIf="selectedMenuItem == 'privacy'">
+  <div class="sub-title">Edit Privacy Policy</div>
+  <div class="text-editor">
+    <quill-editor
+      [(ngModel)]="privacyPolicy"
+      [style.height]="'200px'"
+    ></quill-editor>
+  </div>
+  <button nz-button class="submit-button" (click)="sendData()">Submit</button>
+</div>
+<div *ngIf="selectedMenuItem === 'terms'">
+  <div class="sub-title">Terms and Condition</div>
+  <div class="text-editor">
+    <quill-editor
+      [(ngModel)]="termsAndCond"
+      [style.height]="'200px'"
+    ></quill-editor>
+  </div>
+  <button nz-button class="submit-button" (click)="sendData()">submit</button>
+</div>

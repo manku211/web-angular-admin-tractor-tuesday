@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { httpInterceptorInterceptor } from './core/services/interceptor/http-interceptor.interceptor';
+import { QuillModule } from 'ngx-quill';
 
 registerLocaleData(en);
 
@@ -18,7 +19,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideNzIcons(),
     provideNzI18n(en_US),
-    importProvidersFrom(FormsModule),
+    importProvidersFrom(FormsModule, QuillModule.forRoot()),
     provideAnimationsAsync(),
     provideHttpClient(withInterceptors([httpInterceptorInterceptor])),
   ],

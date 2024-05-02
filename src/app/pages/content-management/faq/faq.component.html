@@ -1,5 +1,5 @@
 <div class="wrapper-faq" *ngIf="!openFaqForm">
-  <div nz-flex nzJustify="space-between">
+  <div nz-flex nzJustify="space-between" class="header">
     <div class="sub-title">Frequently Asked Questions</div>
     <button nz-button class="block-unblock-button" (click)="addNew()">
       Create New
@@ -52,9 +52,16 @@
         [nzAutosize]="{ minRows: 3, maxRows: 8 }"
       ></textarea>
     </div>
-    <div nz-flex nzJustify="end">
-      <button nz-button nzType="default" (click)="cancelEdit()">Later</button>
-      <button nz-button nzType="primary" type="submit">Submit FAQ</button>
+    <div nz-flex nzJustify="start" nzGap="middle" class="buttons">
+      <button
+        nz-button
+        nzType="default"
+        class="later-button"
+        (click)="cancelEdit()"
+      >
+        Later
+      </button>
+      <button nz-button class="submit-button" type="submit">Submit FAQ</button>
     </div>
   </form>
 </div>
