@@ -39,4 +39,15 @@ export class ContentManagementService {
       this.baseUrl + `content-mananagement/delete-faq/${id}`
     );
   }
+
+  getPolicyandTerms() {
+    return this.http.get<any>(this.baseUrl + `content-mananagement/get-tc-pp`);
+  }
+
+  updatePolicyandTerms(payload: any) {
+    return this.http.patch<any>(
+      this.baseUrl + `content-mananagement/update-terms`,
+      payload
+    );
+  }
 }
