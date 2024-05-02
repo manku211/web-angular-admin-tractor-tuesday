@@ -1,0 +1,88 @@
+<nz-card class="platform-card">
+  <div class="platform-title">Platform Fees</div>
+  <nz-divider></nz-divider>
+  <div class="sub-text">Seller Listing Fees</div>
+  <nz-input-number-group nzAddOnAfter="$">
+    <nz-input-number
+      [(ngModel)]="seller_listing_fee"
+      [nzStep]="1"
+    ></nz-input-number>
+  </nz-input-number-group>
+  <button nz-button class="block-unblock-button" (click)="handlePlatformFees()">
+    Update Fees
+  </button>
+</nz-card>
+
+<nz-card class="platform-card">
+  <div class="platform-title">Platform Cap</div>
+  <nz-divider></nz-divider>
+  <div class="sub-text">Maximum Cap</div>
+  <nz-input-number-group nzAddOnAfter="$">
+    <nz-input-number
+      [(ngModel)]="maxCap"
+      [nzMin]="1"
+      [nzMax]="1000000"
+      [nzStep]="1"
+    ></nz-input-number>
+  </nz-input-number-group>
+  <div class="sub-text">Minimum Cap</div>
+  <nz-input-number-group nzAddOnAfter="$">
+    <nz-input-number
+      [(ngModel)]="minCap"
+      [nzMin]="1"
+      [nzMax]="1000000"
+      [nzStep]="1"
+    ></nz-input-number>
+  </nz-input-number-group>
+  <button nz-button class="block-unblock-button" (click)="handlePlatformFees()">
+    Update Cap
+  </button>
+</nz-card>
+
+<nz-card class="platform-card">
+  <div class="platform-title">Referral Fees</div>
+  <nz-divider></nz-divider>
+  <div class="sub-text">Sellers Referral</div>
+  <nz-input-number-group nzAddOnAfter="%">
+    <nz-input-number
+      [(ngModel)]="maxCap"
+      [nzMin]="1"
+      [nzMax]="1000000"
+      [nzStep]="1"
+    ></nz-input-number>
+  </nz-input-number-group>
+  <div class="sub-text">Buyer's Premium</div>
+  <nz-input-number-group nzAddOnAfter="%">
+    <nz-input-number
+      [(ngModel)]="minCap"
+      [nzMin]="1"
+      [nzMax]="1000000"
+      [nzStep]="1"
+    ></nz-input-number>
+  </nz-input-number-group>
+  <button nz-button class="block-unblock-button" (click)="handlePlatformFees()">
+    Update Fees
+  </button>
+</nz-card>
+
+<nz-card class="platform-card">
+  <div class="platform-title">Referral Usage</div>
+  <nz-divider></nz-divider>
+  <div class="sub-text">Referral Usage Count Per Referral</div>
+  <nz-input-number
+    [(ngModel)]="maxCap"
+    [nzMin]="1"
+    [nzMax]="1000000"
+    [nzStep]="1"
+  ></nz-input-number>
+  <div class="sub-text">Refferal Usage Count Per User</div>
+  <nz-input-number
+    [(ngModel)]="minCap"
+    [nzMin]="1"
+    [nzMax]="1000000"
+    [nzStep]="1"
+  ></nz-input-number>
+  <button nz-button class="block-unblock-button" (click)="handlePlatformFees()">
+    Update Usage
+  </button>
+</nz-card>

@@ -34,7 +34,12 @@ interface ColumnInfo {
 })
 export class AuctionManagementComponent {
   listOfData: AuctionInfo[] = [];
-  query: any = { page: 1, limit: 10, fetch: 'all' };
+  query: any = {
+    page: 1,
+    limit: 10,
+    fetch: 'all',
+    auctionsFilter: 'CREATED_AT_LAST',
+  };
   loader: boolean = false;
   totalRecords: number = 0;
   countryFlag!: string;
@@ -105,7 +110,15 @@ export class AuctionManagementComponent {
 
   onSortChange(column: any): void {
     console.log(column);
-    this.query = { ...this.query, sortOrder: column.sortOrder };
+    let auctionsFilter: any;
+    if (column?.key === 'tractor_name') {
+      auctionsFilter =
+        column?.sortOrder === 'ASC' ? 'TRACTOR_ASC' : 'TRACTOR_DESC';
+    }
+    this.query = {
+      ...this.query,
+      auctionsFilter: auctionsFilter,
+    };
     console.log(this.query);
     this.fetchDetails(this.query);
   }
