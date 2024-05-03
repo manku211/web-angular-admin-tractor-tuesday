@@ -1,52 +1,56 @@
-<nz-card>
-  <form
-    nz-form
-    [formGroup]="validateForm"
-    class="login-form"
-    (ngSubmit)="submitForm()"
-  >
-    <nz-form-item>
-      <nz-form-control nzErrorTip="Please input your username!">
-        <nz-input-group nzPrefixIcon="user">
-          <input
-            type="text"
-            nz-input
-            formControlName="userName"
-            placeholder="Username"
-          />
-        </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-control nzErrorTip="Please input your Password!">
-        <nz-input-group nzPrefixIcon="lock">
-          <input
-            type="password"
-            nz-input
-            formControlName="password"
-            placeholder="Password"
-          />
-        </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>
-    <div nz-row class="login-form-margin">
-      <div nz-col [nzSpan]="12">
-        <label nz-checkbox formControlName="remember">
-          <span>Remember me</span>
-        </label>
-      </div>
-      <div nz-col [nzSpan]="12">
-        <a class="login-form-forgot" [routerLink]="['/forgot-password']"
-          >Forgot password?</a
-        >
-      </div>
+<nz-flex class="login-wrapper" [nzGap]="170">
+  <img src="assets/images/tt_logo.svg" alt="logo" />
+
+  <nz-card class="login-ant-card">
+    <div class="welcome-text">Welcome back!</div>
+    <div class="welcome-text-desc">
+      Effortlessly Manage Listings, Track Bids, and Monitor Sales for
+      Angricultural Equipments
     </div>
-    <button
-      nz-button
-      class="login-form-button login-form-margin"
-      [nzType]="'primary'"
+    <form
+      nz-form
+      [formGroup]="validateForm"
+      class="login-form"
+      (ngSubmit)="submitForm()"
     >
-      Log in
-    </button>
-  </form>
-</nz-card>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your username!">
+          <nz-input-group nzPrefixIcon="user">
+            <input
+              type="text"
+              nz-input
+              formControlName="userName"
+              placeholder="Username"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your Password!">
+          <nz-input-group nzPrefixIcon="lock">
+            <input
+              type="password"
+              nz-input
+              formControlName="password"
+              placeholder="Password"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <div nz-row class="login-form-margin">
+        <div nz-col nzOffset="12" [nzSpan]="12">
+          <a class="login-form-forgot" [routerLink]="['/forgot-password']"
+            >Forgot password?</a
+          >
+        </div>
+      </div>
+      <button
+        nz-button
+        class="login-form-button login-form-margin"
+        class="primary-button"
+      >
+        Sign In
+      </button>
+    </form>
+  </nz-card>
+</nz-flex>

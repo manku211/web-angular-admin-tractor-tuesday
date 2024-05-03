@@ -78,6 +78,18 @@ body {
   font-size: var(--font-s);
   font-weight: var(--font-weight-small);
 }
+.primary-button {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 24px;
+  color: var(--white-color);
+  text-align: center;
+  background: var(--green-color);
+  box-shadow: 0px 2px 8px 0px rgba(46, 47, 54, 0.08);
+  border-radius: 5px;
+  height: 44px;
+}
+
 /* overriding inbuilt classes */
 .ant-breadcrumb > nz-breadcrumb-item:last-child a {
   color: var(--black-color);
@@ -235,4 +247,33 @@ body {
   box-shadow: 0px 2px 8px 0px rgba(46, 47, 54, 0.08);
   color: var(--white-color);
   margin-bottom: 10px;
+}
+.login-wrapper {
+  align-items: center;
+  position: absolute;
+  top: 20%;
+  left: 15%;
+}
+.login-ant-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 21px;
+  width: 524px;
+  border: 1px solid var(--border-color);
+  background: var(--white-color);
+  box-shadow: 0px 3px 11px 0px rgba(0, 0, 0, 0.07);
+}
+.welcome-text {
+  font-weight: var(--font-weight-bold);
+  font-size: 30px;
+  line-height: 120%;
+  margin-bottom: 11px;
+}
+.welcome-text-desc {
+  font-size: var(--font-s);
+  font-style: normal;
+  font-weight: var(--font-weight-normal);
+  line-height: 140%;
+  margin-bottom: 20px;
 }

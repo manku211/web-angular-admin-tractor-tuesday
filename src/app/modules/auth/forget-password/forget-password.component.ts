@@ -35,35 +35,30 @@ const atLeastOneRequiredValidator = (
   styleUrl: './forget-password.component.css',
 })
 export class ForgetPasswordComponent {
+  showPhoneNumber: boolean = false;
+  updateByText: string = 'Phone Number';
+
+  otpHash!: string;
   validateForm: FormGroup<{
     email: FormControl<string>;
     phone: FormControl<string>;
+    otp: FormControl<string>;
   }> = this.fb.group(
     {
       email: ['', Validators.email],
       phone: ['', Validators.pattern(/^\d{10}$/)],
+      otp: [''],
     },
     { validators: atLeastOneRequiredValidator }
   );
   updatingDisabledState: boolean = false;
+
   constructor(
     private fb: NonNullableFormBuilder,
     private authService: AuthService,
     private router: Router,
     private messageService: MessageService
-  ) {
-    this.validateForm.get('email')?.valueChanges.subscribe(() => {
-      if (!this.updatingDisabledState) {
-        this.updatePhoneDisabledState();
-      }
-    });
-
-    this.validateForm.get('phone')?.valueChanges.subscribe(() => {
-      if (!this.updatingDisabledState) {
-        this.updateEmailDisabledState();
-      }
-    });
-  }
+  ) {}
 
   submitForm(): void {
     if (this.validateForm.valid) {
@@ -84,28 +79,28 @@ export class ForgetPasswordComponent {
         });
       } else if (this.validateForm.controls.phone.value != '') {
         payload = {
-          phoneNumber: this.validateForm.controls.phone.value,
+          otp: this.validateForm?.value.otp,
+          hash: this.otpHash,
         };
-        localStorage.setItem(
-          'phoneNumber',
-          this.validateForm.controls.phone.value
-        );
-        this.authService.verifyViaPhone(payload).subscribe({
+        this.authService.otpVerify(payload).subscribe({
           next: (data) => {
             console.log(data);
             if (data?.data) {
-              this.messageService.success('Otp sent successfully!');
-              this.router.navigate(['/otp-verification']);
-              localStorage.setItem('otp_token', data?.data?.otpToken);
-              localStorage.setItem('otp', data?.data?.otp); // Remove once aws subscription is taken for sns services.
+              this.messageService.success('Otp verified successfully!');
+              this.router.navigate(['/reset-password']);
+              localStorage.setItem(
+                'resetpassword_token',
+                data?.data?.passwordChangeToken
+              );
             }
           },
           error: (error) => {
             console.error('An error occurred during admin login:', error);
+            this.messageService.error(error?.error?.message);
           },
         });
+        console.log(payload);
       }
-      console.log(payload);
     } else {
       Object.values(this.validateForm.controls).forEach((control) => {
         if (control.invalid) {
@@ -116,29 +111,41 @@ export class ForgetPasswordComponent {
     }
   }
 
-  updatePhoneDisabledState(): void {
-    this.updatingDisabledState = true;
-    const emailControl = this.validateForm.get('email');
-    const phoneControl = this.validateForm.get('phone');
+  getOtp() {
+    if (this.validateForm.controls.phone.value != '') {
+      const payload = {
+        phoneNumber: this.validateForm.controls.phone.value,
+      };
+      localStorage.setItem(
+        'phoneNumber',
+        this.validateForm.controls.phone.value
+      );
+      this.authService.verifyViaPhone(payload).subscribe({
+        next: (data) => {
+          console.log(data);
+          if (data?.data) {
+            this.otpHash = data?.data?.otpToken;
+            this.messageService.success('Otp sent successfully!');
 
-    if (emailControl && emailControl.value !== '') {
-      phoneControl?.disable();
-    } else {
-      phoneControl?.enable();
+            // this.otp = data?.data?.otp;
+            // localStorage.setItem('otp_token', data?.data?.otpToken);
+            // localStorage.setItem('otp', data?.data?.otp);
+          }
+        },
+        error: (error) => {
+          console.error('An error occurred during admin login:', error);
+          this.messageService.error(error?.error?.message);
+        },
+      });
     }
-    this.updatingDisabledState = false;
   }
 
-  updateEmailDisabledState(): void {
-    this.updatingDisabledState = true;
-    const emailControl = this.validateForm.get('email');
-    const phoneControl = this.validateForm.get('phone');
-
-    if (phoneControl && phoneControl.value !== '') {
-      emailControl?.disable();
+  handleFormFields() {
+    this.showPhoneNumber = !this.showPhoneNumber;
+    if (this.showPhoneNumber) {
+      this.updateByText = 'Email id';
     } else {
-      emailControl?.enable();
+      this.updateByText = 'Phone Number';
     }
-    this.updatingDisabledState = false;
   }
 }
