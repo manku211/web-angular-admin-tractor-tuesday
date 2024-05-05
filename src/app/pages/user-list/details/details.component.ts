@@ -19,6 +19,7 @@ interface User {
   phoneNumber: number;
   country: string;
   blockStatus: boolean;
+  auctionStatus: string;
 }
 
 interface ColumnInfo {
@@ -27,6 +28,8 @@ interface ColumnInfo {
   sort: boolean;
   sortOrder?: string;
   type?: string;
+  listOfFilter?: any[];
+  filter?: boolean;
 }
 
 @Component({
@@ -81,14 +84,27 @@ export class DetailsComponent {
       sort: false,
     },
     {
-      key: 'reserved',
+      key: 'reserveStatus',
       label: 'Reserve Status',
       sort: false,
+      filter: true,
+      listOfFilter: [
+        { text: 'Reserved', value: 'reserved' },
+        { text: 'Non-reserved', value: 'unreserved' },
+      ],
     },
     {
       key: 'auctionStatus',
       label: 'Auction Status',
       sort: false,
+      filter: true,
+      listOfFilter: [
+        { text: 'Pending', value: 'PENDING' },
+        { text: 'Ongoing', value: 'ONGOING' },
+        { text: 'Ended', value: 'ENDED' },
+        { text: 'Denied', value: 'DENIED' },
+        { text: 'All', value: 'ALL', byDefault: true },
+      ],
     },
 
     {
@@ -203,6 +219,16 @@ export class DetailsComponent {
     this.query = { ...this.query, sortOrder: column.sortOrder };
     console.log(this.query);
     this.fetchAuctionDetails(this.query);
+  }
+
+  onFilterHandler(filteredColumn: any): void {
+    console.log(filteredColumn);
+    const key = filteredColumn?.column?.key;
+    if (filteredColumn.event != null) {
+      this.query = { ...this.query, [key]: filteredColumn.event };
+      console.log(this.query);
+      this.fetchAuctionDetails(this.query);
+    }
   }
 
   onPageChange(page: number): void {

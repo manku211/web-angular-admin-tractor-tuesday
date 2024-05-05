@@ -12,6 +12,7 @@
   [enableSearch]="true"
   [enableActions]="true"
   (sortChange)="onSortChange($event)"
+  (filteredList)="onFilterHandler($event)"
   [loader]="loader"
   [totalRecords]="totalRecords"
   [tableRowTemplate]="tableRowTemplate"

@@ -35,7 +35,11 @@
           *ngFor="let column of columns"
           [id]="column.key"
           [nzShowSort]="column.sort"
+          [nzShowFilter]="column.filter"
+          [nzFilters]="column.listOfFilter"
           (nzSortOrderChange)="onSortChange(column)"
+          [nzFilterMultiple]="false"
+          (nzFilterChange)="onFilterHandler(column, $event)"
         >
           {{ column.label }}
         </th>

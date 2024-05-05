@@ -22,6 +22,8 @@ interface ColumnInfo {
   sort: boolean;
   sortOrder?: string;
   type?: string;
+  listOfFilter?: any[];
+  filter?: boolean;
 }
 
 @Component({
@@ -67,9 +69,14 @@ export class DetailsComponent {
       sort: false,
     },
     {
-      key: 'reserved',
+      key: 'reserveStatus',
       label: 'Reserve Status',
       sort: false,
+      filter: true,
+      listOfFilter: [
+        { text: 'Reserved', value: 'reserved' },
+        { text: 'Non-reserved', value: 'unreserved' },
+      ],
     },
     {
       key: 'auctionDate',
@@ -97,6 +104,7 @@ export class DetailsComponent {
       ...this.query,
       sellerId: this.userId,
       auctionStatus: 'PENDING',
+      auctionsFilter: 'CREATED_AT_LAST',
     };
     this.fetchAuctionDetails(this.query);
   }
@@ -112,6 +120,7 @@ export class DetailsComponent {
         ...this.query,
         sellerId: this.userId,
         auctionStatus: 'PENDING',
+        auctionsFilter: 'CREATED_AT_LAST',
       };
       this.fetchAuctionDetails(this.query);
     } else if (index === 1) {
@@ -119,11 +128,18 @@ export class DetailsComponent {
         key: 'auctionStatus',
         label: 'Auction Status',
         sort: false,
+        filter: true,
+        listOfFilter: [
+          { text: 'Ongoing', value: 'ONGOING' },
+          { text: 'Ended', value: 'ENDED' },
+          { text: 'Denied', value: 'DENIED' },
+        ],
       };
       this.query = {
         ...this.query,
         sellerId: this.userId,
         auctionStatus: 'ALL',
+        auctionsFilter: 'CREATED_AT_LAST',
       };
       this.fetchAuctionDetails(this.query);
       const auctionDateColumnIndex = this.listOfColumns.findIndex(
@@ -180,6 +196,16 @@ export class DetailsComponent {
     this.query = { ...this.query, sortOrder: column.sortOrder };
     console.log(this.query);
     this.fetchAuctionDetails(this.query);
+  }
+
+  onFilterHandler(filteredColumn: any): void {
+    console.log(filteredColumn);
+    const key = filteredColumn?.column?.key;
+    if (filteredColumn.event != null) {
+      this.query = { ...this.query, [key]: filteredColumn.event };
+      console.log(this.query);
+      this.fetchAuctionDetails(this.query);
+    }
   }
 
   onPageChange(page: number): void {
