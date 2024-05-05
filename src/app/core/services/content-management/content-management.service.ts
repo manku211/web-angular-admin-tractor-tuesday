@@ -50,4 +50,15 @@ export class ContentManagementService {
       payload
     );
   }
+
+  getAllPlatformSettings() {
+    return this.http.get<any>(this.baseUrl + `admin/get-all-platform-settings`);
+  }
+
+  updatePlatformSettings(payload: any) {
+    return this.http.patch<any>(
+      this.baseUrl + `admin/update-platform-settings`,
+      payload
+    );
+  }
 }

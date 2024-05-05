@@ -23,6 +23,8 @@ interface ColumnInfo {
   sort: boolean;
   sortOrder?: string;
   type?: string;
+  listOfFilter?: any[];
+  filter?: boolean;
 }
 
 @Component({
@@ -69,14 +71,25 @@ export class AuctionManagementComponent {
       sort: false,
     },
     {
-      key: 'reserve_status',
+      key: 'reserveStatus',
       label: 'Reserve Status',
       sort: false,
+      filter: true,
+      listOfFilter: [
+        { text: 'Reserved', value: 'reserved' },
+        { text: 'Non-reserved', value: 'unreserved' },
+      ],
     },
     {
-      key: 'auction_status',
+      key: 'auctionStatus',
       label: 'Auction Status',
       sort: false,
+      filter: true,
+      listOfFilter: [
+        { text: 'Ongoing', value: 'ONGOING' },
+        { text: 'Ended', value: 'ENDED' },
+        { text: 'Denied', value: 'DENIED' },
+      ],
     },
     {
       key: 'createdAt',
@@ -121,6 +134,16 @@ export class AuctionManagementComponent {
     };
     console.log(this.query);
     this.fetchDetails(this.query);
+  }
+
+  onFilterHandler(filteredColumn: any): void {
+    console.log(filteredColumn);
+    const key = filteredColumn?.column?.key;
+    if (filteredColumn.event != null) {
+      this.query = { ...this.query, [key]: filteredColumn.event };
+      console.log(this.query);
+      this.fetchDetails(this.query);
+    }
   }
 
   onPageChange(page: number): void {

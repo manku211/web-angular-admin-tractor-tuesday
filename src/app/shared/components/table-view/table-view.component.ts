@@ -7,7 +7,11 @@ import {
 } from '@angular/core';
 import { SharedModule } from '../../shared.module';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NzTableSortFn, NzTableSortOrder } from 'ng-zorro-antd/table';
+import {
+  NzTableFilterList,
+  NzTableSortFn,
+  NzTableSortOrder,
+} from 'ng-zorro-antd/table';
 import { NzJustify } from 'ng-zorro-antd/flex';
 import { debounceTime } from 'rxjs';
 
@@ -18,6 +22,8 @@ interface TableColumn {
   sortOrder?: NzTableSortOrder | undefined;
   sortFn?: NzTableSortFn<any> | undefined;
   sortDirections?: NzTableSortOrder[] | undefined;
+  filter?: boolean;
+  listOfFilter?: any;
 }
 
 @Component({
@@ -39,6 +45,10 @@ export class TableViewComponent {
   @Input() tableRowTemplate!: TemplateRef<any>;
   @Output() sortChange: EventEmitter<TableColumn> =
     new EventEmitter<TableColumn>();
+  @Output() filteredList: EventEmitter<{
+    column: TableColumn;
+    event: any;
+  }> = new EventEmitter();
   @Output() pageChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() search: EventEmitter<string> = new EventEmitter<string>();
   searchInput = new FormControl('');
@@ -66,6 +76,12 @@ export class TableViewComponent {
 
     column.sortOrder = column.sortOrder === 'ASC' ? 'DESC' : 'ASC';
     this.sortChange.emit(column);
+  }
+
+  onFilterHandler(column: TableColumn, event: any): void {
+    console.log(column, event);
+
+    this.filteredList.emit({ column: column, event: event });
   }
 
   onPageIndexChange(pageIndex: number): void {

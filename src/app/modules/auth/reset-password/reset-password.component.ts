@@ -97,6 +97,7 @@ export class ResetPasswordComponent {
           }
         },
         error: (error) => {
+          this.messageService.error(error?.error?.message);
           console.error('An error occurred during resetting password:', error);
         },
       });
