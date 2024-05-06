@@ -18,6 +18,13 @@ export const routes: Routes = [
     component: BaseLayoutComponent,
     canActivate: [authGuard],
     children: [
+      // {
+      //   path: '',
+      //   loadChildren: () =>
+      //     import('./modules/dashboard/dashboard.module').then(
+      //       (m) => m.DashboardModule
+      //     ),
+      // },
       {
         path: 'user-listing',
         loadChildren: () =>
