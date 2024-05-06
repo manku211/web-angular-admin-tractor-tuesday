@@ -64,10 +64,27 @@
         <span>{{ item["currentBid"]?.amount }}</span>
       </td>
       <td>
-        <button class="viewmore_button" (click)="handleSendEmail(item['_id'])">
+        <button
+          class="viewmore_button"
+          (click)="openAuctionDetailsModal(item['_id'])"
+        >
           View More
         </button>
       </td>
     </tr>
   </ng-template>
 </app-table-view>
+<app-modal
+  [showModal]="showAuctionDetailsModal"
+  (handleCancelModal)="handleCancel()"
+>
+  <div modal-content>
+    <nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true">
+      <img src="assets/icons/tick.svg" alt="block" width="50" height="50" />
+      <h3>Auction Details</h3>
+    </nz-flex>
+  </div>
+  <div modal-footer>
+    <button nz-button (click)="handleAuctionDetails()">Done</button>
+  </div>
+</app-modal>

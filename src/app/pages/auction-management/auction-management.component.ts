@@ -7,6 +7,7 @@ import {
   getExteriorImageUrl,
   styleObject,
 } from '../../utilities/helpers/helper';
+import { ModalComponent } from '../../shared/components/modal/modal.component';
 
 interface AuctionInfo {
   _id: string;
@@ -30,7 +31,7 @@ interface ColumnInfo {
 @Component({
   selector: 'app-auction-management',
   standalone: true,
-  imports: [TableViewComponent, SharedModule],
+  imports: [TableViewComponent, SharedModule, ModalComponent],
   templateUrl: './auction-management.component.html',
   styleUrl: './auction-management.component.css',
 })
@@ -48,6 +49,7 @@ export class AuctionManagementComponent {
   styleObject: any = styleObject;
   countryName!: string;
   exteriorImageUrl: string = '';
+  showAuctionDetailsModal: boolean = false;
   listOfColumns: ColumnInfo[] = [
     {
       key: 'tractor_name',
@@ -161,7 +163,14 @@ export class AuctionManagementComponent {
     this.fetchDetails(this.query);
   }
 
-  handleSendEmail(id: any) {
+  openAuctionDetailsModal(id: any) {
     console.log(id);
+    this.showAuctionDetailsModal = true;
+  }
+
+  handleAuctionDetails() {}
+
+  handleCancel(): void {
+    this.showAuctionDetailsModal = false;
   }
 }

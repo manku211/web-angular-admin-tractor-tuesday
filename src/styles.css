@@ -10,6 +10,9 @@ p {
 }
 
 :root {
+  box-sizing: border-box;
+  position: inherit;
+
   /* font-size */
   --font-xs: 12px;
   --font-s: 14px;
@@ -145,7 +148,9 @@ body {
 .ant-picker {
   height: 25px;
 }
-
+.ant-switch-checked {
+  background-color: var(--green-color);
+}
 /* .ant-table-container table > tbody > tr > td:first-child {
   text-align: left;
 }
