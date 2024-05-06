@@ -22,7 +22,7 @@
           height="40"
         />
         <img src="{{ item['profilePicture'] }}" class="profile-picture" />
-        &nbsp;<span>{{ item["fullName"] }}</span>
+        &nbsp;<span>{{ item["fullName"] || item["username"] }}</span>
       </td>
       <td>
         <span>{{ item["email"] }}</span>

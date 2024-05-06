@@ -49,7 +49,10 @@ export class AuctionManagementComponent {
   styleObject: any = styleObject;
   countryName!: string;
   exteriorImageUrl: string = '';
+  auctionDetails: any;
   showAuctionDetailsModal: boolean = false;
+  auctionDate?: Date;
+  auctionTime?: Date;
   listOfColumns: ColumnInfo[] = [
     {
       key: 'tractor_name',
@@ -123,6 +126,13 @@ export class AuctionManagementComponent {
     });
   }
 
+  populateDateTime(): void {
+    if (this.auctionDetails) {
+      this.auctionDate = new Date(this.auctionDetails.proposedStartTime * 1000);
+      this.auctionTime = new Date(this.auctionDetails.proposedStartTime * 1000);
+    }
+  }
+
   onSortChange(column: any): void {
     console.log(column);
     let auctionsFilter: any;
@@ -165,10 +175,21 @@ export class AuctionManagementComponent {
 
   openAuctionDetailsModal(id: any) {
     console.log(id);
-    this.showAuctionDetailsModal = true;
-  }
 
-  handleAuctionDetails() {}
+    this.showAuctionDetailsModal = true;
+    this.auctionService.getAuctionById(id).subscribe({
+      next: (data) => {
+        console.log(data);
+        if (data?.data) {
+          this.auctionDetails = data?.data;
+          this.populateDateTime();
+        }
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }
 
   handleCancel(): void {
     this.showAuctionDetailsModal = false;

@@ -28,7 +28,7 @@
 .ant-form-item-label {
   text-align: left;
   font-size: var(--font-s);
-  font-family: var(--font-weight-semi-bold);
+  font-weight: var(--font-weight-semi-bold);
 }
 .ant-row {
   display: block;
