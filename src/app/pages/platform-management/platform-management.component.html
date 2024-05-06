@@ -4,7 +4,13 @@
   <div class="sub-text">Seller Listing Fees</div>
   <nz-input-number-group nzAddOnAfter="$">
     <nz-input-number
-      [(ngModel)]="seller_listing_fee"
+      [(ngModel)]="platformFeesSeller"
+      [nzStep]="1"
+    ></nz-input-number>
+  </nz-input-number-group>
+  <nz-input-number-group nzAddOnAfter="%">
+    <nz-input-number
+      [(ngModel)]="platformFeesBuyer"
       [nzStep]="1"
     ></nz-input-number>
   </nz-input-number-group>
@@ -19,7 +25,7 @@
   <div class="sub-text">Maximum Cap</div>
   <nz-input-number-group nzAddOnAfter="$">
     <nz-input-number
-      [(ngModel)]="maxCap"
+      [(ngModel)]="maxFees"
       [nzMin]="1"
       [nzMax]="1000000"
       [nzStep]="1"
@@ -28,24 +34,33 @@
   <div class="sub-text">Minimum Cap</div>
   <nz-input-number-group nzAddOnAfter="$">
     <nz-input-number
-      [(ngModel)]="minCap"
+      [(ngModel)]="minFees"
       [nzMin]="1"
       [nzMax]="1000000"
       [nzStep]="1"
     ></nz-input-number>
   </nz-input-number-group>
-  <button nz-button class="block-unblock-button" (click)="handlePlatformFees()">
+  <button nz-button class="block-unblock-button" (click)="handleCap()">
     Update Cap
   </button>
 </nz-card>
 
 <nz-card class="platform-card">
-  <div class="platform-title">Referral Fees</div>
+  <div nz-flex nzJustify="space-between">
+    <div class="platform-title">Referral Fees</div>
+    <div class="referral_status">
+      <div class="sub-text">Change Status</div>
+      <nz-switch
+        [(ngModel)]="isReferralEnabled"
+        (ngModelChange)="handleRefferalEnable($event)"
+      ></nz-switch>
+    </div>
+  </div>
   <nz-divider></nz-divider>
   <div class="sub-text">Sellers Referral</div>
   <nz-input-number-group nzAddOnAfter="%">
     <nz-input-number
-      [(ngModel)]="maxCap"
+      [(ngModel)]="sellerDiscount"
       [nzMin]="1"
       [nzMax]="1000000"
       [nzStep]="1"
@@ -54,13 +69,13 @@
   <div class="sub-text">Buyer's Premium</div>
   <nz-input-number-group nzAddOnAfter="%">
     <nz-input-number
-      [(ngModel)]="minCap"
+      [(ngModel)]="buyerDiscount"
       [nzMin]="1"
       [nzMax]="1000000"
       [nzStep]="1"
     ></nz-input-number>
   </nz-input-number-group>
-  <button nz-button class="block-unblock-button" (click)="handlePlatformFees()">
+  <button nz-button class="block-unblock-button" (click)="handleReferralFees()">
     Update Fees
   </button>
 </nz-card>
@@ -70,19 +85,23 @@
   <nz-divider></nz-divider>
   <div class="sub-text">Referral Usage Count Per Referral</div>
   <nz-input-number
-    [(ngModel)]="maxCap"
+    [(ngModel)]="referralUsageCount"
     [nzMin]="1"
     [nzMax]="1000000"
     [nzStep]="1"
   ></nz-input-number>
   <div class="sub-text">Refferal Usage Count Per User</div>
   <nz-input-number
-    [(ngModel)]="minCap"
+    [(ngModel)]="referralUsedCount"
     [nzMin]="1"
     [nzMax]="1000000"
     [nzStep]="1"
   ></nz-input-number>
-  <button nz-button class="block-unblock-button" (click)="handlePlatformFees()">
+  <button
+    nz-button
+    class="block-unblock-button update_usage"
+    (click)="handleReferralUsage()"
+  >
     Update Usage
   </button>
 </nz-card>

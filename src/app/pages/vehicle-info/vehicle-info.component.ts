@@ -45,7 +45,7 @@ export class VehicleInfoComponent {
   }
 
   fetchVehicleDetails(auctionId: string) {
-    this.auctionService.getVehicleDetailsByAuctionId(auctionId).subscribe({
+    this.auctionService.getAuctionById(auctionId).subscribe({
       next: (data: any) => {
         console.log(data);
         if (data) {

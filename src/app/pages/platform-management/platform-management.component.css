@@ -3,6 +3,7 @@
   border-radius: 10px;
   border: 1px solid var(--border-color);
   background: var(--white-color);
+  margin: 10px 0px;
 }
 
 .platform-title {
@@ -31,4 +32,19 @@
   padding: 20px 40px;
   justify-content: center;
   align-items: center;
+}
+
+.update_usage {
+  margin: 10px 0px;
+}
+
+.referral_status {
+  border: 1px solid var(--border-color);
+  background: var(--white-color);
+  width: 193px;
+  padding: 11px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 7px;
 }
