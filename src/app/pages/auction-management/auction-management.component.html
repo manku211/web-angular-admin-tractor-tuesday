@@ -36,7 +36,7 @@
         <span>{{ item["userId"]?.username }}</span>
       </td>
       <td>
-        <span>{{ item["currentBid"]?.userId?.username }}</span>
+        <span>{{ item["currentBid"]?.userId?.username || "N/A" }}</span>
       </td>
       <td>
         <span
@@ -83,8 +83,53 @@
       <img src="assets/icons/tick.svg" alt="block" width="50" height="50" />
       <h3>Auction Details</h3>
     </nz-flex>
+    <div nz-flex class="tractor-info" nzGap="middle">
+      <img
+        [src]="exteriorImageUrl || 'assets/icons/Tractor.svg'"
+        alt="Exterior Image"
+        width="30"
+        height="30"
+      />
+      <div nz-flex [nzVertical]="true">
+        <h3>{{ auctionDetails?.tractorId?.name }}</h3>
+        <span class="tractor-info-subtext">{{
+          auctionDetails?.tractorId?.vin
+        }}</span>
+        <span class="tractor-info-subtext">{{
+          auctionDetails?.tractorId?.category
+        }}</span>
+      </div>
+    </div>
+    <div class="auction-card">
+      <div class="card-heading">Auction Details</div>
+      <div nz-flex nzJustify="space-between" nzAlign="center">
+        <span>Auction Date</span>
+        <span>{{ auctionDate | date : "dd-MM-yyyy" }}</span>
+      </div>
+      <div nz-flex nzJustify="space-between" nzAlign="center">
+        <span>Auction Start time</span>
+        {{ auctionTime | date : "hh:mm a" }}
+      </div>
+      <div nz-flex nzJustify="space-between" nzAlign="center">
+        <span>Winning Bidding Amount</span>
+        <span>{{ auctionDetails?.currentBid?.amount }}</span>
+      </div>
+    </div>
+    <div class="auction-card">
+      <div class="card-heading">Payment Details</div>
+      <div nz-flex nzJustify="space-between" nzAlign="center">
+        <span>Amount Paid</span>
+        <span>0</span>
+      </div>
+      <div nz-flex nzJustify="space-between" nzAlign="center">
+        <span>Remaining Amount</span>
+        <span>0</span>
+      </div>
+    </div>
   </div>
   <div modal-footer>
-    <button nz-button (click)="handleAuctionDetails()">Done</button>
+    <button nz-button class="modal-button" (click)="handleCancel()">
+      Done
+    </button>
   </div>
 </app-modal>
