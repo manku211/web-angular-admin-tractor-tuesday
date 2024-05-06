@@ -23,7 +23,7 @@
       nzMode="inline"
       [nzInlineCollapsed]="isCollapsed"
     >
-      <li nz-menu-item>
+      <li nz-menu-item (click)="handleDashboard()">
         <span nz-icon nzType="dashboard"></span>
         <span>Dashboard</span>
       </li>

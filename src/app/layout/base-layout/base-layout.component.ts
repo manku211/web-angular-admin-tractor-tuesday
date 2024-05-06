@@ -31,6 +31,10 @@ export class BaseLayoutComponent {
     this.router.navigate(['dashboard/control-panel']);
   }
 
+  handleDashboard() {
+    this.router.navigate(['dashboard']);
+  }
+
   logout() {
     console.log('logout');
     this.authService.logout().subscribe({
