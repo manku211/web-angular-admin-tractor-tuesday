@@ -27,6 +27,8 @@ import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
 
 const modules = [
   NzButtonModule,
@@ -55,6 +57,8 @@ const modules = [
   NzCollapseModule,
   NzInputNumberModule,
   NzSwitchModule,
+  NzDropDownModule,
+  NzUploadModule,
 ];
 @NgModule({
   imports: [CommonModule, RouterOutlet, ...modules],

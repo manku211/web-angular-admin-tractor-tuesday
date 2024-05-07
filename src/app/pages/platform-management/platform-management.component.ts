@@ -119,7 +119,7 @@ export class PlatformManagementComponent {
   handleRefferalEnable(event: Event) {
     console.log(event);
     let payload = {
-      isReferralEnabled: event,
+      isReferralEnabled: event ? '1' : '0',
     };
     this.updatePlatformSettings(payload);
   }

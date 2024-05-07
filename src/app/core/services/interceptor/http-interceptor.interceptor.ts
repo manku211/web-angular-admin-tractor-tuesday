@@ -25,6 +25,10 @@ export const httpInterceptorInterceptor: HttpInterceptorFn = (
           authorization: 'Bearer ' + refresh_token,
         },
       });
+    } else if (req.url.includes('s3.us-east-2.amazonaws.com')) {
+      cloned = req.clone({
+        setHeaders: {},
+      });
     } else {
       cloned = req.clone({
         setHeaders: {

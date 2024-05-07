@@ -50,13 +50,64 @@
   <nz-layout class="main-content" [ngClass]="{ collapsed: isCollapsed }">
     <nz-header>
       <div class="app-header">
-        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
-          <span
-            class="trigger"
-            nz-icon
-            [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
-          ></span>
-        </span>
+        <div nz-flex nzJustify="space-between" nzAlign="center">
+          <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+            <span
+              class="trigger"
+              nz-icon
+              [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+            ></span>
+          </span>
+          <div nz-flex [nzGap]="26" nzAlign="center">
+            <img
+              src="assets/icons/bell.svg"
+              alt="bell"
+              width="24"
+              height="24"
+            />
+            <div nz-flex nzGap="large" class="user-profile" nzAlign="center">
+              <img
+                src="assets/icons/profile.svg"
+                alt="profile"
+                width="40"
+                height="42"
+              />
+              <div nz-flex [nzVertical]="true">
+                <span class="admin-name">{{ adminDetails?.name }}</span>
+                <span class="admin-role">{{ adminDetails?.role }}</span>
+              </div>
+
+              <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
+                <img
+                  src="assets/icons/down_arrow.svg"
+                  alt="profile"
+                  width="18"
+                  height="18"
+                />
+              </a>
+              <nz-dropdown-menu #menu="nzDropdownMenu">
+                <ul nz-menu>
+                  <li nz-menu-item>
+                    <span nz-icon nzType="user"></span>
+                    <span class="profile-menuitem" (click)="handleProfile()"
+                      >My Profile</span
+                    >
+                  </li>
+                  <li nz-menu-item nzDisabled>
+                    <span nz-icon nzType="user-add"></span>
+                    <span class="profile-menuitem"> Create Sub Admin</span>
+                  </li>
+                  <li nz-menu-item>
+                    <span nz-icon nzType="logout"></span>
+                    <span class="profile-menuitem" (click)="logout()"
+                      >Logout</span
+                    >
+                  </li>
+                </ul>
+              </nz-dropdown-menu>
+            </div>
+          </div>
+        </div>
       </div>
     </nz-header>
     <nz-content>

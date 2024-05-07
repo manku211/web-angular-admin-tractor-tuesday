@@ -37,7 +37,7 @@ interface ColumnInfo {
 })
 export class UserListComponent {
   listOfData: User[] = [];
-  query: any = { page: 1, limit: 10, fetch: 'all' };
+  query: any = { skip: 1, take: 10, fetch: 'all' };
   loader: boolean = false;
   totalRecords: number = 0;
   countryFlag!: string;
@@ -125,7 +125,7 @@ export class UserListComponent {
   }
 
   onPageChange(page: number): void {
-    this.query = { ...this.query, page: page };
+    this.query = { ...this.query, skip: page };
     this.fetchDetails(this.query);
   }
 
