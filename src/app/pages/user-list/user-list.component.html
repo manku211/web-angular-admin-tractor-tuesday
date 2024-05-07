@@ -29,20 +29,22 @@
       </td>
       <td>
         <img
-          src="assets/icons/{{ countryHelper.getFlag(item['countryCode']) }}"
+          src="assets/icons/usflag.png"
           alt="flag"
           class="country-flag"
           width="22"
           height="18"
         />
-        <span>{{ countryHelper.getCountryName(item["countryCode"]) }}</span>
+        <span>{{
+          countryHelper.getCountryName(item["countryCode"]) || "USA"
+        }}</span>
       </td>
       <td>
         <span>{{ item["phoneNumber"] }}</span>
       </td>
       <td>
         <span [ngClass]="{ block_status: item['isDeleted'] }">{{
-          item["isDeleted"] ? "Blocked" : "NA"
+          item["isDeleted"] ? "Blocked" : "Unblocked"
         }}</span>
       </td>
       <td>

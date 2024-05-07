@@ -65,16 +65,14 @@
             </div>
             <div class="personal-info-row-value">
               <img
-                src="assets/icons/{{
-                  countryHelper.getFlag(userInfo['countryCode'])
-                }}"
+                src="assets/icons/usflag.png"
                 alt="flag"
                 class="country-flag"
                 width="22"
                 height="18"
               />
               <span>{{
-                countryHelper.getCountryName(userInfo["countryCode"])
+                countryHelper.getCountryName(userInfo["countryCode"]) || "USA"
               }}</span>
             </div>
           </div>
