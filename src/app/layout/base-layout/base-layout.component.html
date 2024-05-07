@@ -67,7 +67,9 @@
             />
             <div nz-flex nzGap="large" class="user-profile" nzAlign="center">
               <img
-                src="assets/icons/profile.svg"
+                [src]="
+                  adminDetails?.profilePicture || 'assets/icons/profile.svg'
+                "
                 alt="profile"
                 width="40"
                 height="42"

@@ -7,29 +7,122 @@
         nzTheme="outline"
         style="font-size: 1rem"
       ></span>
-      <span class="sub-title">Setting</span>
+      <span class="sub-title">Settings</span>
     </nz-flex>
 
     <nz-divider></nz-divider>
+    <div nz-row>
+      <div nz-col nzSpan="4">
+        <nz-upload
+          class="avatar-uploader"
+          nzName="avatar"
+          nzListType="picture-card"
+          [nzShowUploadList]="false"
+          [nzFileType]="'image/png,image/jpeg,image/gif,image/bmp'"
+          [nzCustomRequest]="handleCustomRequest"
+        >
+          <ng-container *ngIf="!avatarUrl">
+            <span
+              class="upload-icon"
+              nz-icon
+              [nzType]="loading ? 'loading' : 'plus'"
+            ></span>
+            <div class="ant-upload-text">Upload</div>
+          </ng-container>
 
-    <nz-upload
-      nzType="drag"
-      [nzLimit]="2"
-      [nzSize]="200"
-      [nzFileType]="'image/png,image/jpeg,image/gif,image/bmp'"
-      (nzChange)="handleChange($event)"
-      nzAction="https://jsonplaceholder.typicode.com/posts/"
-    >
-      <p class="ant-upload-drag-icon">
-        <i class="anticon anticon-inbox"></i>
-      </p>
-      <p class="ant-upload-text">Click or drag file to this area to upload</p>
-      <p class="ant-upload-hint">
-        Support for a single or bulk upload. Strictly prohibit from uploading
-        company data or other band files
-      </p>
-    </nz-upload>
+          <img
+            *ngIf="avatarUrl"
+            [src]="avatarUrl || 'assets/icons/profile.svg'"
+            style="width: 100%"
+            alt="profile"
+          />
+        </nz-upload>
+      </div>
+      <div nz-col nzSpan="20">
+        <div nz-flex [nzVertical]="true" [nzGap]="40">
+          <div class="profile-name">
+            <div class="sub-text">Full Name</div>
+            <input nz-input [(ngModel)]="profileName" />
+          </div>
+
+          <button
+            nz-button
+            class="primary-button"
+            (click)="updateProfileDetails()"
+          >
+            Update Profile
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
   <nz-divider></nz-divider>
-  <div class="password-update"></div>
+  <div class="password-update">
+    <form
+      nz-form
+      [formGroup]="resetPasswordForm"
+      class="login-form"
+      (ngSubmit)="submitForm()"
+    >
+      <nz-form-item class="password-input">
+        <nz-form-label [nzSpan]="7" nzRequired>Old Password</nz-form-label>
+        <nz-form-control
+          [nzSpan]="12"
+          nzHasFeedback
+          nzErrorTip="Please input your password!"
+        >
+          <input
+            nz-input
+            type="password"
+            formControlName="oldPassword"
+            placeholder="Enter your old password"
+          />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item class="password-input">
+        <nz-form-label [nzSpan]="7" nzRequired>Password</nz-form-label>
+        <nz-form-control
+          [nzSpan]="12"
+          nzHasFeedback
+          nzErrorTip="Please input your password!"
+        >
+          <input
+            nz-input
+            type="password"
+            formControlName="password"
+            placeholder="Enter your new password"
+            (ngModelChange)="validateConfirmPassword()"
+          />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item class="password-input">
+        <nz-form-label [nzSpan]="9" nzRequired>Confirm Password</nz-form-label>
+        <nz-form-control
+          [nzSpan]="12"
+          nzHasFeedback
+          [nzErrorTip]="passwordErrorTpl"
+        >
+          <input
+            nz-input
+            type="password"
+            formControlName="confirmPassword"
+            placeholder="confirm your password"
+          />
+          <ng-template #passwordErrorTpl let-control>
+            @if (control.errors?.['required']) { Please confirm your password! }
+            @if (control.errors?.['confirm']) { Password is inconsistent! }
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-flex nzJustify="flex-end">
+        <button
+          nz-button
+          class="primary-button"
+          [disabled]="!resetPasswordForm.valid"
+        >
+          Update Password
+        </button>
+      </nz-flex>
+    </form>
+  </div>
 </nz-card>

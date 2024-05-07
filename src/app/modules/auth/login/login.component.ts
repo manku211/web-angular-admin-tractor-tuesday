@@ -76,7 +76,7 @@ export class LoginComponent {
         },
         error: (error) => {
           console.error('An error occurred during admin login:', error);
-          this.messageService.error(error);
+          this.messageService.error(error?.error?.message);
         },
       });
     } else {

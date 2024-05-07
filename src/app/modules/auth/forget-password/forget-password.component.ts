@@ -75,6 +75,7 @@ export class ForgetPasswordComponent {
           },
           error: (error) => {
             console.error('An error occurred during admin login:', error);
+            this.messageService.error(error?.error?.message);
           },
         });
       } else if (this.validateForm.controls.phone.value != '') {
