@@ -13,6 +13,7 @@ import { ModalComponent } from '../../../shared/components/modal/modal.component
 import { CountryHelperService } from '../../../utilities/helpers/country-helper.service';
 import { DetailsCardComponent } from '../../../shared/components/details-card/details-card.component';
 import { styleObject } from '../../../utilities/helpers/helper';
+import { AlgoliaSearchService } from '../../../utilities/helpers/algolia-search.service';
 interface User {
   _id: string;
   username: string;
@@ -57,6 +58,7 @@ export class DetailsComponent {
   query: any = { skip: 1, take: 10 };
   styleObject: any = styleObject;
   loader: boolean = false;
+  searchResults: any;
   reasons = [
     'Violation of terms of service',
     'Inappropriate behavior',
@@ -123,7 +125,8 @@ export class DetailsComponent {
     private messageService: MessageService,
     private router: Router,
     private auctionService: AuctionService,
-    public countryHelper: CountryHelperService
+    public countryHelper: CountryHelperService,
+    private algoliaService: AlgoliaSearchService
   ) {}
   ngOnInit(): void {
     this.userId = localStorage.getItem('selectedUserId');
@@ -236,8 +239,10 @@ export class DetailsComponent {
     this.fetchAuctionDetails(this.query);
   }
 
-  onSearchInput(search: any): void {
+  async onSearchInput(search: any): Promise<void> {
     console.log(search);
+    this.searchResults = await this.algoliaService.tractorSearch(search);
+    console.log(this.searchResults);
     if (search !== '') {
       this.query = { ...this.query, search: search };
     } else {

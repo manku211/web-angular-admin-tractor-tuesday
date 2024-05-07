@@ -1,6 +1,6 @@
 <nz-card>
   <nz-row [nzJustify]="'end'" [nzAlign]="'middle'" class="search-container">
-    <nz-col>
+    <nz-col *ngIf="enableSearch">
       <nz-input-group [nzSuffix]="suffixIconSearch">
         <input
           type="text"
