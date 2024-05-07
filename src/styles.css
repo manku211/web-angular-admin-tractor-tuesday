@@ -92,7 +92,9 @@ body {
   border-radius: 5px;
   height: 44px;
 }
-
+.img {
+  object-fit: contain;
+}
 /* overriding inbuilt classes */
 .ant-breadcrumb > nz-breadcrumb-item:last-child a {
   color: var(--black-color);

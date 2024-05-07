@@ -56,10 +56,10 @@ export const routes: Routes = [
           breadcrumb: 'Control Panel',
         },
       },
-      // {
-      //   path: 'profile',
-      //   component: ProfileComponent,
-      // },
+      {
+        path: 'profile',
+        component: ProfileComponent,
+      },
     ],
   },
   {

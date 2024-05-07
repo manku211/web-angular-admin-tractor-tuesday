@@ -1,4 +1,26 @@
 :host ::ng-deep .avatar-uploader > .ant-upload {
-  width: 128px;
-  height: 128px;
+  width: 157px;
+  height: 142px;
+}
+.ant-upload-picture-card-wrapper {
+  width: auto;
+}
+.primary-button {
+  width: 20%;
+  margin-left: auto;
+}
+::ng-deep .ant-input {
+  height: 34px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background: var(--white-color);
+}
+.ant-form-item-label {
+  text-align: left;
+  font-size: var(--font-s);
+  font-weight: var(--font-weight-semi-bold);
+}
+.password-input {
+  display: block;
+  width: 100%;
 }
