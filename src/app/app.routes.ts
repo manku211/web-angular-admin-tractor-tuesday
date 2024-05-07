@@ -7,6 +7,7 @@ import { OtpVerifyComponent } from './modules/auth/otp-verify/otp-verify.compone
 import { ResetPasswordComponent } from './modules/auth/reset-password/reset-password.component';
 import { UserListComponent } from './pages/user-list/user-list.component';
 import { DetailsComponent } from './pages/user-list/details/details.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -55,6 +56,10 @@ export const routes: Routes = [
           breadcrumb: 'Control Panel',
         },
       },
+      // {
+      //   path: 'profile',
+      //   component: ProfileComponent,
+      // },
     ],
   },
   {

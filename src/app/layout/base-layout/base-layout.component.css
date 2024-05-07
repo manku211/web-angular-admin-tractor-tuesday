@@ -95,3 +95,37 @@ nz-content {
   margin-left: 80px;
   left: 80px;
 }
+.admin-name {
+  font-size: var(--font-s);
+  font-weight: var(--font-weight-bold);
+  line-height: normal;
+}
+.admin-role {
+  font-size: var(--font-xs);
+  font-weight: var(--font-weight-semi-bold);
+  line-height: normal;
+  color: #565656;
+}
+.ant-layout-header {
+  line-height: 24px;
+}
+.user-profile {
+  margin-right: 30px;
+}
+
+::ng-deep .ant-dropdown {
+  top: 8px;
+}
+.ant-dropdown-menu {
+  border-radius: 0px 0px 8px 8px;
+  border: 1px solid var(--border-color);
+  background: var(--white-color);
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+  width: 220px;
+  padding: 15px;
+}
+.profile-menuitem {
+  font-size: var(--font-m);
+  font-weight: 500;
+  margin-left: 10px;
+}

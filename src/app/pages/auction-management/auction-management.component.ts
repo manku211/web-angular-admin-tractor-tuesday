@@ -38,8 +38,8 @@ interface ColumnInfo {
 export class AuctionManagementComponent {
   listOfData: AuctionInfo[] = [];
   query: any = {
-    page: 1,
-    limit: 10,
+    skip: 1,
+    take: 10,
     fetch: 'all',
     auctionsFilter: 'CREATED_AT_LAST',
   };
@@ -76,13 +76,13 @@ export class AuctionManagementComponent {
       sort: false,
     },
     {
-      key: 'reserveStatus',
+      key: 'filter',
       label: 'Reserve Status',
       sort: false,
       filter: true,
       listOfFilter: [
-        { text: 'Reserved', value: 'reserved' },
-        { text: 'Non-reserved', value: 'unreserved' },
+        { text: 'Reserved', value: 'RESERVED' },
+        { text: 'Non-reserved', value: 'UNRESERVED' },
       ],
     },
     {
@@ -159,7 +159,7 @@ export class AuctionManagementComponent {
   }
 
   onPageChange(page: number): void {
-    this.query = { ...this.query, page: page };
+    this.query = { ...this.query, skip: page };
     this.fetchDetails(this.query);
   }
 

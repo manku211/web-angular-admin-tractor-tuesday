@@ -46,7 +46,7 @@ export class ResetPasswordComponent {
   ngOnInit() {
     console.log('URL:', this.router.url);
     console.log('Current URL:', window.location.href);
-    localStorage.setItem('resetpassword_token', this.getUserToken());
+    localStorage.setItem('resetpassword_token_email', this.getUserToken());
   }
 
   getUserToken = () => {
@@ -82,25 +82,52 @@ export class ResetPasswordComponent {
   submitForm(): void {
     if (this.resetPasswordForm.valid) {
       const password = this.resetPasswordForm.get('password')!.value;
-      const confirmPassword =
-        this.resetPasswordForm.get('confirmPassword')!.value;
-      let payload = {
-        password: password,
-        token: localStorage.getItem('resetpassword_token'),
-      };
-      this.authService.resetPasswordPhone(payload).subscribe({
-        next: (data) => {
-          console.log(data);
-          if (data?.data) {
-            this.messageService.success('Password reset successfully!');
-            this.router.navigate(['/']);
-          }
-        },
-        error: (error) => {
-          this.messageService.error(error?.error?.message);
-          console.error('An error occurred during resetting password:', error);
-        },
-      });
+      const resettoken_email = localStorage.getItem(
+        'resetpassword_token_email'
+      );
+      if (resettoken_email) {
+        let payload = {
+          password: password,
+          token: resettoken_email,
+        };
+        this.authService.resetPasswordEmail(payload).subscribe({
+          next: (data) => {
+            console.log(data);
+            if (data?.data) {
+              this.messageService.success('Password reset successfully!');
+              this.router.navigate(['/']);
+            }
+          },
+          error: (error) => {
+            this.messageService.error(error?.error?.message);
+            console.error(
+              'An error occurred during resetting password:',
+              error
+            );
+          },
+        });
+      } else {
+        let payload = {
+          password: password,
+          token: localStorage.getItem('resetpassword_token'),
+        };
+        this.authService.resetPasswordPhone(payload).subscribe({
+          next: (data) => {
+            console.log(data);
+            if (data?.data) {
+              this.messageService.success('Password reset successfully!');
+              this.router.navigate(['/']);
+            }
+          },
+          error: (error) => {
+            this.messageService.error(error?.error?.message);
+            console.error(
+              'An error occurred during resetting password:',
+              error
+            );
+          },
+        });
+      }
     } else {
       Object.values(this.resetPasswordForm.controls).forEach((control) => {
         if (control.invalid) {

@@ -51,6 +51,10 @@ export class AuthService {
     );
   }
 
+  resetPasswordEmail(payload: any) {
+    return this.http.patch<any>(this.baseUrl + 'admin/reset-password', payload);
+  }
+
   getRefreshToken() {
     this.http
       .patch<any>(this.baseUrl + 'admin/generateAccessTokenUser', {})

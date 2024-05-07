@@ -3,6 +3,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { MessageService } from '../../core/services/message/message.service';
 import { Router } from '@angular/router';
+import { ProfileService } from '../../core/services/profile/profile.service';
 
 @Component({
   selector: 'app-base-layout',
@@ -13,11 +14,30 @@ import { Router } from '@angular/router';
 })
 export class BaseLayoutComponent {
   isCollapsed = false;
+  adminDetails: any;
   constructor(
     private authService: AuthService,
     private messageService: MessageService,
-    private router: Router
+    private router: Router,
+    private profileService: ProfileService
   ) {}
+  ngOnInit() {
+    this.fetchAdminDetails();
+  }
+
+  fetchAdminDetails() {
+    this.profileService.getAdmin().subscribe({
+      next: (data) => {
+        console.log(data);
+        if (data?.data) {
+          this.adminDetails = data?.data;
+        }
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }
 
   handleUserList() {
     this.router.navigate(['dashboard/user-listing']);
@@ -33,6 +53,10 @@ export class BaseLayoutComponent {
 
   handleDashboard() {
     this.router.navigate(['dashboard']);
+  }
+
+  handleProfile() {
+    this.router.navigate(['dashboard/profile']);
   }
 
   logout() {
