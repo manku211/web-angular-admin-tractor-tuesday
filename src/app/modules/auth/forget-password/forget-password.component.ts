@@ -47,7 +47,7 @@ export class ForgetPasswordComponent {
     {
       email: ['', Validators.email],
       phone: ['', Validators.pattern(/^\d{10}$/)],
-      otp: [''],
+      otp: ['', Validators.pattern(/^\d{4,}$/)],
     },
     { validators: atLeastOneRequiredValidator }
   );
@@ -144,9 +144,33 @@ export class ForgetPasswordComponent {
   handleFormFields() {
     this.showPhoneNumber = !this.showPhoneNumber;
     if (this.showPhoneNumber) {
-      this.updateByText = 'Email id';
+      this.updateByText = 'Email ID';
     } else {
       this.updateByText = 'Phone Number';
     }
+  }
+
+  isSubmitDisabled(): boolean {
+    const emailControl = this.validateForm.get('email');
+    const phoneControl = this.validateForm.get('phone');
+    const otpControl = this.validateForm.get('otp');
+
+    // If adding by email, enable submit after entering email
+    if (emailControl && emailControl.value !== '') {
+      return !emailControl.valid;
+    }
+
+    // If adding by phone number, enable submit after entering phone number and OTP
+    if (
+      phoneControl &&
+      phoneControl.value !== '' &&
+      otpControl &&
+      otpControl.value !== ''
+    ) {
+      return !phoneControl.valid || !otpControl.valid;
+    }
+
+    // In all other cases, disable submit
+    return true;
   }
 }

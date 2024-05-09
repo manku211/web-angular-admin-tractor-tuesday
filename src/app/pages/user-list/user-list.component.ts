@@ -133,6 +133,13 @@ export class UserListComponent {
     console.log(search);
     // this.searchResults = await this.algoliaService.userSearch(search);
     // console.log(this.searchResults);
+    if (search.length < 3) {
+      this.messageService.warning(
+        'Please search for atleast three characters.'
+      );
+      return;
+    }
+
     if (search !== '') {
       this.query = { ...this.query, search: search };
     } else {
