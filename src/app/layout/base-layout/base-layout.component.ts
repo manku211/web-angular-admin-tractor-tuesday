@@ -14,7 +14,7 @@ import { ProfileService } from '../../core/services/profile/profile.service';
 })
 export class BaseLayoutComponent {
   isCollapsed = false;
-  adminDetails: any;
+  adminDetails: any = {};
   constructor(
     private authService: AuthService,
     private messageService: MessageService,
@@ -23,6 +23,18 @@ export class BaseLayoutComponent {
   ) {}
   ngOnInit() {
     this.fetchAdminDetails();
+    this.profileService.getProfileData().subscribe({
+      next: (data) => {
+        console.log('Admin details updated: ', data);
+        if (data) {
+          this.adminDetails.name = data.fullName;
+          this.adminDetails.profilePicture = data.profilePicture;
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching admin details: ', err);
+      },
+    });
   }
 
   fetchAdminDetails() {

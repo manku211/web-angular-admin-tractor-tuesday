@@ -1,12 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProfileService {
   baseUrl = 'https://api-dev.tractortuesday.xyz/api/v1/';
+  private profileDataSubject: BehaviorSubject<any> = new BehaviorSubject<any>(
+    {}
+  );
   constructor(private http: HttpClient) {}
 
   getAdmin() {
@@ -34,5 +37,13 @@ export class ProfileService {
     });
 
     return this.http.put(presignedURL, file, { headers, responseType: 'text' });
+  }
+
+  updateProfileData(data: any) {
+    this.profileDataSubject.next(data);
+  }
+
+  getProfileData(): Observable<any> {
+    return this.profileDataSubject.asObservable();
   }
 }

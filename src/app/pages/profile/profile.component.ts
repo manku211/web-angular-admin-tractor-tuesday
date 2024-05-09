@@ -109,6 +109,7 @@ export class ProfileComponent {
     this.profileService.updateProfileDetails(payload).subscribe({
       next: (data) => {
         console.log(data);
+        this.profileService.updateProfileData(payload);
       },
       error: (err) => {
         console.error(err);

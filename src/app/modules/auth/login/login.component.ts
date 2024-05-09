@@ -12,6 +12,7 @@ import { AuthService } from '../../../core/services/auth/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import { MessageService } from '../../../core/services/message/message.service';
 import { HttpResponse } from '@angular/common/http';
+import { Observable, delay, of } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -71,7 +72,7 @@ export class LoginComponent {
             );
             this.authService.startTokenRefreshCheck();
             this.messageService.success('Login Successful!');
-            this.router.navigate(['/dashboard']);
+            this.router.navigate(['/dashboard/user-listing']);
           }
         },
         error: (error) => {

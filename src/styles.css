@@ -256,7 +256,7 @@ body {
   margin-bottom: 10px;
 }
 .login-wrapper {
-  align-items: center;
+  align-items: start;
   position: absolute;
   top: 20%;
   left: 15%;
