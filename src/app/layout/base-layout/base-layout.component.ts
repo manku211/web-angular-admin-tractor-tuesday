@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { MessageService } from '../../core/services/message/message.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ProfileService } from '../../core/services/profile/profile.service';
 
 @Component({
   selector: 'app-base-layout',
   standalone: true,
-  imports: [SharedModule],
+  imports: [SharedModule, RouterModule],
   templateUrl: './base-layout.component.html',
   styleUrl: './base-layout.component.css',
 })

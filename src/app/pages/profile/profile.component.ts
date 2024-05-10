@@ -34,6 +34,7 @@ export class ProfileComponent {
   selectedFile: any;
   profileName!: string;
   resetPasswordForm: FormGroup;
+  imageLoaded: boolean = false;
   constructor(
     private msg: MessageService,
     private profileService: ProfileService,
@@ -110,6 +111,7 @@ export class ProfileComponent {
       next: (data) => {
         console.log(data);
         this.profileService.updateProfileData(payload);
+        this.messageService.success('Profile updated successfully!');
       },
       error: (err) => {
         console.error(err);
@@ -149,6 +151,7 @@ export class ProfileComponent {
   }
 
   handleCustomRequest = (item: NzUploadXHRArgs): Subscription => {
+    this.imageLoaded = true;
     console.log(item);
     const uploadData = {
       fileName: item.file.name,
@@ -159,6 +162,7 @@ export class ProfileComponent {
       next: (data) => {
         const { url } = data?.data;
         this.avatarUrl = data?.data?.key;
+
         console.log('avatar url', this.avatarUrl);
 
         this.uploadFile(item.file, url);
@@ -176,6 +180,7 @@ export class ProfileComponent {
 
     this.profileService.uploadFile(url, file).subscribe((data) => {
       console.log('Upload', data);
+      this.imageLoaded = false;
       this.cdr.detectChanges();
     });
   }
