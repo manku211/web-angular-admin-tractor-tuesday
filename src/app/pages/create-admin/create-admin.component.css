@@ -1,0 +1,25 @@
+.privileges-list {
+  border-top: 1px solid var(--bordr_color, #dadce0);
+  border-bottom: 1px solid var(--bordr_color, #dadce0);
+}
+.scrollable-col {
+  overflow-x: auto;
+}
+
+.horizontal-scroll {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+  padding: 10px 0px;
+  margin-right: 10px;
+}
+
+.privilege-item {
+  min-width: 150px; /* Set your desired maximum width */
+  max-width: 200px;
+  white-space: nowrap; /* Prevent text from wrapping */
+}
+
+.list-header {
+  padding: 20px;
+}

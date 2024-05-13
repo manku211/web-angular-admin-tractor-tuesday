@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, Subject, Subscription, interval } from 'rxjs';
+import { Observable, Subject, Subscription, interval, of } from 'rxjs';
+import { Privileges, Roles } from '../../models/rolePrivileges';
 // import { environment } from '../../../../environments/environment';
 
 @Injectable({
@@ -90,5 +91,51 @@ export class AuthService {
     if (this.refreshSubscription) {
       this.refreshSubscription.unsubscribe();
     }
+  }
+
+  userPrivileges: any[] = []; // Populate this array with user privileges after login
+
+  admin = {
+    role: Roles.SUPER_ADMIN,
+    privileges: [
+      {
+        name: Privileges.USER_LISTING,
+        read: true,
+        write: false,
+        _id: '66263fc3f2763d8b48a8dc54',
+      },
+      {
+        name: Privileges.CONTROL_PANEL,
+        read: false,
+        write: false,
+        _id: '66263fc3f2763d8b48a8dc55',
+      },
+    ],
+  };
+
+  hasReadAccess(privilege: Privileges): boolean {
+    if (this.isSuperAdmin()) {
+      return true;
+    } else {
+      const userPrivileges = this.admin.privileges;
+      const matchedPrivilege = userPrivileges.find((p) => p.name === privilege);
+      return matchedPrivilege ? matchedPrivilege.read : false;
+    }
+  }
+
+  // Check if the user has write access for a privilege
+  hasWriteAccess(privilege: Privileges): boolean {
+    if (this.isSuperAdmin()) {
+      return true;
+    } else {
+      const userPrivileges = this.admin.privileges;
+      const matchedPrivilege = userPrivileges.find((p) => p.name === privilege);
+      return matchedPrivilege ? matchedPrivilege.write : false;
+    }
+  }
+
+  // Check if the user is superadmin
+  isSuperAdmin(): boolean {
+    return this.admin.role === Roles.SUPER_ADMIN;
   }
 }
