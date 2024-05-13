@@ -9,7 +9,7 @@ import { Privileges } from '../../core/models/rolePrivileges';
 interface MenuItem {
   label: string;
   icon: string;
-  action: () => void;
+  route: string;
   privilege: Privileges;
 }
 
@@ -39,19 +39,19 @@ export class BaseLayoutComponent {
       {
         label: 'User List',
         icon: 'unordered-list',
-        action: this.handleUserList,
+        route: '/dashboard/user-listing',
         privilege: Privileges.USER_LISTING,
       },
       {
         label: 'Seller List',
         icon: 'unordered-list',
-        action: this.handleSellerList,
+        route: '/dashboard/seller-listing',
         privilege: Privileges.SELLER_LISTING,
       },
       {
         label: 'Control Panel',
         icon: 'setting',
-        action: this.handleControlPanel,
+        route: '/dashboard/control-panel',
         privilege: Privileges.CONTROL_PANEL,
       },
       // Add other menu items here

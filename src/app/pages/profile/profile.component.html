@@ -1,4 +1,4 @@
-<nz-card>
+<nz-card [hidden]="pageLoad" *ngIf="!pageLoad">
   <div class="profile-update">
     <nz-flex nzGap="middle" nzAlign="center">
       <span
@@ -44,13 +44,18 @@
         <div nz-flex [nzVertical]="true" [nzGap]="40">
           <div class="profile-name">
             <div class="sub-text">Full Name</div>
-            <input nz-input [(ngModel)]="profileName" />
+            <input
+              nz-input
+              [(ngModel)]="profileName"
+              (input)="onProfileNameInputChange()"
+            />
           </div>
 
           <button
             nz-button
             class="primary-button"
             (click)="updateProfileDetails()"
+            [disabled]="!profileDetailsUpdated"
           >
             Update Profile
           </button>
@@ -129,3 +134,12 @@
     </form>
   </div>
 </nz-card>
+
+<nz-flex
+  *ngIf="pageLoad"
+  nzJustify="center"
+  nzAlign="center"
+  class="loader-page"
+>
+  <nz-spin nzSimple></nz-spin>
+</nz-flex>

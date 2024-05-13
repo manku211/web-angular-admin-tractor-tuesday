@@ -95,6 +95,10 @@ body {
 .img {
   object-fit: contain;
 }
+
+.loader-page {
+  height: 100vh;
+}
 /* overriding inbuilt classes */
 .ant-breadcrumb > nz-breadcrumb-item:last-child a {
   color: var(--black-color);

@@ -53,6 +53,7 @@ export class AuctionManagementComponent {
   showAuctionDetailsModal: boolean = false;
   auctionDate?: Date;
   auctionTime?: Date;
+  auctionDetailsLoader: boolean = false;
   listOfColumns: ColumnInfo[] = [
     {
       key: 'tractor_name',
@@ -175,13 +176,14 @@ export class AuctionManagementComponent {
 
   openAuctionDetailsModal(id: any) {
     console.log(id);
-
+    this.auctionDetailsLoader = true;
     this.showAuctionDetailsModal = true;
     this.auctionService.getAuctionById(id).subscribe({
       next: (data) => {
         console.log(data);
         if (data?.data) {
           this.auctionDetails = data?.data;
+          this.auctionDetailsLoader = false;
           this.populateDateTime();
         }
       },

@@ -35,6 +35,9 @@ export class ProfileComponent {
   profileName!: string;
   resetPasswordForm: FormGroup;
   imageLoaded: boolean = false;
+  pageLoad: boolean = true;
+  profileDetailsUpdated: boolean = false;
+  profileDetails: any;
   constructor(
     private msg: MessageService,
     private profileService: ProfileService,
@@ -68,9 +71,13 @@ export class ProfileComponent {
   }
 
   ngOnInit() {
+    setTimeout(() => {
+      this.pageLoad = false;
+    }, 100);
     this.profileService.getAdmin().subscribe({
       next: (data) => {
         console.log(data);
+        this.profileDetails = data?.data;
         this.profileName = data?.data?.name;
         this.avatarUrl = data?.data?.profilePicture;
         this.cdr.detectChanges();
@@ -150,8 +157,18 @@ export class ProfileComponent {
     }
   }
 
+  onProfileNameInputChange() {
+    console.log(this.profileName);
+    if (this.profileDetails?.name === this.profileName)
+      this.profileDetailsUpdated = false;
+    else {
+      this.profileDetailsUpdated = true;
+    }
+  }
+
   handleCustomRequest = (item: NzUploadXHRArgs): Subscription => {
     this.imageLoaded = true;
+    this.profileDetailsUpdated = true;
     console.log(item);
     const uploadData = {
       fileName: item.file.name,

@@ -83,7 +83,12 @@
       <img src="assets/icons/tick.svg" alt="block" width="50" height="50" />
       <h3>Auction Details</h3>
     </nz-flex>
-    <div nz-flex class="tractor-info" nzGap="middle">
+    <div
+      nz-flex
+      class="tractor-info"
+      nzGap="middle"
+      *ngIf="!auctionDetailsLoader"
+    >
       <img
         [src]="exteriorImageUrl || 'assets/icons/Tractor.svg'"
         alt="Exterior Image"
@@ -100,33 +105,49 @@
         }}</span>
       </div>
     </div>
+    <nz-skeleton
+      [nzAvatar]="true"
+      [nzParagraph]="{ rows: 1 }"
+      *ngIf="auctionDetailsLoader"
+    ></nz-skeleton>
     <div class="auction-card">
       <div class="card-heading">Auction Details</div>
-      <div nz-flex nzJustify="space-between" nzAlign="center">
-        <span>Auction Date</span>
-        <span>{{ auctionDate | date : "dd-MM-yyyy" }}</span>
+      <div *ngIf="!auctionDetailsLoader">
+        <div nz-flex nzJustify="space-between" nzAlign="center">
+          <span>Auction Date</span>
+          <span>{{ auctionDate | date : "dd-MM-yyyy" }}</span>
+        </div>
+        <div nz-flex nzJustify="space-between" nzAlign="center">
+          <span>Auction Start time</span>
+          {{ auctionTime | date : "hh:mm a" }}
+        </div>
+        <div nz-flex nzJustify="space-between" nzAlign="center">
+          <span>Winning Bidding Amount</span>
+          <span>{{ auctionDetails?.currentBid?.amount }}</span>
+        </div>
       </div>
-      <div nz-flex nzJustify="space-between" nzAlign="center">
-        <span>Auction Start time</span>
-        {{ auctionTime | date : "hh:mm a" }}
-      </div>
-      <div nz-flex nzJustify="space-between" nzAlign="center">
-        <span>Winning Bidding Amount</span>
-        <span>{{ auctionDetails?.currentBid?.amount }}</span>
+      <div *ngIf="auctionDetailsLoader">
+        <nz-skeleton [nzParagraph]="{ rows: 1 }"></nz-skeleton>
       </div>
     </div>
     <div class="auction-card">
       <div class="card-heading">Payment Details</div>
-      <div nz-flex nzJustify="space-between" nzAlign="center">
-        <span>Amount Paid</span>
-        <span>0</span>
+      <div *ngIf="!auctionDetailsLoader">
+        <div nz-flex nzJustify="space-between" nzAlign="center">
+          <span>Amount Paid</span>
+          <span>0</span>
+        </div>
+        <div nz-flex nzJustify="space-between" nzAlign="center">
+          <span>Remaining Amount</span>
+          <span>0</span>
+        </div>
       </div>
-      <div nz-flex nzJustify="space-between" nzAlign="center">
-        <span>Remaining Amount</span>
-        <span>0</span>
+      <div *ngIf="auctionDetailsLoader">
+        <nz-skeleton [nzParagraph]="{ rows: 1 }"></nz-skeleton>
       </div>
     </div>
   </div>
+
   <div modal-footer>
     <button nz-button class="modal-button" (click)="handleCancel()">
       Done
