@@ -27,33 +27,18 @@
         <span nz-icon nzType="dashboard"></span>
         <span>Dashboard</span>
       </li> -->
-      <li
-        nz-menu-item
-        (click)="handleUserList()"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
-        <span nz-icon nzType="unordered-list"></span>
-        <span>User List</span>
-      </li>
-      <li
-        nz-menu-item
-        (click)="handleSellerList()"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
-        <span nz-icon nzType="unordered-list"></span>
-        <span>Seller List</span>
-      </li>
-      <li
-        nz-menu-item
-        (click)="handleControlPanel()"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
-        <span nz-icon nzType="setting"></span>
-        <span>Control Panel</span>
-      </li>
+      <ng-container *ngFor="let menuItem of menuItems">
+        <li
+          nz-menu-item
+          (click)="menuItem.action()"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          *ngIf="hasAccess(menuItem.privilege)"
+        >
+          <span nz-icon [nzType]="menuItem.icon"></span>
+          <span>{{ menuItem.label }}</span>
+        </li>
+      </ng-container>
       <div class="sidebar-bottom-menu">
         <li
           nz-menu-item
@@ -108,11 +93,11 @@
               </a>
               <nz-dropdown-menu #menu="nzDropdownMenu">
                 <ul nz-menu>
-                  <li nz-menu-item (click)="handleProfile()">
+                  <li nz-menu-item [routerLink]="['profile']">
                     <span nz-icon nzType="user"></span>
                     <span class="profile-menuitem">My Profile</span>
                   </li>
-                  <li nz-menu-item nzDisabled>
+                  <li nz-menu-item [routerLink]="['create-admin']">
                     <span nz-icon nzType="user-add"></span>
                     <span class="profile-menuitem"> Create Sub Admin</span>
                   </li>

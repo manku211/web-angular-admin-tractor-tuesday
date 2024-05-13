@@ -3,6 +3,8 @@ import { BaseLayoutComponent } from './layout/base-layout/base-layout.component'
 import { LoginComponent } from './modules/auth/login/login.component';
 import { authGuard } from './core/guards/auth.guard';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { Privileges } from './core/models/rolePrivileges';
+import { CreateAdminComponent } from './pages/create-admin/create-admin.component';
 
 export const routes: Routes = [
   {
@@ -28,7 +30,9 @@ export const routes: Routes = [
           import('./modules/user-listing/user-listing.module').then(
             (m) => m.UserListingModule
           ),
+        canActivate: [authGuard],
         data: {
+          privileges: [Privileges.USER_LISTING],
           breadcrumb: 'User Listing',
         },
       },
@@ -48,13 +52,19 @@ export const routes: Routes = [
           import('./modules/control-panel/control-panel.module').then(
             (m) => m.ControlPanelModule
           ),
+        canActivateChild: [authGuard],
         data: {
+          privileges: [Privileges.CONTROL_PANEL],
           breadcrumb: 'Control Panel',
         },
       },
       {
         path: 'profile',
         component: ProfileComponent,
+      },
+      {
+        path: 'create-admin',
+        component: CreateAdminComponent,
       },
     ],
   },
