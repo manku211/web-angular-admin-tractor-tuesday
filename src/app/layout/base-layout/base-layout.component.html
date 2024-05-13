@@ -30,7 +30,7 @@
       <ng-container *ngFor="let menuItem of menuItems">
         <li
           nz-menu-item
-          (click)="menuItem.action()"
+          [routerLink]="menuItem.route"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
           *ngIf="hasAccess(menuItem.privilege)"

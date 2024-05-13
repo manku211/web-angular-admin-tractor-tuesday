@@ -6,6 +6,7 @@
     <nz-input-number
       [(ngModel)]="platformFeesSeller"
       [nzStep]="1"
+      (input)="handlePlatformInputChange()"
     ></nz-input-number>
   </nz-input-number-group>
   <div class="sub-text">Buyer Listing Fees</div>
@@ -13,9 +14,15 @@
     <nz-input-number
       [(ngModel)]="platformFeesBuyer"
       [nzStep]="1"
+      (input)="handlePlatformInputChange()"
     ></nz-input-number>
   </nz-input-number-group>
-  <button nz-button class="block-unblock-button" (click)="handlePlatformFees()">
+  <button
+    nz-button
+    class="block-unblock-button"
+    (click)="handlePlatformFees()"
+    [disabled]="platformFeesChanged"
+  >
     Update Fees
   </button>
 </nz-card>
@@ -30,6 +37,7 @@
       [nzMin]="1"
       [nzMax]="1000000"
       [nzStep]="1"
+      (input)="handleCapInputChange()"
     ></nz-input-number>
   </nz-input-number-group>
   <div class="sub-text">Minimum Cap</div>
@@ -39,9 +47,15 @@
       [nzMin]="1"
       [nzMax]="1000000"
       [nzStep]="1"
+      (input)="handleCapInputChange()"
     ></nz-input-number>
   </nz-input-number-group>
-  <button nz-button class="block-unblock-button" (click)="handleCap()">
+  <button
+    nz-button
+    class="block-unblock-button"
+    (click)="handleCap()"
+    [disabled]="capChanged"
+  >
     Update Cap
   </button>
 </nz-card>
@@ -65,6 +79,7 @@
       [nzMin]="1"
       [nzMax]="1000000"
       [nzStep]="1"
+      (input)="handleReferralFeeInputChange()"
     ></nz-input-number>
   </nz-input-number-group>
   <div class="sub-text">Buyer's Premium</div>
@@ -74,9 +89,15 @@
       [nzMin]="1"
       [nzMax]="1000000"
       [nzStep]="1"
+      (input)="handleReferralFeeInputChange()"
     ></nz-input-number>
   </nz-input-number-group>
-  <button nz-button class="block-unblock-button" (click)="handleReferralFees()">
+  <button
+    nz-button
+    class="block-unblock-button"
+    (click)="handleReferralFees()"
+    [disabled]="referralFeesChanged"
+  >
     Update Fees
   </button>
 </nz-card>
@@ -90,6 +111,7 @@
     [nzMin]="1"
     [nzMax]="1000000"
     [nzStep]="1"
+    (input)="handleReferralUsageInputChange()"
   ></nz-input-number>
   <div class="sub-text">Refferal Usage Count Per User</div>
   <nz-input-number
@@ -97,11 +119,13 @@
     [nzMin]="1"
     [nzMax]="1000000"
     [nzStep]="1"
+    (input)="handleReferralUsageInputChange()"
   ></nz-input-number>
   <button
     nz-button
     class="block-unblock-button update_usage"
     (click)="handleReferralUsage()"
+    [disabled]="referralUsageChanged"
   >
     Update Usage
   </button>

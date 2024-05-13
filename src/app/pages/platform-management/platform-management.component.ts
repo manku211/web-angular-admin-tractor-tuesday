@@ -21,6 +21,16 @@ export class PlatformManagementComponent {
   sellerDiscount: any;
   buyerDiscount: any;
   isReferralEnabled: any;
+  platformFeesModified: boolean = false;
+  capModified: boolean = false;
+  referralFeesModified: boolean = false;
+  referralUsageModified: boolean = false;
+  referralEnableModified: boolean = false;
+
+  platformFeesChanged: boolean = true;
+  capChanged: boolean = true;
+  referralFeesChanged: boolean = true;
+  referralUsageChanged: boolean = true;
 
   constructor(
     private platformService: ContentManagementService,
@@ -90,6 +100,7 @@ export class PlatformManagementComponent {
       platformFeesBuyer: String(this.platformFeesBuyer),
     };
     this.updatePlatformSettings(payload);
+    this.platformFeesModified = true;
   }
 
   handleCap() {
@@ -118,9 +129,29 @@ export class PlatformManagementComponent {
 
   handleRefferalEnable(event: Event) {
     console.log(event);
+    this.referralFeesChanged = false;
     let payload = {
       isReferralEnabled: event ? '1' : '0',
     };
     this.updatePlatformSettings(payload);
   }
+
+  handlePlatformInputChange() {
+    console.log('tested');
+    this.platformFeesChanged = false;
+  }
+
+  handleCapInputChange() {
+    console.log('tested cap');
+    this.capChanged = false;
+  }
+
+  handleReferralFeeInputChange() {
+    this.referralFeesChanged = false;
+  }
+
+  handleReferralUsageInputChange() {
+    this.referralUsageChanged = false;
+  }
+  // Method to reset the changed state when a button is clicked
 }
