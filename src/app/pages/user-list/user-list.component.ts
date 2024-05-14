@@ -130,10 +130,11 @@ export class UserListComponent {
   }
 
   async onSearchInput(search: any): Promise<void> {
-    console.log(search);
+    search = search.trim();
+    console.log(search.length);
     // this.searchResults = await this.algoliaService.userSearch(search);
     // console.log(this.searchResults);
-    if (search.length < 3 && search.length > 1) {
+    if (search.length < 3 && search.length >= 1) {
       this.messageService.warning(
         'Please search for atleast three characters.'
       );
@@ -142,10 +143,10 @@ export class UserListComponent {
 
     if (search !== '') {
       this.query = { ...this.query, search: search };
+      this.fetchDetails(this.query);
     } else {
       delete this.query.search;
     }
-    this.fetchDetails(this.query);
   }
 
   handleViewMore(id: any) {

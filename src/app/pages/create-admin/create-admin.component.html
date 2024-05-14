@@ -6,7 +6,9 @@
       </div>
     </div>
     <div nz-col nzSpan="4">
-      <button nz-button class="primary-button">Add Subadmin</button>
+      <button nz-button class="primary-button" (click)="openAddAdminModal()">
+        Add Subadmin
+      </button>
     </div>
   </div>
   <nz-divider></nz-divider>
@@ -51,8 +53,6 @@
             class="privilege-item"
           >
             <div nz-flex nzGap="large">
-              <!-- <nz-checkbox>Read</nz-checkbox>
-              <nz-checkbox>Write</nz-checkbox> -->
               <label nz-checkbox></label>
               <label nz-checkbox></label>
             </div>
@@ -62,3 +62,81 @@
     </div>
   </div>
 </nz-card>
+<app-modal [showModal]="addAdminModal" (handleCancelModal)="handleCancel()">
+  <div modal-content [formGroup]="addAdminForm">
+    <nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true">
+      <img src="assets/icons/tick.svg" alt="block" width="50" height="50" />
+      <h3>Add New Sub admin user</h3>
+    </nz-flex>
+    <div nz-flex [nzVertical]="true" class="add-admin-input">
+      <span>UserName</span>
+      <input nz-input nzSize="default" formControlName="username" />
+      <div
+        *ngIf="username?.invalid && (username?.dirty || username?.touched)"
+        class="error-message"
+      >
+        <div *ngIf="username?.errors?.['required']">Username is required.</div>
+        <div *ngIf="username?.errors?.['pattern']">
+          Username must start with an alphabet and contain only alphanumeric
+          characters.
+        </div>
+        <div *ngIf="username?.errors?.['maxLength']">
+          Username cannot be longer than 20 characters.
+        </div>
+      </div>
+    </div>
+    <div nz-flex [nzVertical]="true" class="add-admin-input">
+      <span>Registered Email Id</span>
+      <input nz-input nzSize="default" formControlName="email" />
+      <div
+        *ngIf="email?.invalid && (email?.dirty || email?.touched)"
+        class="error-message"
+      >
+        <div *ngIf="email?.errors?.['required']">Email is required.</div>
+        <div *ngIf="email?.errors?.['email']">Invalid email format.</div>
+      </div>
+    </div>
+    <div nz-flex [nzGap]="85" class="add-admin-input">
+      <span>Code</span>
+      <span>Phone Number</span>
+    </div>
+    <nz-input-number-group nzCompact>
+      <nz-select formControlName="code">
+        <nz-option nzValue="+91" nzLabel="+91"></nz-option>
+        <nz-option nzValue="+1" nzLabel="+1"></nz-option>
+      </nz-select>
+      <div
+        *ngIf="code?.invalid && (code?.dirty || code?.touched)"
+        class="error-message"
+      >
+        <div *ngIf="code?.errors?.['required']">Code is required.</div>
+      </div>
+      <nz-input-number
+        [nzStep]="1"
+        style="width: 73%"
+        formControlName="phoneNumber"
+      ></nz-input-number>
+      <div
+        *ngIf="
+          phoneNumber?.invalid && (phoneNumber?.dirty || phoneNumber?.touched)
+        "
+        class="error-message"
+      >
+        <div *ngIf="phoneNumber?.errors?.['required']">
+          Phone number is required.
+        </div>
+      </div>
+    </nz-input-number-group>
+  </div>
+
+  <div modal-footer>
+    <button
+      nz-button
+      class="modal-button"
+      (click)="handleAddAdmin()"
+      [disabled]="addAdminForm.invalid"
+    >
+      Add Admin
+    </button>
+  </div>
+</app-modal>
