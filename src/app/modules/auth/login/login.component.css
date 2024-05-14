@@ -7,6 +7,8 @@
 }
 
 .login-form-forgot {
+  margin-bottom: 5px;
+  margin-right: 5px;
   float: right;
   color: var(--grey-color);
 }

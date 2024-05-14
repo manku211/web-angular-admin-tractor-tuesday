@@ -159,7 +159,11 @@ export class ProfileComponent {
 
   onProfileNameInputChange() {
     console.log(this.profileName);
-    if (this.profileDetails?.name === this.profileName)
+    if (
+      this.profileDetails?.name === this.profileName ||
+      this.profileName.length < 3 ||
+      this.profileName.length > 50
+    )
       this.profileDetailsUpdated = false;
     else {
       this.profileDetailsUpdated = true;

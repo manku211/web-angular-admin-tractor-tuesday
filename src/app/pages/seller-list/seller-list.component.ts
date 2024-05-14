@@ -96,7 +96,8 @@ export class SellerListComponent {
 
   onSearchInput(search: any): void {
     console.log(search);
-    if (search.length < 3 && search.length > 1) {
+    search = search.trim();
+    if (search.length < 3 && search.length >= 1) {
       this.messageService.warning(
         'Please search for atleast three characters.'
       );
@@ -104,10 +105,10 @@ export class SellerListComponent {
     }
     if (search !== '') {
       this.query = { ...this.query, search: search };
+      this.fetchDetails(this.query);
     } else {
       delete this.query.search;
     }
-    this.fetchDetails(this.query);
   }
 
   handleViewMore(id: any) {

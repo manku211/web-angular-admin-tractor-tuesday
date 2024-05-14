@@ -30,6 +30,7 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 const modules = [
   NzButtonModule,
@@ -61,6 +62,7 @@ const modules = [
   NzDropDownModule,
   NzUploadModule,
   NzSpinModule,
+  NzSelectModule,
 ];
 @NgModule({
   imports: [CommonModule, RouterOutlet, ...modules],

@@ -5,6 +5,7 @@ import { MessageService } from '../../core/services/message/message.service';
 import { Router, RouterModule } from '@angular/router';
 import { ProfileService } from '../../core/services/profile/profile.service';
 import { Privileges } from '../../core/models/rolePrivileges';
+import { ModalComponent } from '../../shared/components/modal/modal.component';
 
 interface MenuItem {
   label: string;
@@ -16,7 +17,7 @@ interface MenuItem {
 @Component({
   selector: 'app-base-layout',
   standalone: true,
-  imports: [SharedModule, RouterModule],
+  imports: [SharedModule, RouterModule, ModalComponent],
   templateUrl: './base-layout.component.html',
   styleUrl: './base-layout.component.css',
 })
@@ -26,7 +27,9 @@ export class BaseLayoutComponent {
   hasUserListingAccess: boolean = true;
   hasSellerListingAccess: boolean = true;
   hasControlPanelAccess: boolean = true;
+  openLogoutModal: boolean = false;
   menuItems: MenuItem[] = [];
+  logoutLoader: boolean = false;
   constructor(
     private authService: AuthService,
     private messageService: MessageService,
@@ -109,13 +112,19 @@ export class BaseLayoutComponent {
     this.router.navigate(['dashboard']);
   }
 
+  handleOpenLogoutModal() {
+    this.openLogoutModal = true;
+  }
+
   logout() {
     console.log('logout');
+    this.logoutLoader = true;
     this.authService.logout().subscribe({
       next: (data) => {
         console.log(data);
         if (data) {
           localStorage.clear();
+          this.logoutLoader = false;
           this.authService.stopTokenRefreshCheck();
           this.messageService.success('Logged out!');
           this.router.navigate(['/']);
@@ -133,5 +142,9 @@ export class BaseLayoutComponent {
       this.authService.hasReadAccess(privilege) ||
       this.authService.hasWriteAccess(privilege)
     );
+  }
+
+  handleCancel() {
+    this.openLogoutModal = false;
   }
 }

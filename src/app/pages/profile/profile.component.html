@@ -47,8 +47,19 @@
             <input
               nz-input
               [(ngModel)]="profileName"
+              #profileNameInput="ngModel"
+              [minlength]="3"
+              [maxlength]="50"
               (input)="onProfileNameInputChange()"
             />
+            <div *ngIf="profileNameInput.errors" class="error-message">
+              <div *ngIf="profileNameInput.errors?.['minlength']">
+                Full Name must be at least 3 characters long.
+              </div>
+              <div *ngIf="profileNameInput.errors?.['maxlength']">
+                Full Name cannot exceed 50 characters.
+              </div>
+            </div>
           </div>
 
           <button

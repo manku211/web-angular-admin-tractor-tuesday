@@ -44,9 +44,10 @@
           nz-menu-item
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
+          (click)="handleOpenLogoutModal()"
         >
           <span nz-icon nzType="logout"></span>
-          <span (click)="logout()">Logout</span>
+          <span>Logout</span>
         </li>
       </div>
     </ul>
@@ -101,7 +102,7 @@
                     <span nz-icon nzType="user-add"></span>
                     <span class="profile-menuitem"> Create Sub Admin</span>
                   </li>
-                  <li nz-menu-item (click)="logout()">
+                  <li nz-menu-item (click)="handleOpenLogoutModal()">
                     <span nz-icon nzType="logout"></span>
                     <span class="profile-menuitem">Logout</span>
                   </li>
@@ -119,3 +120,28 @@
     </nz-content>
   </nz-layout>
 </nz-layout>
+
+<app-modal [showModal]="openLogoutModal" (handleCancelModal)="handleCancel()">
+  <div modal-content>
+    <nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true">
+      <img src="assets/icons/tick.svg" alt="block" width="50" height="50" />
+      <h3>Logout</h3>
+      <div class="sub-text">Are you sure you want to logout?</div>
+    </nz-flex>
+  </div>
+  <div modal-footer>
+    <div nz-flex>
+      <button nz-button class="modal-button" (click)="handleCancel()">
+        Cancel
+      </button>
+      <button
+        nz-button
+        class="modal-button"
+        (click)="logout()"
+        [nzLoading]="logoutLoader"
+      >
+        Logout
+      </button>
+    </div>
+  </div>
+</app-modal>

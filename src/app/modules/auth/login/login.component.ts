@@ -22,6 +22,7 @@ import { Observable, delay, of } from 'rxjs';
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
+  loader: boolean = false;
   validateForm: FormGroup<{
     userName: FormControl<string>;
     password: FormControl<string>;
@@ -48,6 +49,7 @@ export class LoginComponent {
 
   submitForm(): void {
     if (this.validateForm.valid) {
+      this.loader = true;
       let payload = {
         email: this.validateForm.controls.userName.value,
         password: this.validateForm.controls.password.value,
@@ -70,12 +72,14 @@ export class LoginComponent {
                 ? data?.data?.accessTokenExpiresAt
                 : ''
             );
+            this.loader = false;
             this.authService.startTokenRefreshCheck();
             this.messageService.success('Login Successful!');
             this.router.navigate(['/dashboard/user-listing']);
           }
         },
         error: (error) => {
+          this.loader = false;
           console.error('An error occurred during admin login:', error);
           this.messageService.error(error?.error?.message);
         },

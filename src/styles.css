@@ -99,6 +99,10 @@ body {
 .loader-page {
   height: 100vh;
 }
+
+.error-message {
+  color: #ff4d4f;
+}
 /* overriding inbuilt classes */
 .ant-breadcrumb > nz-breadcrumb-item:last-child a {
   color: var(--black-color);
