@@ -1,0 +1,21 @@
+<nz-flex [nzVertical]="true" [nzGap]="15">
+  <nz-card>
+    <nz-breadcrumb
+      nz-page-header-breadcrumb
+      [nzAutoGenerate]="true"
+    ></nz-breadcrumb>
+  </nz-card>
+  <div *ngIf="routePath == '/dashboard/category-listing'">
+    <app-category-list></app-category-list>
+  </div>
+  <div *ngIf="routePath == '/dashboard/category-listing/category-details'">
+    <app-details></app-details>
+  </div>
+  <div
+    *ngIf="
+      routePath == '/dashboard/category-listing/category-details/vehicle-info'
+    "
+  >
+    <app-vehicle-info></app-vehicle-info>
+  </div>
+</nz-flex>

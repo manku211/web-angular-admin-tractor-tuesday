@@ -52,6 +52,12 @@ export class BaseLayoutComponent {
         privilege: Privileges.SELLER_LISTING,
       },
       {
+        label: 'Category Listing',
+        icon: 'appstore',
+        route: '/dashboard/category-listing',
+        privilege: Privileges.CATEGORY_LISTING,
+      },
+      {
         label: 'Control Panel',
         icon: 'setting',
         route: '/dashboard/control-panel',
@@ -94,18 +100,6 @@ export class BaseLayoutComponent {
         console.error(err);
       },
     });
-  }
-
-  handleUserList() {
-    this.router.navigate(['dashboard/user-listing']);
-  }
-
-  handleSellerList() {
-    this.router.navigate(['dashboard/seller-listing']);
-  }
-
-  handleControlPanel() {
-    this.router.navigate(['dashboard/control-panel']);
   }
 
   handleDashboard() {

@@ -42,8 +42,20 @@ export const routes: Routes = [
           import('./modules/seller-listing/seller-listing.module').then(
             (m) => m.SellerListingModule
           ),
+        canActivate: [authGuard],
         data: {
           breadcrumb: 'Seller Listing',
+        },
+      },
+      {
+        path: 'category-listing',
+        loadChildren: () =>
+          import('./modules/category-lisitng/category-lisitng.module').then(
+            (m) => m.CategoryLisitngModule
+          ),
+        canActivate: [authGuard],
+        data: {
+          breadcrumb: 'Category Listing',
         },
       },
       {
