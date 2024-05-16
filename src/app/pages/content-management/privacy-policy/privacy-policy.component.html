@@ -6,7 +6,14 @@
       [style.height]="'200px'"
     ></quill-editor>
   </div>
-  <button nz-button class="submit-button" (click)="sendData()">Submit</button>
+  <button
+    nz-button
+    class="submit-button"
+    (click)="sendData()"
+    [disabled]="!checkForChanges()"
+  >
+    Submit
+  </button>
 </div>
 <div *ngIf="selectedMenuItem === 'terms'">
   <div class="sub-title">Terms and Condition</div>
@@ -16,5 +23,12 @@
       [style.height]="'200px'"
     ></quill-editor>
   </div>
-  <button nz-button class="submit-button" (click)="sendData()">submit</button>
+  <button
+    nz-button
+    class="submit-button"
+    (click)="sendData()"
+    [disabled]="!checkForChanges()"
+  >
+    submit
+  </button>
 </div>

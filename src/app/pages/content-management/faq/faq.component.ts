@@ -1,7 +1,12 @@
 import { Component } from '@angular/core';
 import { SharedModule } from '../../../shared/shared.module';
 import { ContentManagementService } from '../../../core/services/content-management/content-management.service';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MessageService } from '../../../core/services/message/message.service';
 import { ModalComponent } from '../../../shared/components/modal/modal.component';
 
@@ -20,7 +25,7 @@ export class FaqComponent {
   editFaqId: string = '';
   deleteFaqId: string = '';
   openDeleteModal: boolean = false;
-
+  loading: boolean = false;
   constructor(
     private contentService: ContentManagementService,
     private fb: FormBuilder,
@@ -29,16 +34,18 @@ export class FaqComponent {
 
   ngOnInit() {
     this.faqForm = this.fb.group({
-      question: [''],
-      answer: [''],
+      question: ['', Validators.required],
+      answer: ['', Validators.required],
     });
     this.fetchFaqs();
   }
 
   fetchFaqs() {
+    this.loading = true;
     this.contentService.getAllFaqs({}).subscribe({
       next: (data) => {
         console.log(data);
+
         this.panels = data?.data.map((item: any) => ({
           id: item._id,
           active: false,
@@ -46,6 +53,7 @@ export class FaqComponent {
           name: item.faq,
           content: item.answer,
         }));
+        this.loading = false;
         console.log(this.panels);
       },
     });
@@ -87,41 +95,53 @@ export class FaqComponent {
   }
   submitNewQuestion() {
     // Logic to submit new question here
-    const formData = this.faqForm.value;
-    const payload = {
-      faq: formData.question,
-      answer: formData.answer,
-    };
-    if (!this.isEdit) {
-      this.contentService.createFaq(payload).subscribe({
-        next: (data) => {
-          console.log(data);
-          if (data?.success) {
-            this.messageService.success('FAQ created successfully');
-            this.fetchFaqs();
-          }
-        },
-        error: (err) => {
-          console.error(err);
-        },
-      });
-    } else if (this.isEdit) {
-      this.contentService.updateFaq(this.editFaqId, payload).subscribe({
-        next: (data) => {
-          console.log(data);
-          if (data?.success) {
-            this.messageService.success('FAQ updated successfully');
-            this.fetchFaqs();
-          }
-        },
-        error: (err) => {
-          console.error(err);
-        },
-      });
+    if (this.faqForm.valid) {
+      const formData = this.faqForm.value;
+      const payload = {
+        faq: formData.question,
+        answer: formData.answer,
+      };
+      if (!this.isEdit) {
+        this.contentService.createFaq(payload).subscribe({
+          next: (data) => {
+            console.log(data);
+            if (data?.success) {
+              this.messageService.success('FAQ created successfully');
+              this.faqForm.reset();
+              this.openFaqForm = false;
+              this.fetchFaqs();
+            }
+          },
+          error: (err) => {
+            console.error(err);
+          },
+        });
+      } else if (this.isEdit) {
+        this.contentService.updateFaq(this.editFaqId, payload).subscribe({
+          next: (data) => {
+            console.log(data);
+            if (data?.success) {
+              this.messageService.success('FAQ updated successfully');
+              this.fetchFaqs();
+            }
+          },
+          error: (err) => {
+            console.error(err);
+          },
+        });
+      }
+      this.faqForm.reset();
+      this.openFaqForm = false;
     }
     // Reset form
-    this.faqForm.reset();
-    this.openFaqForm = false;
+    else {
+      Object.values(this.faqForm.controls).forEach((control) => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+    }
   }
 
   handleDeleteFaq() {
