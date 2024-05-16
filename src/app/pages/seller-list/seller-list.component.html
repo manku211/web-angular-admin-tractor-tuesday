@@ -1,42 +1,44 @@
-<app-table-view
-  [data]="listOfData"
-  [columns]="listOfColumns"
-  [enablePagination]="true"
-  [enableSorting]="true"
-  [enableSearch]="true"
-  [enableActions]="true"
-  (sortChange)="onSortChange($event)"
-  [loader]="loader"
-  [totalRecords]="totalRecords"
-  [tableRowTemplate]="tableRowTemplate"
-  (pageChange)="onPageChange($event)"
-  (search)="onSearchInput($event)"
->
-  <ng-template #tableRowTemplate let-data let-columns="columns">
-    <tr *ngFor="let item of data">
-      <td>
-        <img
-          src="assets/icons/profile_container.svg"
-          alt="profile"
-          width="40"
-          height="40"
-        />
-        <img
-          src="{{ item['profilePicture'] }}"
-          class="profile-picture"
-          alt="profile"
-        />
-        &nbsp;{{ item["fullName"] ? item["fullName"] : item["username"] }}
-      </td>
-      <td>{{ item["email"] }}</td>
-      <td>{{ item["phoneNumber"] }}</td>
-      <td></td>
-      <td>{{ item["createdAt"] | date : "d MMM, y" }}</td>
-      <td>
-        <button class="viewmore_button" (click)="handleViewMore(item['_id'])">
-          View More
-        </button>
-      </td>
-    </tr>
-  </ng-template>
-</app-table-view>
+<nz-card class="detail-outer-card">
+  <app-table-view
+    [data]="listOfData"
+    [columns]="listOfColumns"
+    [enablePagination]="true"
+    [enableSorting]="true"
+    [enableSearch]="true"
+    [enableActions]="true"
+    (sortChange)="onSortChange($event)"
+    [loader]="loader"
+    [totalRecords]="totalRecords"
+    [tableRowTemplate]="tableRowTemplate"
+    (pageChange)="onPageChange($event)"
+    (search)="onSearchInput($event)"
+  >
+    <ng-template #tableRowTemplate let-data let-columns="columns">
+      <tr *ngFor="let item of data">
+        <td>
+          <img
+            src="assets/icons/profile_container.svg"
+            alt="profile"
+            width="40"
+            height="40"
+          />
+          <img
+            src="{{ item['profilePicture'] }}"
+            class="profile-picture"
+            alt="profile"
+          />
+          &nbsp;{{ item["fullName"] ? item["fullName"] : item["username"] }}
+        </td>
+        <td>{{ item["email"] }}</td>
+        <td>{{ item["phoneNumber"] }}</td>
+        <td></td>
+        <td>{{ item["createdAt"] | date : "d MMM, y" }}</td>
+        <td>
+          <button class="viewmore_button" (click)="handleViewMore(item['_id'])">
+            View More
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+  </app-table-view>
+</nz-card>

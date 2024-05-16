@@ -111,7 +111,7 @@ export class DetailsComponent {
 
     {
       key: 'auctionDate',
-      label: 'Pending Auction Date',
+      label: 'Auction Date',
       sort: false,
     },
     {

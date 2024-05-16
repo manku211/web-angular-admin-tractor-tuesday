@@ -1,6 +1,26 @@
 <app-details-card [userInfo]="userInfo"></app-details-card>
+<nz-card class="detail-outer-card">
+  <nz-flex [nzGap]="40">
+    <nz-card class="info-card">
+      <div nz-flex [nzGap]="10">
+        <img src="assets/icons/invest.svg" alt="invest" />
+        <nz-flex [nzVertical]="true">
+          <span class="thin-text">Total Invested Amount</span>
+          <span class="info-value">${{ userInfo?.totalInvestedAmount }}</span>
+        </nz-flex>
+      </div>
+    </nz-card>
+    <nz-card class="info-card">
+      <div nz-flex [nzGap]="10">
+        <img src="assets/icons/win.svg" alt="win" />
+        <nz-flex [nzVertical]="true">
+          <span class="thin-text">Total Winning Bid</span>
+          <span class="info-value">10</span>
+        </nz-flex>
+      </div>
+    </nz-card>
+  </nz-flex>
 
-<nz-card>
   <nz-tabset (nzSelectedIndexChange)="onTabChange($event)">
     <nz-tab nzTitle="Auction Request"
       ><app-table-view
@@ -8,7 +28,7 @@
         [columns]="listOfColumns"
         [enablePagination]="true"
         [enableSorting]="true"
-        [enableSearch]="true"
+        [enableSearch]="false"
         [enableActions]="true"
         (sortChange)="onSortChange($event)"
         [loader]="loader"
@@ -16,6 +36,7 @@
         [tableRowTemplate]="tableRowTemplate"
         (pageChange)="onPageChange($event)"
         (search)="onSearchInput($event)"
+        [isDetailTable]="true"
       >
         <ng-template #tableRowTemplate let-data let-columns="columns">
           <tr *ngFor="let item of data">
@@ -72,6 +93,7 @@
           (pageChange)="onPageChange($event)"
           (search)="onSearchInput($event)"
           (filteredList)="onFilterHandler($event)"
+          [isDetailTable]="true"
         >
           <ng-template #tableRowTemplate let-data let-columns="columns">
             <tr *ngFor="let item of data">

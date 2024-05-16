@@ -1,60 +1,64 @@
-<app-table-view
-  [data]="listOfData"
-  [columns]="listOfColumns"
-  [enablePagination]="true"
-  [enableSorting]="true"
-  [enableSearch]="true"
-  [enableActions]="true"
-  (sortChange)="onSortChange($event)"
-  [loader]="loader"
-  [totalRecords]="totalRecords"
-  [tableRowTemplate]="tableRowTemplate"
-  (pageChange)="onPageChange($event)"
-  (search)="onSearchInput($event)"
->
-  <ng-template #tableRowTemplate let-data let-columns="columns">
-    <tr *ngFor="let item of data">
-      <td>
-        <img
-          src="assets/icons/profile_container.svg"
-          alt="profile"
-          width="40"
-          height="40"
-        />
-        <img src="{{ item['profilePicture'] }}" class="profile-picture" />
-        &nbsp;<span>{{ item["fullName"] || item["username"] }}</span>
-      </td>
-      <td>
-        <span>{{ item["email"] }}</span>
-      </td>
-      <td>
-        <img
-          src="assets/icons/usflag.png"
-          alt="flag"
-          class="country-flag"
-          width="22"
-          height="18"
-        />
-        <span>{{
-          countryHelper.getCountryName(item["countryCode"]) || "USA"
-        }}</span>
-      </td>
-      <td>
-        <span>{{ item["phoneNumber"] }}</span>
-      </td>
-      <td>
-        <span [ngClass]="{ block_status: item['isDeleted'] }">{{
-          item["isDeleted"] ? "Blocked" : "Unblocked"
-        }}</span>
-      </td>
-      <td>
-        <span>{{ item["createdAt"] | date : "d MMM, y" }}</span>
-      </td>
-      <td>
-        <button class="viewmore_button" (click)="handleViewMore(item['_id'])">
-          View More
-        </button>
-      </td>
-    </tr>
-  </ng-template>
-</app-table-view>
+<nz-card class="detail-outer-card">
+  <app-table-view
+    [data]="listOfData"
+    [columns]="listOfColumns"
+    [enablePagination]="true"
+    [enableSorting]="true"
+    [enableSearch]="true"
+    [enableActions]="true"
+    (sortChange)="onSortChange($event)"
+    [loader]="loader"
+    [totalRecords]="totalRecords"
+    [tableRowTemplate]="tableRowTemplate"
+    (pageChange)="onPageChange($event)"
+    (search)="onSearchInput($event)"
+  >
+    <ng-template #tableRowTemplate let-data let-columns="columns">
+      <tr *ngFor="let item of data">
+        <td>
+          <div nz-flex nzAlign="center">
+            <img
+              src="assets/icons/profile_container.svg"
+              alt="profile"
+              width="40"
+              height="40"
+            />
+            <img src="{{ item['profilePicture'] }}" class="profile-picture" />
+            &nbsp;<span>{{ item["fullName"] || item["username"] }}</span>
+          </div>
+        </td>
+        <td>
+          <span>{{ item["email"] }}</span>
+        </td>
+        <td>
+          <img
+            src="assets/icons/usflag.png"
+            alt="flag"
+            class="country-flag"
+            width="22"
+            height="18"
+          />
+          <span>{{
+            countryHelper.getCountryName(item["countryCode"]) || "USA"
+          }}</span>
+        </td>
+        <td>
+          <span>{{ item["phoneNumber"] ? item["phoneNumber"] : "N/A" }}</span>
+        </td>
+        <td>
+          <span [ngClass]="{ block_status: item['isDeleted'] }">{{
+            item["isDeleted"] ? "Blocked" : "N/A"
+          }}</span>
+        </td>
+        <td>
+          <span>{{ item["createdAt"] | date : "d MMM, y" }}</span>
+        </td>
+        <td>
+          <button class="viewmore_button" (click)="handleViewMore(item['_id'])">
+            View More
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+  </app-table-view>
+</nz-card>

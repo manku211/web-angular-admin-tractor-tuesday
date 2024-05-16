@@ -28,9 +28,12 @@
       </td>
       <td>{{ item["bidders"] }}</td>
 
-      <td>{{ item["startTime"] | date : "d MMM, y" }}</td>
+      <!-- <td>{{ item["startTime"] | date : "d MMM, y" }}</td> -->
       <td>
-        <button class="viewmore_button" (click)="handleViewMore(item['_id'])">
+        <button
+          class="viewmore_button"
+          (click)="handleViewMore(item['category'])"
+        >
           View More
         </button>
       </td>

@@ -51,11 +51,6 @@ export class CategoryListComponent {
       label: 'Number Of Bidders',
       sort: false,
     },
-    {
-      key: 'auctioDate',
-      label: 'Start Date Of Auction',
-      sort: false,
-    },
   ];
 
   constructor(
@@ -78,9 +73,9 @@ export class CategoryListComponent {
     });
   }
 
-  handleViewMore(id: any) {
-    console.log(id);
-    localStorage.setItem('selectedUserId', id);
+  handleViewMore(category: any) {
+    console.log(category);
+    localStorage.setItem('selectedUserId', category);
     this.router.navigate(['/dashboard/category-listing/category-details']);
   }
 }

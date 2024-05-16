@@ -69,7 +69,7 @@ export class DetailsComponent {
     {
       key: 'category',
       label: 'Category',
-      sort: true,
+      sort: false,
     },
     {
       key: 'vin',
@@ -102,7 +102,7 @@ export class DetailsComponent {
 
     {
       key: 'auctionDate',
-      label: 'Pending Auction Date',
+      label: 'Auction Date',
       sort: false,
     },
     {
@@ -120,7 +120,8 @@ export class DetailsComponent {
   ) {}
 
   ngOnInit(): void {
-    this.query = { ...this.query, equipmentCategories: 'Tractors' };
+    const category = localStorage.getItem('selectedUserId');
+    this.query = { ...this.query, equipmentCategories: category };
     this.fetchAuctionDetails(this.query);
   }
 
@@ -143,7 +144,11 @@ export class DetailsComponent {
 
   onSortChange(column: any): void {
     console.log(column);
-    this.query = { ...this.query, sortOrder: column.sortOrder };
+    this.query = {
+      ...this.query,
+      sortOrder: column.sortOrder,
+      sortField: 'tractorId.name',
+    };
     console.log(this.query);
     this.fetchAuctionDetails(this.query);
   }

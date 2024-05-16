@@ -11,3 +11,10 @@
   justify-content: center;
   align-items: center;
 }
+.vertical-divider {
+  height: 180px;
+  border-color: var(--border-color);
+}
+.personal-info-container {
+  margin-top: 10px;
+}
