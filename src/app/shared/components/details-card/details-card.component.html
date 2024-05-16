@@ -1,28 +1,41 @@
 <nz-card class="details_card">
   <div nz-row *ngIf="userInfo; else skeleton">
-    <div nz-col nzSpan="6">
-      <div
-        nz-flex
-        nzJustify="center"
-        nzAlign="center"
-        [nzVertical]="true"
-        nzGap="small"
-        class="personal_details"
-      >
-        <img src="assets/icons/profile_container.svg" alt="profile" />
-
-        <img
-          [src]="userInfo.profilePicture"
-          alt="Profile Picture"
-          class="details_picture"
-        />
-        <span class="personal-details-name">
-          {{ userInfo.fullName ? userInfo.fullName : userInfo?.username }}</span
+    <div nz-col nzSpan="5">
+      <div class="personal_details">
+        <div
+          nz-flex
+          nzJustify="center"
+          nzAlign="center"
+          [nzVertical]="true"
+          nzGap="small"
         >
+          <img src="assets/icons/profile_container.svg" alt="profile" />
+
+          <img
+            [src]="userInfo.profilePicture"
+            alt="Profile Picture"
+            class="details_picture"
+          />
+          <span class="personal-details-name">
+            {{
+              userInfo.fullName ? userInfo.fullName : userInfo?.username
+            }}</span
+          >
+        </div>
+        <div nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true">
+          <span>Member Since:</span>
+          <span> {{ userInfo.createdAt | date : "d MMM, y" }}</span>
+        </div>
       </div>
     </div>
+    <nz-divider nzType="vertical" class="vertical-divider"></nz-divider>
     <div nz-col nzOffset="1" nzSpan="17" class="nz-mb-2">
-      <div nz-flex nzJustify="space-between" class="personal_info">
+      <div
+        nz-flex
+        nzJustify="space-between"
+        nzAlign="end"
+        class="personal_info"
+      >
         <span class="personal-info-title">Personal Information</span>
         <button
           *ngIf="isUser"
@@ -33,7 +46,7 @@
           {{ userBlockText }} User
         </button>
       </div>
-      <div nz-row>
+      <div nz-row class="personal-info-container">
         <div nz-col nzSpan="10">
           <div nz-flex nzGap="small" class="personal-info-row">
             <div class="personal-info-row-key">
@@ -54,7 +67,7 @@
               >
             </div>
             <span class="personal-info-row-value">
-              {{ userInfo.phoneNumber }}</span
+              {{ userInfo.phoneNumber ? userInfo.phoneNumber : "N/A" }}</span
             >
           </div>
           <div nz-flex nzGap="small" class="personal-info-row">

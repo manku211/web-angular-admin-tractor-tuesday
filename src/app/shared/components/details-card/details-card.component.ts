@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SharedModule } from '../../shared.module';
 import { CountryHelperService } from '../../../utilities/helpers/country-helper.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-details-card',
   standalone: true,
-  imports: [SharedModule],
+  imports: [SharedModule, CommonModule],
   templateUrl: './details-card.component.html',
   styleUrl: './details-card.component.css',
 })

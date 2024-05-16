@@ -13,6 +13,27 @@
   box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
 }
 
+::ng-deep .ant-layout-sider,
+.ant-menu.ant-menu-dark,
+.sidebar-logo {
+  background: var(--black-color) !important;
+}
+
+::ng-deep .ant-menu.ant-menu-dark {
+  margin-top: 14px;
+}
+::ng-deep .ant-menu-dark .ant-menu-item {
+  color: var(--white-color);
+  padding-left: 44px !important;
+  height: 50px;
+}
+
+::ng-deep
+  .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal)
+  .ant-menu-item-selected {
+  background-color: var(--primary-color);
+}
+
 .header-trigger {
   height: 64px;
   padding: 20px 24px;

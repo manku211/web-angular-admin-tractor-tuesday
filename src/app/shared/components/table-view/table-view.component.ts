@@ -42,6 +42,7 @@ export class TableViewComponent {
   @Input() enableActions: boolean = false;
   @Input() loader: boolean = false;
   @Input() totalRecords: number = 0;
+  @Input() isDetailTable: boolean = false;
   @Input() tableRowTemplate!: TemplateRef<any>;
   @Output() sortChange: EventEmitter<TableColumn> =
     new EventEmitter<TableColumn>();

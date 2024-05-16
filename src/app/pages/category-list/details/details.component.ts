@@ -1,19 +1,16 @@
 import { Component } from '@angular/core';
-import { SharedModule } from '../../../shared/shared.module';
 import {
-  BlockUserParams,
-  UserListingService,
-} from '../../../core/services/user/user-listing.service';
+  getExteriorImageUrl,
+  styleObject,
+} from '../../../utilities/helpers/helper';
 import { MessageService } from '../../../core/services/message/message.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TableViewComponent } from '../../../shared/components/table-view/table-view.component';
 import { Router } from '@angular/router';
-import { AuctionService } from '../../../core/services/auction/auction.service';
-import { ModalComponent } from '../../../shared/components/modal/modal.component';
 import { CountryHelperService } from '../../../utilities/helpers/country-helper.service';
-import { DetailsCardComponent } from '../../../shared/components/details-card/details-card.component';
-import { styleObject } from '../../../utilities/helpers/helper';
 import { AlgoliaSearchService } from '../../../utilities/helpers/algolia-search.service';
+import { CategoryService } from '../../../core/services/category/category.service';
+import { TableViewComponent } from '../../../shared/components/table-view/table-view.component';
+import { CommonModule } from '@angular/common';
+
 interface User {
   _id: string;
   username: string;
@@ -36,14 +33,7 @@ interface ColumnInfo {
 @Component({
   selector: 'app-details',
   standalone: true,
-  imports: [
-    SharedModule,
-    ReactiveFormsModule,
-    FormsModule,
-    TableViewComponent,
-    ModalComponent,
-    DetailsCardComponent,
-  ],
+  imports: [TableViewComponent, CommonModule],
   templateUrl: './details.component.html',
   styleUrl: './details.component.css',
 })
@@ -59,6 +49,7 @@ export class DetailsComponent {
   styleObject: any = styleObject;
   loader: boolean = false;
   searchResults: any;
+  exteriorImageUrl: string = '';
   reasons = [
     'Violation of terms of service',
     'Inappropriate behavior',
@@ -78,7 +69,7 @@ export class DetailsComponent {
     {
       key: 'category',
       label: 'Category',
-      sort: true,
+      sort: false,
     },
     {
       key: 'vin',
@@ -121,43 +112,26 @@ export class DetailsComponent {
     },
   ];
   constructor(
-    private userService: UserListingService,
     private messageService: MessageService,
     private router: Router,
-    private auctionService: AuctionService,
     public countryHelper: CountryHelperService,
-    private algoliaService: AlgoliaSearchService
+    private algoliaService: AlgoliaSearchService,
+    private categoryService: CategoryService
   ) {}
+
   ngOnInit(): void {
-    this.userId = localStorage.getItem('selectedUserId');
-    console.log('User ID:', this.userId);
-    this.fetchUserDetails(this.userId);
-    this.query = { ...this.query, userId: this.userId };
+    const category = localStorage.getItem('selectedUserId');
+    this.query = { ...this.query, equipmentCategories: category };
     this.fetchAuctionDetails(this.query);
   }
 
-  fetchUserDetails(userId: string) {
-    this.userService.getUserDetailsById(this.userId).subscribe({
-      next: (data: any) => {
-        console.log(data);
-        if (data) {
-          this.userInfo = data?.data;
-          this.userBlockText = this.userInfo?.isDeleted ? 'UnBlock' : 'Block';
-        }
-      },
-      error: (error) => {
-        console.error('An error occurred during admin login:', error);
-        this.messageService.error(error);
-      },
-    });
-  }
-
   fetchAuctionDetails(query: any) {
-    this.auctionService.getAuctionDetailsByUserId(query).subscribe({
+    this.categoryService.getCategory(query).subscribe({
       next: (data: any) => {
         console.log(data);
         if (data) {
-          this.auctionInfo = data?.data?.auctions;
+          this.exteriorImageUrl = getExteriorImageUrl(data?.data?.categories);
+          this.auctionInfo = data?.data?.categories;
           this.totalRecords = data?.data?.count;
         }
       },
@@ -168,58 +142,13 @@ export class DetailsComponent {
     });
   }
 
-  handleUserAccount() {
-    let action = this.userBlockText === 'Block' ? 'deactivate' : 'activate';
-    let payload: BlockUserParams = {
-      email: this.userInfo?.email,
-      action: action,
-      reason: this.selectedReason ? this.selectedReason : this.otherReason,
-    };
-    this.userService.blockUnblockUser(payload).subscribe({
-      next: (data) => {
-        if (data) {
-          const successMessage = `User ${
-            action === 'deactivate' ? 'deactivated' : 'activated'
-          } successfully.`;
-          this.messageService?.success(successMessage);
-          this.showBlockReasonModal = false;
-          this.otherReason = '';
-          this.selectedReason = '';
-          this.fetchUserDetails(this.userId);
-        }
-      },
-      error: (err) => {
-        this.showBlockReasonModal = false;
-        this.otherReason = '';
-        this.selectedReason = '';
-      },
-    });
-  }
-
-  showBlockReason() {
-    this.showBlockReasonModal = true;
-  }
-
-  handleCancel(): void {
-    this.showBlockReasonModal = false;
-    this.otherReason = '';
-    this.selectedReason = '';
-  }
-
-  shouldDisableButton(): boolean {
-    if (
-      this.userBlockText === 'Block' &&
-      !this.selectedReason &&
-      !this.otherReason
-    ) {
-      return true;
-    }
-    return false;
-  }
-
   onSortChange(column: any): void {
     console.log(column);
-    this.query = { ...this.query, sortOrder: column.sortOrder };
+    this.query = {
+      ...this.query,
+      sortOrder: column.sortOrder,
+      sortField: 'tractorId.name',
+    };
     console.log(this.query);
     this.fetchAuctionDetails(this.query);
   }
@@ -256,10 +185,4 @@ export class DetailsComponent {
     localStorage.setItem('selectedAuctionId', id);
     this.router.navigate(['/dashboard/user-listing/user-details/vehicle-info']);
   }
-  // styleObject(status: any): Object {
-  //   if (status == 'ONGOING') {
-  //     return { background: '#DED1F7', color: '#000 ' };
-  //   }
-  //   return {};
-  // }
 }

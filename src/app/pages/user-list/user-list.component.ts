@@ -26,6 +26,8 @@ interface ColumnInfo {
   type?: string;
   sortField?: string;
   altSortField?: string;
+  listOfFilter?: any[];
+  filter?: boolean;
 }
 
 @Component({
@@ -46,7 +48,7 @@ export class UserListComponent {
   listOfColumns: ColumnInfo[] = [
     {
       key: 'fullName',
-      label: 'Name',
+      label: 'Full Name',
       sort: true,
       sortOrder: 'DESC',
       sortField: 'fullName',
@@ -54,7 +56,7 @@ export class UserListComponent {
     },
     {
       key: 'email',
-      label: 'Email',
+      label: 'Email Address',
       sort: true,
       sortField: 'email',
       sortOrder: 'DESC',
@@ -73,6 +75,11 @@ export class UserListComponent {
       key: 'blockStatus',
       label: 'Block Status',
       sort: false,
+      filter: false,
+      listOfFilter: [
+        { text: 'Blocked', value: 'Blocked' },
+        { text: 'N/A', value: 'UnBlocked' },
+      ],
     },
     {
       key: 'createdAt',

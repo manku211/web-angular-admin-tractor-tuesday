@@ -156,6 +156,10 @@ export class AuctionManagementComponent {
       this.query = { ...this.query, [key]: filteredColumn.event };
       console.log(this.query);
       this.fetchDetails(this.query);
+    } else {
+      const updatedQuery = { ...this.query };
+      delete updatedQuery[key];
+      this.fetchDetails(updatedQuery);
     }
   }
 
