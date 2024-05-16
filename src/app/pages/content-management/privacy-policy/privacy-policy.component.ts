@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { QuillModule } from 'ngx-quill';
 import { ContentManagementService } from '../../../core/services/content-management/content-management.service';
 import { SharedModule } from '../../../shared/shared.module';
+import { MessageService } from '../../../core/services/message/message.service';
 @Component({
   selector: 'app-privacy-policy',
   standalone: true,
@@ -14,7 +15,11 @@ export class PrivacyPolicyComponent {
   @Input() selectedMenuItem: any = 'privacy';
   privacyPolicy: string = '';
   termsAndCond: string = '';
-  constructor(private contentService: ContentManagementService) {
+  contentData?: any;
+  constructor(
+    private contentService: ContentManagementService,
+    private messageService: MessageService
+  ) {
     console.log('selectedMenuItem', this.selectedMenuItem);
   }
 
@@ -26,6 +31,7 @@ export class PrivacyPolicyComponent {
     this.contentService.getPolicyandTerms().subscribe({
       next: (data) => {
         console.log(data);
+        this.contentData = data?.data;
         this.privacyPolicy = data?.data?.privacyPolicy;
         this.termsAndCond = data?.data?.termsAndConditions;
       },
@@ -33,6 +39,13 @@ export class PrivacyPolicyComponent {
         console.error(err);
       },
     });
+  }
+
+  checkForChanges(): boolean {
+    return (
+      this.privacyPolicy !== this.contentData?.privacyPolicy ||
+      this.termsAndCond !== this.contentData?.termsAndConditions
+    );
   }
 
   sendData() {
@@ -44,6 +57,7 @@ export class PrivacyPolicyComponent {
     this.contentService.updatePolicyandTerms(payload).subscribe({
       next: (data) => {
         console.log(data);
+        this.messageService.success('Content Updated Successfully');
         this.fetchTerms();
       },
       error: (err) => {

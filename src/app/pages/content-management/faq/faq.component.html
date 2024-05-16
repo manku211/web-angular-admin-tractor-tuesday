@@ -5,52 +5,75 @@
       Create New
     </button>
   </div>
-  <nz-collapse [nzBordered]="false">
-    @for (panel of panels; track panel) {
-    <nz-collapse-panel
-      [nzHeader]="panel.name"
-      [nzActive]="panel.active"
-      [nzExtra]="extraTpl"
-    >
-      <p>{{ panel?.content }}</p>
-      <ng-template #extraTpl>
-        <div nz-flex nzGap="small">
-          <span
-            nz-icon
-            nzType="edit"
-            (click)="editFaq($event, panel?.id)"
-          ></span>
-          <span
-            nz-icon
-            nzType="delete"
-            (click)="deleteFaq($event, panel?.id)"
-          ></span>
-        </div>
-      </ng-template>
-    </nz-collapse-panel>
-    }
-  </nz-collapse>
+  <ng-container *ngIf="!loading; else loadingContent">
+    <nz-collapse [nzBordered]="false">
+      @for (panel of panels; track panel) {
+      <nz-collapse-panel
+        [nzHeader]="panel.name"
+        [nzActive]="panel.active"
+        [nzExtra]="extraTpl"
+      >
+        <p>{{ panel?.content }}</p>
+        <ng-template #extraTpl>
+          <div nz-flex nzGap="small">
+            <span
+              nz-icon
+              nzType="edit"
+              (click)="editFaq($event, panel?.id)"
+            ></span>
+            <span
+              nz-icon
+              nzType="delete"
+              (click)="deleteFaq($event, panel?.id)"
+            ></span>
+          </div>
+        </ng-template>
+      </nz-collapse-panel>
+      }
+    </nz-collapse>
+  </ng-container>
+  <ng-template #loadingContent>
+    <p>
+      <nz-skeleton
+        [nzAvatar]="false"
+        [nzActive]="true"
+        [nzParagraph]="{ rows: 2 }"
+      ></nz-skeleton>
+    </p>
+  </ng-template>
 </div>
 <div nz-flex [nzVertical]="true" nzGap="middle" *ngIf="openFaqForm">
   <div class="sub-title">{{ isEdit ? "Edit" : "Add New" }} Question</div>
   <form nz-form [formGroup]="faqForm" (ngSubmit)="submitNewQuestion()">
     <div nz-flex [nzVertical]="true" nzGap="small">
       <span>{{ isEdit ? "Edit" : "Add" }} Question</span>
-      <textarea
-        nz-input
-        placeholder="Question"
-        formControlName="question"
-        nzAutosize
-      ></textarea>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your question!">
+          <nz-input-group>
+            <textarea
+              nz-input
+              placeholder="Question"
+              formControlName="question"
+              nzAutosize
+            ></textarea>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
     </div>
     <div nz-flex [nzVertical]="true" nzGap="small">
-      <span>Answer</span>
-      <textarea
-        nz-input
-        placeholder="Answer"
-        formControlName="answer"
-        [nzAutosize]="{ minRows: 3, maxRows: 8 }"
-      ></textarea>
+      <span> {{ isEdit ? "Edit" : "Add" }} Answer</span>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your answer!">
+          <nz-input-group>
+            <textarea
+              nz-input
+              placeholder="Answer"
+              formControlName="answer"
+              [nzAutosize]="{ minRows: 3, maxRows: 8 }"
+            ></textarea>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
     </div>
     <div nz-flex nzJustify="start" nzGap="middle" class="buttons">
       <button
