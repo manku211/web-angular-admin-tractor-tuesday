@@ -69,6 +69,10 @@ body {
   font-family: "Lato", sans-serif;
 }
 
+.sub-heading {
+  font-size: var(--font-l);
+  font-weight: var(--font-weight-semi-bold);
+}
 .title {
   font-size: var(--font-xxl);
   font-weight: var(--font-weight-extra-bold);

@@ -1,0 +1,67 @@
+<nz-card class="detail-outer-card">
+  <div class="sub-heading">Location Graph</div>
+  <nz-divider></nz-divider>
+  <nz-row class="geo-graph-container">
+    <div nz-col nzSpan="4">
+      <span class="thin-text">General Statistics</span>
+      <nz-flex class="all-users" [nzVertical]="true">
+        <div class="all-users-label"><span>All Users</span></div>
+        <div class="all-users-val">{{ graphData?.allUsers }}</div>
+      </nz-flex>
+      <nz-flex nzGap="large" [nzVertical]="true">
+        <div nz-flex nzAlign="center" nzGap="middle">
+          <img src="assets/icons/totalearns.svg" alt="invest" />
+          <nz-flex [nzVertical]="true">
+            <span class="thin-text">Total Earnings</span>
+            <span class="stats-value">{{ graphData?.totalEarning }}</span>
+          </nz-flex>
+        </div>
+        <div nz-flex nzAlign="center" nzGap="middle">
+          <img src="assets/icons/sales.svg" alt="invest" />
+          <nz-flex [nzVertical]="true">
+            <span class="thin-text">Sales</span>
+            <span class="stats-value">{{ graphData?.totalSales }}</span>
+          </nz-flex>
+        </div>
+      </nz-flex>
+      <nz-divider></nz-divider>
+      <nz-flex nzGap="large" [nzVertical]="true">
+        <div
+          nz-flex
+          nzAlign="center"
+          nzGap="middle"
+          class="percentage-container"
+        >
+          <nz-progress
+            [nzPercent]="graphData?.activeBuyersPercent"
+            nzType="circle"
+            [nzWidth]="40"
+          ></nz-progress>
+          <nz-flex [nzVertical]="true">
+            <span class="stats-value">{{ graphData?.activeBuyers }}</span>
+            <span class="thin-text">Active Buyers</span>
+          </nz-flex>
+        </div>
+        <div
+          nz-flex
+          nzAlign="center"
+          nzGap="middle"
+          class="percentage-container"
+        >
+          <nz-progress
+            [nzPercent]="graphData?.activeSellersPercent"
+            nzType="circle"
+            [nzWidth]="40"
+          ></nz-progress>
+          <nz-flex [nzVertical]="true">
+            <span class="stats-value">{{ graphData?.activeSellers }}</span>
+            <span class="thin-text">Active Sellers</span>
+          </nz-flex>
+        </div>
+      </nz-flex>
+    </div>
+    <div nz-col nzOffset="2" nzSpan="18">
+      <canvas #canvas></canvas>
+    </div>
+  </nz-row>
+</nz-card>
