@@ -11,7 +11,7 @@ interface MenuItem {
   label: string;
   icon: string;
   route: string;
-  privilege: Privileges;
+  privilege?: Privileges;
 }
 
 @Component({
@@ -39,6 +39,7 @@ export class BaseLayoutComponent {
   ngOnInit() {
     this.fetchAdminDetails();
     this.menuItems = [
+      { label: 'Dasboard', icon: 'home', route: '/dashboard' },
       {
         label: 'User List',
         icon: 'unordered-list',
@@ -131,7 +132,7 @@ export class BaseLayoutComponent {
     });
   }
 
-  hasAccess(privilege: Privileges): boolean {
+  hasAccess(privilege: any): boolean {
     return (
       this.authService.hasReadAccess(privilege) ||
       this.authService.hasWriteAccess(privilege)

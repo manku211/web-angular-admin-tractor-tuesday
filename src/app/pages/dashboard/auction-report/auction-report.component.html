@@ -1,0 +1,55 @@
+<nz-card class="detail-outer-card">
+  <nz-flex nzJustify="space-between">
+    <div class="sub-heading">Auction Report</div>
+    <div nz-flex nzGap="large">
+      <button
+        nz-button
+        nz-dropdown
+        nzTrigger="click"
+        [nzDropdownMenu]="category"
+      >
+        {{ selectedCategory }}
+        <span nz-icon nzType="down"></span>
+      </button>
+      <nz-dropdown-menu #category="nzDropdownMenu">
+        <ul nz-menu>
+          <li
+            nz-menu-item
+            *ngFor="let category of equipmentCategories"
+            (click)="onCategorySelect(category)"
+          >
+            {{ category }}
+          </li>
+        </ul>
+      </nz-dropdown-menu>
+
+      <button
+        nz-button
+        nz-dropdown
+        nzTrigger="click"
+        [nzDropdownMenu]="timeperiod"
+      >
+        {{ selectedPeriod }}
+        <span nz-icon nzType="down"></span>
+      </button>
+      <nz-dropdown-menu #timeperiod="nzDropdownMenu">
+        <ul nz-menu>
+          <li
+            nz-menu-item
+            *ngFor="let period of timePeriods"
+            (click)="onTimePeriodSelect(period)"
+          >
+            {{ period }}
+          </li>
+        </ul>
+      </nz-dropdown-menu>
+    </div>
+  </nz-flex>
+  <nz-divider></nz-divider>
+  <div *ngIf="isLoading" class="loading-indicator">
+    <!-- <nz-spinner></nz-spinner> -->
+  </div>
+  <div *ngIf="!isLoading">
+    <canvas #lineGraphCanvas></canvas>
+  </div>
+</nz-card>

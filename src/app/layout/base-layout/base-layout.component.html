@@ -23,17 +23,13 @@
       nzMode="inline"
       [nzInlineCollapsed]="isCollapsed"
     >
-      <!-- <li nz-menu-item (click)="handleDashboard()">
-        <span nz-icon nzType="dashboard"></span>
-        <span>Dashboard</span>
-      </li> -->
       <ng-container *ngFor="let menuItem of menuItems">
         <li
           nz-menu-item
           [routerLink]="menuItem.route"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
-          *ngIf="hasAccess(menuItem.privilege)"
+          *ngIf="hasAccess(menuItem?.privilege)"
         >
           <span nz-icon [nzType]="menuItem.icon"></span>
           <span>{{ menuItem.label }}</span>
