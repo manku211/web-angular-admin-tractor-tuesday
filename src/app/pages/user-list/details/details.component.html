@@ -20,7 +20,9 @@
         <img src="assets/icons/win.svg" alt="win" />
         <nz-flex [nzVertical]="true">
           <span class="thin-text">Total Winning Bid</span>
-          <span class="info-value">10</span>
+          <span class="info-value"
+            >{{ userInfo?.winCount }}/{{ userInfo?.totalListedTractors }}</span
+          >
         </nz-flex>
       </div>
     </nz-card>

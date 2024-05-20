@@ -14,6 +14,8 @@ import { Chart } from 'chart.js';
 import { TableViewComponent } from '../../../shared/components/table-view/table-view.component';
 import { CountryHelperService } from '../../../utilities/helpers/country-helper.service';
 import { RouterModule } from '@angular/router';
+import { EquipmentCategory } from '../../../core/models/equipmentCategories';
+import { HttpClient } from '@angular/common/http';
 interface Card {
   imgSrc: string;
   label: string;
@@ -37,6 +39,7 @@ interface ColumnInfo {
   altSortField?: string;
   listOfFilter?: any[];
   filter?: boolean;
+  isMultiple?: boolean;
 }
 
 @Component({
@@ -68,25 +71,31 @@ export class DashboardComponent {
 
   carouselItems: CarouselItem[] = [];
 
+  getCategoryFilters = () => {
+    return Object.entries(EquipmentCategory).map(([key, value]) => ({
+      text: value,
+      value: value,
+      // byDefault: true,
+    }));
+  };
+
   listOfColumns: ColumnInfo[] = [
     {
-      key: 'fullName',
+      key: 'tractorId.name',
       label: 'Tractor Name',
       sort: true,
       sortOrder: 'DESC',
-      sortField: 'fullName',
-      altSortField: 'username',
+      sortField: 'tractorId.name',
     },
 
     {
-      key: 'category',
+      key: 'equipmentCategories',
       label: 'Category',
       sort: false,
-      filter: false,
-      listOfFilter: [
-        { text: 'Blocked', value: 'Blocked' },
-        { text: 'N/A', value: 'UnBlocked' },
-      ],
+      filter: true,
+      isMultiple: true,
+      sortField: 'equipmentCategories',
+      listOfFilter: this.getCategoryFilters(),
     },
     {
       key: 'bidder',
@@ -210,7 +219,7 @@ export class DashboardComponent {
         datasets: [
           {
             label: 'Top Selling Category',
-            data: [2, 5, 8, 3, 5, 9, 10, 2, 2],
+            data: data,
           },
         ],
       },
@@ -236,5 +245,19 @@ export class DashboardComponent {
     };
     console.log(this.query);
     this.fetchCategoryList(this.query);
+  }
+
+  onFilterHandler(filteredColumn: any): void {
+    console.log(filteredColumn);
+    const key = filteredColumn?.column?.key;
+    if (filteredColumn.event != null) {
+      this.query = { ...this.query, [key]: filteredColumn.event };
+      console.log(this.query);
+      this.fetchCategoryList(this.query);
+    } else {
+      const updatedQuery = { ...this.query };
+      delete updatedQuery[key];
+      this.fetchCategoryList(updatedQuery);
+    }
   }
 }

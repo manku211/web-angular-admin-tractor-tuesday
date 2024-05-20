@@ -42,6 +42,7 @@ export class AuctionManagementComponent {
     take: 10,
     fetch: 'all',
     auctionsFilter: 'CREATED_AT_LAST',
+    auctionStatus: 'ONGOING,ENDED',
   };
   loader: boolean = false;
   totalRecords: number = 0;
@@ -94,7 +95,6 @@ export class AuctionManagementComponent {
       listOfFilter: [
         { text: 'Ongoing', value: 'ONGOING' },
         { text: 'Ended', value: 'ENDED' },
-        { text: 'Denied', value: 'DENIED' },
       ],
     },
     {
