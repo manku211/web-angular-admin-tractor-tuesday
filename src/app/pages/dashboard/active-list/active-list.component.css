@@ -1,11 +1,11 @@
 .active-users {
-  padding: 10px 10px 10px 0px;
+  padding: 10px 10px;
 }
 .table-head {
   position: absolute;
   /* bottom: -4%; */
   top: -20px;
-  width: 98%;
+  width: 542px;
   border-radius: 12px 12px 0px 0px;
   background: var(--primary-color);
   height: 60px;

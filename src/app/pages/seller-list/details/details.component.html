@@ -15,7 +15,9 @@
         <img src="assets/icons/win.svg" alt="win" />
         <nz-flex [nzVertical]="true">
           <span class="thin-text">Total Winning Bid</span>
-          <span class="info-value">10</span>
+          <span class="info-value"
+            >{{ userInfo?.winCount }}/{{ userInfo?.totalListedTractors }}</span
+          >
         </nz-flex>
       </div>
     </nz-card>
@@ -107,10 +109,10 @@
                   [ngStyle]="
                     item['reservedPrice'] > 0
                       ? { background: '#2FC07C', color: '#fff' }
-                      : {}
+                      : { background: '#097F54' }
                   "
                 >
-                  {{ item["reservedPrice"] > 0 ? "Reserved" : "N/A" }}
+                  {{ item["reservedPrice"] > 0 ? "Reserved" : "No Reserve" }}
                 </span>
               </td>
               <td>

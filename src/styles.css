@@ -132,6 +132,9 @@ body {
 
 /* overriding inbuilt classes */
 
+.ant-layout {
+  background-color: var(--white-color);
+}
 .ant-breadcrumb > nz-breadcrumb-item:last-child a {
   color: var(--black-color);
   font-size: var(--font-s);
@@ -333,7 +336,7 @@ body {
 
 .status-button {
   border-radius: 12px;
-  padding: 4px 16px;
+  padding: 4px 15px;
   text-transform: capitalize;
 }
 .modal-header-text {

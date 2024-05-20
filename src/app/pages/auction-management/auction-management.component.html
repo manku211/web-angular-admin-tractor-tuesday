@@ -43,10 +43,10 @@
           [ngStyle]="
             item['reservedPrice'] > 0
               ? { background: '#2FC07C', color: '#fff' }
-              : {}
+              : { background: '#097F54', color: '#fff' }
           "
         >
-          {{ item["reservedPrice"] > 0 ? "Reserved" : "N/A" }}
+          {{ item["reservedPrice"] > 0 ? "Reserved" : "No Reserve" }}
         </span>
       </td>
       <td>

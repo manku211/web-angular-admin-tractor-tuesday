@@ -4,6 +4,7 @@ import { ModalComponent } from '../../../shared/components/modal/modal.component
 import { FormsModule } from '@angular/forms';
 import { AuctionService } from '../../../core/services/auction/auction.service';
 import { getExteriorImageUrl } from '../../../utilities/helpers/helper';
+import { MessageService } from '../../../core/services/message/message.service';
 
 @Component({
   selector: 'app-approve-modal',
@@ -20,7 +21,10 @@ export class ApproveModalComponent {
   start_time: Date | null = null;
   end_time: Date | null = null;
 
-  constructor(private auctionService: AuctionService) {}
+  constructor(
+    private auctionService: AuctionService,
+    private messageService: MessageService
+  ) {}
 
   ngOnInit() {
     console.log('tractor', this.tractorData);
@@ -83,6 +87,7 @@ export class ApproveModalComponent {
     this.auctionService.updateAuction(auctionId, payload).subscribe({
       next: (data) => {
         console.log(data);
+        this.messageService.success('Auction Approved Successfully');
         this.handleClose.emit();
       },
       error: (err) => {

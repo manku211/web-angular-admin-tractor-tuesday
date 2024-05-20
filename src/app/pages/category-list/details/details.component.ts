@@ -187,6 +187,8 @@ export class DetailsComponent {
   handleViewMore(id: any) {
     console.log(id);
     localStorage.setItem('selectedAuctionId', id);
-    this.router.navigate(['/dashboard/user-listing/user-details/vehicle-info']);
+    this.router.navigate([
+      '/dashboard/category-listing/category-details/vehicle-info',
+    ]);
   }
 }

@@ -117,7 +117,7 @@ export class DetailsComponent {
     this.query = {
       ...this.query,
       sellerId: this.userId,
-      // auctionStatus: 'PENDING',
+      auctionStatus: 'PENDING',
       auctionsFilter: 'CREATED_AT_LAST',
       equipmentCategories:
         'Tractors,Harvesters,Planting Equipment,Chemical Applicators,Tillage Equipment,Hay & Forage,Trucks,Motorsports,Skid Steers,Construction,Other',
@@ -258,6 +258,7 @@ export class DetailsComponent {
   }
 
   handleClose() {
+    this.fetchAuctionDetails(this.query);
     this.openDenialModal = false;
     this.openApproveModal = false;
   }
