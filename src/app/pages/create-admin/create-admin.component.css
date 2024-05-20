@@ -33,3 +33,13 @@
 .add-admin-input {
   margin-top: 20px;
 }
+.admin-label-info {
+  font-size: var(--font-m);
+  font-weight: var(--font-weight-bold);
+  line-height: 19px;
+  color: var(--grey-color);
+}
+.admin-value-info{
+  font-size: 48px;
+  font-weight: var(--font-weight-bold);
+}

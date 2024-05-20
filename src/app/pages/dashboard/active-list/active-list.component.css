@@ -1,0 +1,16 @@
+.active-users {
+  padding: 10px 10px 10px 0px;
+}
+.table-head {
+  position: absolute;
+  /* bottom: -4%; */
+  top: -20px;
+  width: 98%;
+  border-radius: 12px 12px 0px 0px;
+  background: var(--primary-color);
+  height: 60px;
+  color: var(--white-color);
+  font-size: var(--font-l);
+  font-weight: var(--font-weight-bold);
+  padding: 10px;
+}

@@ -1,3 +1,106 @@
+<nz-carousel [nzEffect]="effect">
+  @for (item of carouselItems; track item) {
+  <div nz-carousel-content>
+    <div class="carousel-content">
+      <h3>{{ item.year }}</h3>
+      <div class="title">{{ item.title }}</div>
+      <div>Starting Bid From {{ item.startingBid }}</div>
+      <div class="date-info">
+        <span nz-icon nzType="calendar" nzTheme="outline"></span>
+        <span>Start Date</span>
+      </div>
+      <button
+        class="primary-button"
+        nz-button
+        [routerLink]="'/dashboard/control-panel'"
+      >
+        View More
+      </button>
+    </div>
+  </div>
+  }
+</nz-carousel>
+
+<div class="dashboard-cards">
+  <nz-row nzJustify="space-between">
+    <div nz-col nzSpan="5" *ngFor="let card of cards">
+      <nz-card class="stats-card">
+        <div nz-flex [nzVertical]="true" nzGap="middle">
+          <img [src]="card.imgSrc" alt="icon" width="45" height="45" />
+          <nz-flex [nzVertical]="true">
+            <span class="stats-label">{{ card.label }}</span>
+            <span class="stats-val">{{ card.value }}</span>
+          </nz-flex>
+        </div>
+      </nz-card>
+    </div>
+  </nz-row>
+</div>
+
+<div class="dashboard-cards">
+  <nz-card class="detail-outer-card">
+    <nz-row nzJustify="space-between">
+      <div nz-col nzSpan="11">
+        <nz-flex nzGap="middle" nzAlign="center">
+          <img src="assets/icons/top-sell.svg" alt="fav" />
+          <span class="sub-title">Top Selling Categories</span>
+        </nz-flex>
+        <div class="doughnut-chart">
+          <canvas #doughnutChartRef></canvas>
+        </div>
+      </div>
+      <div nz-col nzSpan="12">
+        <app-table-view
+          [data]="auctionInfo"
+          [columns]="listOfColumns"
+          [enablePagination]="false"
+          [enableSorting]="true"
+          [enableSearch]="false"
+          [enableActions]="true"
+          (sortChange)="onSortChange($event)"
+          [loader]="false"
+          [tableRowTemplate]="tableRowTemplate"
+          [isDetailTable]="true"
+        >
+          <ng-template #tableRowTemplate let-data let-columns="columns">
+            <tr *ngFor="let item of data">
+              <td>
+                <div nz-flex nzAlign="center">
+                  <img
+                    src="assets/icons/profile_container.svg"
+                    alt="profile"
+                    width="40"
+                    height="40"
+                  />
+                  <img
+                    [src]="exteriorImageUrl || 'assets/icons/Tractor.svg'"
+                    class="tractor-picture"
+                    alt="profile"
+                  />
+                  &nbsp;<span>{{ item["tractorId"]?.name }}</span>
+                </div>
+              </td>
+              <td>
+                {{ item["category"] }}
+              </td>
+
+              <td>{{ item["bidders"] }}</td>
+              <td>
+                <button
+                  class="viewmore_button"
+                  [routerLink]="'/dashboard/user-listing'"
+                >
+                  View More
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+        </app-table-view>
+      </div>
+    </nz-row>
+  </nz-card>
+</div>
+
 <div class="dashboard-cards"><app-active-list></app-active-list></div>
 <div class="dashboard-cards"><app-sales-report></app-sales-report></div>
 

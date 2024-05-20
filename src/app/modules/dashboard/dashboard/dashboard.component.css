@@ -1,3 +1,61 @@
 .dashboard-cards {
-  margin: 20px 0px;
+  padding: 20px 0px;
+}
+.stats-label {
+  font-size: var(--font-s);
+  font-weight: var(--font-weight-semi-bold);
+}
+.stats-val {
+  font-size: var(--font-ml);
+  font-weight: var(--font-weight-extra-bold);
+}
+.stats-card {
+  /* margin: 20px 0px; */
+  border-radius: 12px;
+  border: 1px solid var(--primary, #377e7f);
+  box-shadow: 0px 20px 20px 0px rgba(55, 126, 127, 0.1);
+}
+[nz-carousel-content] {
+  text-align: left;
+  padding: 20px;
+  background: linear-gradient(
+      270deg,
+      rgba(255, 255, 255, 0) 1.46%,
+      #000 104.02%
+    ),
+    url("../../../../assets/images/tractor_image.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 14px;
+  border: 1px solid var(--border-color);
+  color: #fff;
+  overflow: hidden;
+  display: flex !important;
+  align-items: center;
+}
+.carousel-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 300px;
+}
+h3 {
+  color: #fff;
+  margin-bottom: 0;
+  user-select: none;
+}
+::ng-deep .ant-carousel .slick-slider .slick-list {
+  height: 300px !important;
+}
+.doughnut-chart {
+  display: block;
+  margin: 60px 20px;
+}
+.tractor-picture {
+  border-radius: 50%;
+  width: 24px;
+  height: 38px;
+  top: 19px;
+  left: 25px;
+  position: absolute;
 }

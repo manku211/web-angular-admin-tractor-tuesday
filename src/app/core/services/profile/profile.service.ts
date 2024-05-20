@@ -46,4 +46,40 @@ export class ProfileService {
   getProfileData(): Observable<any> {
     return this.profileDataSubject.asObservable();
   }
+
+  getAllAdmins() {
+    return this.http.get<any>(this.baseUrl + `admin/get-all-admins`);
+  }
+
+  getAdminById(id: string) {
+    return this.http.get<any>(this.baseUrl + `admin/get-admin-by-id/${id}`);
+  }
+
+  addAdmin(payload: any) {
+    return this.http.post<any>(
+      this.baseUrl + `admin/create-sub-admin`,
+      payload
+    );
+  }
+
+  updateAdmin(payload: any) {
+    return this.http.patch<any>(
+      this.baseUrl + `admin/update-subadmin-details`,
+      payload
+    );
+  }
+
+  removeAdmin(payload: any) {
+    return this.http.patch<any>(
+      this.baseUrl + `admin/remove-subadmin`,
+      payload
+    );
+  }
+
+  updatePrivilege(payload: any) {
+    return this.http.patch<any>(
+      this.baseUrl + `admin/add-or-edit-privileges-sub-admin`,
+      payload
+    );
+  }
 }

@@ -37,4 +37,14 @@ export class AnalyticsService {
       params: queryParams,
     });
   }
+
+  getDashboardStats() {
+    return this.http.get<any>(
+      this.baseUrl + `analytics/get-total-revenue-generated`
+    );
+  }
+
+  getCategoryAnalytics() {
+    return this.http.get<any>(this.baseUrl + `analytics/top-selling-category`);
+  }
 }

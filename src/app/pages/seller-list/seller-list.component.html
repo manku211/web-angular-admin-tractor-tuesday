@@ -33,7 +33,9 @@
         </td>
         <td>{{ item["email"] }}</td>
         <td>{{ item["phoneNumber"] }}</td>
-        <td></td>
+        <td>
+          {{ item["totalListedTractors"] }}
+        </td>
         <td>{{ item["createdAt"] | date : "d MMM, y" }}</td>
         <td>
           <button class="viewmore_button" (click)="handleViewMore(item['_id'])">

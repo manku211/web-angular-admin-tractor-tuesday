@@ -36,7 +36,6 @@ p {
   --warning-color: #ffc107;
   --info-color: #17a2b8;
   --light-color: #f8f9fa;
-  --grey-color: #a7a7a7;
 
   --thead-bg-color: #f2f2f2;
   --green-color: #377e7f;
@@ -48,6 +47,7 @@ p {
   --primary-color: #377e7f;
   --border-color: #dadce0;
   --custom-bg-color: #ecffff;
+  --grey-color: #6a6666;
 }
 
 @font-face {
@@ -99,6 +99,7 @@ body {
   box-shadow: 0px 2px 8px 0px rgba(46, 47, 54, 0.08);
   border-radius: 5px;
   height: 44px;
+  border: none;
 }
 .img {
   object-fit: contain;
@@ -128,6 +129,9 @@ body {
 
 .nz-table-out-bordered > .ant-table-container {
   border: 1px solid var(--primary-color);
+}
+.ant-carousel {
+  height: auto !important;
 }
 .ant-table-thead > tr > th {
   color: var(--white-color);
