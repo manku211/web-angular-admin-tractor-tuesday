@@ -14,6 +14,7 @@ import { CountryHelperService } from '../../../utilities/helpers/country-helper.
 import { DetailsCardComponent } from '../../../shared/components/details-card/details-card.component';
 import { styleObject } from '../../../utilities/helpers/helper';
 import { AlgoliaSearchService } from '../../../utilities/helpers/algolia-search.service';
+import { EquipmentCategory } from '../../../core/models/equipmentCategories';
 interface User {
   _id: string;
   username: string;
@@ -31,6 +32,7 @@ interface ColumnInfo {
   type?: string;
   listOfFilter?: any[];
   filter?: boolean;
+  isMultiple?: boolean;
 }
 
 @Component({
@@ -68,6 +70,14 @@ export class DetailsComponent {
     'Disruption of services',
   ];
   auctionInfo: any;
+
+  getCategoryFilters = () => {
+    return Object.entries(EquipmentCategory).map(([key, value]) => ({
+      text: value,
+      value: value,
+    }));
+  };
+
   listOfColumns: ColumnInfo[] = [
     {
       key: 'tractorId',
@@ -76,9 +86,12 @@ export class DetailsComponent {
       sortOrder: 'DESC',
     },
     {
-      key: 'category',
+      key: 'equipmentCategories',
       label: 'Category',
-      sort: true,
+      sort: false,
+      filter: true,
+      isMultiple: true,
+      listOfFilter: this.getCategoryFilters(),
     },
     {
       key: 'vin',
@@ -132,7 +145,12 @@ export class DetailsComponent {
     this.userId = localStorage.getItem('selectedUserId');
     console.log('User ID:', this.userId);
     this.fetchUserDetails(this.userId);
-    this.query = { ...this.query, userId: this.userId };
+    this.query = {
+      ...this.query,
+      userId: this.userId,
+      equipmentCategories:
+        'Tractors,Harvesters,Planting Equipment,Chemical Applicators,Tillage Equipment,Hay & Forage,Trucks,Motorsports,Skid Steers,Construction,Other',
+    };
     this.fetchAuctionDetails(this.query);
   }
 
@@ -256,6 +274,7 @@ export class DetailsComponent {
     localStorage.setItem('selectedAuctionId', id);
     this.router.navigate(['/dashboard/user-listing/user-details/vehicle-info']);
   }
+
   // styleObject(status: any): Object {
   //   if (status == 'ONGOING') {
   //     return { background: '#DED1F7', color: '#000 ' };

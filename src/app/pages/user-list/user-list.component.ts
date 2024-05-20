@@ -75,10 +75,10 @@ export class UserListComponent {
       key: 'blockStatus',
       label: 'Block Status',
       sort: false,
-      filter: false,
+      filter: true,
       listOfFilter: [
-        { text: 'Blocked', value: 'Blocked' },
-        { text: 'N/A', value: 'UnBlocked' },
+        { text: 'Blocked', value: 'blocked' },
+        { text: 'N/A', value: 'unblocked' },
       ],
     },
     {
@@ -134,6 +134,20 @@ export class UserListComponent {
   onPageChange(page: number): void {
     this.query = { ...this.query, skip: page };
     this.fetchDetails(this.query);
+  }
+
+  onFilterHandler(filteredColumn: any): void {
+    console.log(filteredColumn);
+    const key = filteredColumn?.column?.key;
+    if (filteredColumn.event != null) {
+      this.query = { ...this.query, [key]: filteredColumn.event };
+      console.log(this.query);
+      this.fetchDetails(this.query);
+    } else {
+      const updatedQuery = { ...this.query };
+      delete updatedQuery[key];
+      this.fetchDetails(updatedQuery);
+    }
   }
 
   async onSearchInput(search: any): Promise<void> {

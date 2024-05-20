@@ -12,6 +12,7 @@
     [tableRowTemplate]="tableRowTemplate"
     (pageChange)="onPageChange($event)"
     (search)="onSearchInput($event)"
+    (filteredList)="onFilterHandler($event)"
   >
     <ng-template #tableRowTemplate let-data let-columns="columns">
       <tr *ngFor="let item of data">

@@ -175,17 +175,17 @@ export class DashboardComponent {
             value: data?.data?.revenue || 0,
           },
           {
-            imgSrc: 'assets/icons/anothericon.svg',
+            imgSrc: 'assets/icons/live-auction.svg',
             label: 'Total Live Auctions',
             value: data?.data?.activeAuctions || 0,
           },
           {
-            imgSrc: 'assets/icons/anothericon.svg',
+            imgSrc: 'assets/icons/active-buyers.svg',
             label: 'Total Active Buyers',
             value: data?.data?.totalActiveBuyers || 0,
           },
           {
-            imgSrc: 'assets/icons/anothericon.svg',
+            imgSrc: 'assets/icons/cam.svg',
             label: 'Total Active Photographers',
             value: data?.data?.totalActivePhotographers || 0,
           },

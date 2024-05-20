@@ -9,6 +9,7 @@ import { DenyModalComponent } from '../deny-modal/deny-modal.component';
 import { ApproveModalComponent } from '../approve-modal/approve-modal.component';
 import { DetailsCardComponent } from '../../../shared/components/details-card/details-card.component';
 import { styleObject } from '../../../utilities/helpers/helper';
+import { EquipmentCategory } from '../../../core/models/equipmentCategories';
 
 interface Seller {
   _id: string;
@@ -24,6 +25,7 @@ interface ColumnInfo {
   type?: string;
   listOfFilter?: any[];
   filter?: boolean;
+  isMultiple?: boolean;
 }
 
 @Component({
@@ -51,6 +53,15 @@ export class DetailsComponent {
   openApproveModal: boolean = false;
   tractorData: any;
   tabIndex: number = 0;
+
+  getCategoryFilters = () => {
+    return Object.entries(EquipmentCategory).map(([key, value]) => ({
+      text: value,
+      value: value,
+      byDefault: true,
+    }));
+  };
+
   listOfColumns: ColumnInfo[] = [
     {
       key: 'tractorId',
@@ -59,9 +70,12 @@ export class DetailsComponent {
       sortOrder: 'DESC',
     },
     {
-      key: 'category',
+      key: 'equipmentCategories',
       label: 'Category',
-      sort: true,
+      sort: false,
+      filter: true,
+      isMultiple: true,
+      listOfFilter: this.getCategoryFilters(),
     },
     {
       key: 'vin',
@@ -103,8 +117,10 @@ export class DetailsComponent {
     this.query = {
       ...this.query,
       sellerId: this.userId,
-      auctionStatus: 'PENDING',
+      // auctionStatus: 'PENDING',
       auctionsFilter: 'CREATED_AT_LAST',
+      equipmentCategories:
+        'Tractors,Harvesters,Planting Equipment,Chemical Applicators,Tillage Equipment,Hay & Forage,Trucks,Motorsports,Skid Steers,Construction,Other',
     };
     this.fetchAuctionDetails(this.query);
   }

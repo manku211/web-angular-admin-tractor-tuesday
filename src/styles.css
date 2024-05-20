@@ -48,6 +48,7 @@ p {
   --border-color: #dadce0;
   --custom-bg-color: #ecffff;
   --grey-color: #6a6666;
+  --gradient-color: linear-gradient(180deg, #3c4b75 0%, #367a7f 100%);
 }
 
 @font-face {
@@ -89,7 +90,8 @@ body {
   font-size: var(--font-s);
   font-weight: var(--font-weight-small);
 }
-.primary-button {
+.primary-button,
+.primary-button:focus {
   font-size: 17px;
   font-weight: 600;
   line-height: 24px;
@@ -101,6 +103,21 @@ body {
   height: 44px;
   border: none;
 }
+
+.primary-button:hover {
+  background: var(--gradient-color);
+  color: var(--white-color);
+  border: none;
+}
+
+.primary-button:disabled,
+.primary-button[disabled] {
+  opacity: 0.64;
+  background: var(--green-color);
+  color: var(--white-color);
+  pointer-events: none;
+}
+
 .img {
   object-fit: contain;
 }

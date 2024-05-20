@@ -24,6 +24,7 @@ interface TableColumn {
   sortDirections?: NzTableSortOrder[] | undefined;
   filter?: boolean;
   listOfFilter?: any;
+  isMultiple?: boolean;
 }
 
 @Component({

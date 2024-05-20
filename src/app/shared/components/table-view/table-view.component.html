@@ -38,7 +38,7 @@
         [nzShowFilter]="column.filter"
         [nzFilters]="column.listOfFilter"
         (nzSortOrderChange)="onSortChange(column)"
-        [nzFilterMultiple]="false"
+        [nzFilterMultiple]="column.isMultiple ? true : false"
         (nzFilterChange)="onFilterHandler(column, $event)"
         [ngClass]="{ 'custom-table-header-th': isDetailTable }"
       >

@@ -2,15 +2,16 @@
   @for (item of carouselItems; track item) {
   <div nz-carousel-content>
     <div class="carousel-content">
-      <h3>{{ item.year }}</h3>
+      <span class="vehicle-year">{{ item.year }}</span>
       <div class="title">{{ item.title }}</div>
-      <div>Starting Bid From {{ item.startingBid }}</div>
-      <div class="date-info">
+      <div class="bid-start-date">Starting Bid From {{ item.startingBid }}</div>
+      <div class="date-info" nz-flex nzGap="small" nzAlign="center">
         <span nz-icon nzType="calendar" nzTheme="outline"></span>
         <span>Start Date</span>
+        <span>{{ item?.startDate }}</span>
       </div>
       <button
-        class="primary-button"
+        class="primary-button viewmore-button"
         nz-button
         [routerLink]="'/dashboard/control-panel'"
       >

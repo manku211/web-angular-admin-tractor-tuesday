@@ -82,8 +82,8 @@ export class DetailsComponent {
       sort: false,
       filter: true,
       listOfFilter: [
-        { text: 'Reserved', value: 'reserved' },
-        { text: 'Non-reserved', value: 'unreserved' },
+        { text: 'Reserved', value: 'RESERVED' },
+        { text: 'Non-reserved', value: 'UNRESERVED' },
       ],
     },
     {
@@ -160,6 +160,10 @@ export class DetailsComponent {
       this.query = { ...this.query, [key]: filteredColumn.event };
       console.log(this.query);
       this.fetchAuctionDetails(this.query);
+    } else {
+      const updatedQuery = { ...this.query };
+      delete updatedQuery[key];
+      this.fetchAuctionDetails(updatedQuery);
     }
   }
 
