@@ -59,3 +59,16 @@ h3 {
   left: 25px;
   position: absolute;
 }
+.bid-start-date {
+  font-style: italic;
+  font-size: var(--font-ml);
+  line-height: 40px;
+}
+.viewmore-button {
+  width: 228px;
+  margin-top: 19px;
+}
+.vehicle-year {
+  font-size: var(--font-ml);
+  font-weight: 500;
+}
