@@ -32,6 +32,7 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
 
 const modules = [
   NzButtonModule,
@@ -60,6 +61,7 @@ const modules = [
   NzCollapseModule,
   NzInputNumberModule,
   NzSwitchModule,
+  NzPopoverModule,
   NzDropDownModule,
   NzUploadModule,
   NzSpinModule,

@@ -75,7 +75,7 @@ export class LoginComponent {
             this.loader = false;
             this.authService.startTokenRefreshCheck();
             this.messageService.success('Login Successful!');
-            this.router.navigate(['/dashboard/user-listing']);
+            this.router.navigate(['/dashboard']);
           }
         },
         error: (error) => {

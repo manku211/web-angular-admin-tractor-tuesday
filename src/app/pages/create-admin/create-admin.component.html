@@ -1,9 +1,21 @@
 <nz-card>
   <div nz-row>
     <div nz-col nzSpan="20">
-      <div nz-flex>
-        <span>Add Sub admin</span>
+      <div nz-flex nzAlign="center" nzGap="middle">
+        <img src="assets/icons/user-edit.svg" alt="edit" />
+        <span class="sub-title">Add Sub admin</span>
       </div>
+      <nz-divider></nz-divider>
+      <nz-flex [nzGap]="40">
+        <nz-flex nzAlign="center" [nzVertical]="true">
+          <span class="admin-label-info">Total Users </span>
+          <span class="admin-value-info">{{ totalAdmins }}</span>
+        </nz-flex>
+        <nz-flex nzAlign="center" [nzVertical]="true">
+          <span class="admin-label-info">Active Users </span>
+          <span class="admin-value-info">2</span>
+        </nz-flex>
+      </nz-flex>
     </div>
     <div nz-col nzSpan="4">
       <button nz-button class="primary-button" (click)="openAddAdminModal()">
@@ -27,7 +39,7 @@
             nzAlign="center"
             class="privilege-item"
           >
-            <span>{{ privilege }}</span>
+            <span>{{ privilege?.label }}</span>
             <div nz-flex nzGap="large">
               <span>Read</span>
               <span>Write</span>
@@ -37,10 +49,27 @@
       </div>
     </div>
   </div>
-  <div nz-row>
+  <div nz-row *ngFor="let item of adminList; let i = index">
     <div nz-col nzSpan="4" class="list-header">
-      <div nz-flex>
-        <span>John</span>
+      <div nz-flex nzAlign="center" nzJustify="space-between">
+        <span>{{ item?.name }}</span>
+        <span
+          nz-icon
+          nzType="ellipsis"
+          nzTheme="outline"
+          nz-popover
+          [nzPopoverVisible]="visibleIndex === i"
+          (nzPopoverVisibleChange)="change($event, i)"
+          nzPopoverTrigger="click"
+          nzPopoverPlacement="right"
+          [nzPopoverContent]="contentTemplate"
+        ></span>
+        <ng-template #contentTemplate>
+          <nz-flex [nzVertical]="true">
+            <a (click)="editAdmin(item?._id)">Edit</a>
+            <a (click)="removeAdmin(item?._id)">Remove</a>
+          </nz-flex>
+        </ng-template>
       </div>
     </div>
     <div nz-col nzSpan="20" class="scrollable-col">
@@ -53,8 +82,24 @@
             class="privilege-item"
           >
             <div nz-flex nzGap="large">
-              <label nz-checkbox></label>
-              <label nz-checkbox></label>
+              <label
+                nz-checkbox
+                [ngModel]="
+                  getPrivilegeStatus(item._id, privilege?.value, 'read')
+                "
+                (ngModelChange)="
+                  updatePrivilege($event, item._id, privilege?.value, 'read')
+                "
+              ></label>
+              <label
+                nz-checkbox
+                [ngModel]="
+                  getPrivilegeStatus(item._id, privilege?.value, 'write')
+                "
+                (ngModelChange)="
+                  updatePrivilege($event, item._id, privilege?.value, 'write')
+                "
+              ></label>
             </div>
           </div>
         </ng-container>
@@ -66,7 +111,7 @@
   <div modal-content [formGroup]="addAdminForm">
     <nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true">
       <img src="assets/icons/tick.svg" alt="block" width="50" height="50" />
-      <h3>Add New Sub admin user</h3>
+      <h3>{{ editAdminDetails ? "Edit" : "Add New" }} Sub admin user</h3>
     </nz-flex>
     <div nz-flex [nzVertical]="true" class="add-admin-input">
       <span>UserName</span>
@@ -101,9 +146,9 @@
       <span>Phone Number</span>
     </div>
     <nz-input-number-group nzCompact>
-      <nz-select formControlName="code">
+      <nz-select formControlName="code" ngModel="+91">
         <nz-option nzValue="+91" nzLabel="+91"></nz-option>
-        <nz-option nzValue="+1" nzLabel="+1"></nz-option>
+        <nz-option nzValue="+1" nzLabel="+1" selected></nz-option>
       </nz-select>
       <div
         *ngIf="code?.invalid && (code?.dirty || code?.touched)"
@@ -136,7 +181,25 @@
       (click)="handleAddAdmin()"
       [disabled]="addAdminForm.invalid"
     >
-      Add Admin
+      {{ editAdminDetails ? "Edit" : "Add" }} Admin
     </button>
+  </div>
+</app-modal>
+
+<app-modal [showModal]="openDeleteModal" (handleCancelModal)="handleCancel()">
+  <div modal-content>
+    <nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true">
+      <img src="assets/icons/tick.svg" alt="block" width="50" height="50" />
+      <h3>Remove</h3>
+      <div class="sub-text">Are you sure you want to Remove this admin?</div>
+    </nz-flex>
+  </div>
+  <div modal-footer>
+    <div nz-flex>
+      <button nz-button class="modal-button" (click)="handleCancel()">
+        Cancel
+      </button>
+      <button nz-button class="modal-button" (click)="remove()">Remove</button>
+    </div>
   </div>
 </app-modal>
