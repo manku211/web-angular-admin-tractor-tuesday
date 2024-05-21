@@ -13,7 +13,7 @@ const routes: Routes = [
         path: 'category-details',
         component: DetailsComponent,
         data: {
-          breadcrumb: 'CategoryDetails',
+          breadcrumb: 'Category Details',
         },
         children: [
           {

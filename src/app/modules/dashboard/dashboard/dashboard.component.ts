@@ -157,6 +157,7 @@ export class DashboardComponent {
       next: (data: any) => {
         console.log(data);
         if (data && data.data) {
+          console.log(data?.data);
           const counts = Object.values(data.data).slice(0, -1); // Extract counts
           const labels = Object.keys(data.data).slice(0, -1); // Extract labels
           console.log(counts, labels);
@@ -221,18 +222,26 @@ export class DashboardComponent {
 
   createDoughnutChart(data: any[], labels: string[]): void {
     const ctx = this.doughnutChartRef.nativeElement.getContext('2d');
-
-    // if (this.chart) {
-    //   this.chart.destroy();
-    // }
+    console.log(data);
+    if (this.chart) {
+      this.chart.destroy();
+    }
     this.chart = new Chart(ctx, {
       type: 'doughnut',
       data: {
-        labels: labels,
+        labels: [
+          'Tractors',
+          'Harvestors',
+          'Hay & Forage',
+          'Trucks',
+          'Construction',
+          'Trillage Equipment',
+          'Motorsports',
+        ],
         datasets: [
           {
             label: 'Top Selling Category',
-            data: data,
+            data: [10, 2, 8, 2, 7, 5, 2],
           },
         ],
       },

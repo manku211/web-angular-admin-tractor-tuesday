@@ -89,9 +89,6 @@
               &nbsp;<span>{{ item["fullName"] || item["username"] }}</span>
             </div>
           </td>
-          <!-- <td>
-                                                                                                                                <span>{{ item["email"] }}</span>
-                                                                                                                              </td> -->
           <td>
             <img
               src="assets/icons/usflag.png"
@@ -105,7 +102,9 @@
             }}</span>
           </td>
           <td>
-            {{ item["totalListedTractors"] }}
+            {{
+              item["totalListedTractors"] > 0 ? item["totalListedTractors"] : 0
+            }}
           </td>
           <td>
             <button
