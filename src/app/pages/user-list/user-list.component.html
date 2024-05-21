@@ -55,7 +55,11 @@
           <span>{{ item["createdAt"] | date : "d MMM, y" }}</span>
         </td>
         <td>
-          <button class="viewmore_button" (click)="handleViewMore(item['_id'])">
+          <button
+            nz-button
+            class="secondary_button"
+            (click)="handleViewMore(item['_id'])"
+          >
             View More
           </button>
         </td>

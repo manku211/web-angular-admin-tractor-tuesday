@@ -45,7 +45,7 @@ export class DetailsComponent {
   selectedReason!: string;
   otherReason!: string;
   totalRecords: number = 0;
-  query: any = { skip: 1, take: 10 };
+  query: any = { skip: 1, take: 10, auctionStatus: 'ONGOING,ENDED' };
   styleObject: any = styleObject;
   loader: boolean = false;
   searchResults: any;
@@ -92,11 +92,8 @@ export class DetailsComponent {
       sort: false,
       filter: true,
       listOfFilter: [
-        { text: 'Pending', value: 'PENDING' },
         { text: 'Ongoing', value: 'ONGOING' },
         { text: 'Ended', value: 'ENDED' },
-        { text: 'Denied', value: 'DENIED' },
-        { text: 'All', value: 'ALL', byDefault: true },
       ],
     },
 
@@ -163,7 +160,10 @@ export class DetailsComponent {
     } else {
       const updatedQuery = { ...this.query };
       delete updatedQuery[key];
-      this.fetchAuctionDetails(updatedQuery);
+      this.fetchAuctionDetails({
+        ...updatedQuery,
+        auctionStatus: 'ONGOING,ENDED',
+      });
     }
   }
 

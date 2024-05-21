@@ -40,7 +40,7 @@ export class AuctionService {
 
   updateAuction(id: any, payload: any) {
     return this.http.patch<any>(
-      this.baseUrl + `auctions/update-auction/${id}`,
+      this.baseUrl + `admin/update-auction-admin/${id}`,
       payload
     );
   }

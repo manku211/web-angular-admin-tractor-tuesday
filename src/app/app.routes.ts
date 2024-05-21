@@ -15,7 +15,7 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     component: BaseLayoutComponent,
-    canActivate: [authGuard],
+
     children: [
       {
         path: '',

@@ -95,47 +95,74 @@ export class AuthService {
 
   userPrivileges: any[] = []; // Populate this array with user privileges after login
 
-  admin = {
-    role: Roles.SUPER_ADMIN,
-    privileges: [
-      {
-        name: Privileges.USER_LISTING,
-        read: true,
-        write: false,
-        _id: '66263fc3f2763d8b48a8dc54',
-      },
-      {
-        name: Privileges.CONTROL_PANEL,
-        read: false,
-        write: false,
-        _id: '66263fc3f2763d8b48a8dc55',
-      },
-    ],
-  };
+  // hasReadAccess(privilege: Privileges): boolean {
+  //   if (!this.admin) {
+  //     return false;
+  //   }
+  //   if (this.isSuperAdmin()) {
+  //     return true;
+  //   } else {
+  //     const userPrivileges = this.admin.privileges;
+  //     const matchedPrivilege = userPrivileges.find(
+  //       (p: any) => p.name === privilege
+  //     );
+  //     return matchedPrivilege ? matchedPrivilege.read : false;
+  //   }
+  // }
 
-  hasReadAccess(privilege: Privileges): boolean {
-    if (this.isSuperAdmin()) {
+  // hasWriteAccess(privilege: Privileges): boolean {
+  //   if (!this.admin) {
+  //     return false; // Return false if admin data is not available
+  //   }
+
+  //   if (this.isSuperAdmin()) {
+  //     return true;
+  //   } else {
+  //     const userPrivileges = this.admin.privileges;
+  //     const matchedPrivilege = userPrivileges.find(
+  //       (p: any) => p.name === privilege
+  //     );
+  //     return matchedPrivilege ? matchedPrivilege.write : false;
+  //   }
+  // }
+
+  hasRequiredPrivilege(
+    userPrivileges: any[],
+    requiredPrivileges: Privileges[]
+  ): boolean {
+    const userPrivilegeNames = userPrivileges.map(
+      (privilege) => privilege.name
+    );
+    return requiredPrivileges.every((requiredPrivilege) =>
+      userPrivilegeNames.includes(requiredPrivilege)
+    );
+  }
+
+  hasReadAccess(admin: any, privilege: Privileges): boolean {
+    if (this.isSuperAdmin(admin)) {
       return true;
     } else {
-      const userPrivileges = this.admin.privileges;
-      const matchedPrivilege = userPrivileges.find((p) => p.name === privilege);
+      const userPrivileges = admin.privileges;
+      const matchedPrivilege = userPrivileges.find(
+        (p: any) => p.name === privilege
+      );
       return matchedPrivilege ? matchedPrivilege.read : false;
     }
   }
 
-  // Check if the user has write access for a privilege
-  hasWriteAccess(privilege: Privileges): boolean {
-    if (this.isSuperAdmin()) {
+  hasWriteAccess(admin: any, privilege: Privileges): boolean {
+    if (this.isSuperAdmin(admin)) {
       return true;
     } else {
-      const userPrivileges = this.admin.privileges;
-      const matchedPrivilege = userPrivileges.find((p) => p.name === privilege);
+      const userPrivileges = admin.privileges;
+      const matchedPrivilege = userPrivileges.find(
+        (p: any) => p.name === privilege
+      );
       return matchedPrivilege ? matchedPrivilege.write : false;
     }
   }
 
-  // Check if the user is superadmin
-  isSuperAdmin(): boolean {
-    return this.admin.role === Roles.SUPER_ADMIN;
+  isSuperAdmin(admin: any): boolean {
+    return admin.role === Roles.SUPER_ADMIN;
   }
 }

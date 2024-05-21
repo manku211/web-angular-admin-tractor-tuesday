@@ -52,10 +52,10 @@
                 [ngStyle]="
                   item['reservedPrice'] > 0
                     ? { background: '#2FC07C', color: '#fff' }
-                    : {}
+                    : { background: '#097F54', color: '#fff' }
                 "
               >
-                {{ item["reservedPrice"] > 0 ? "Reserved" : "N/A" }}
+                {{ item["reservedPrice"] > 0 ? "Reserved" : "No Reserve" }}
               </span>
             </td>
             <td>{{ item["createdAt"] | date : "dd-MM-yyyy" }}</td>
@@ -63,14 +63,17 @@
             <td>
               <div nz-flex nzGap="small">
                 <button
+                  nz-button
                   (click)="handleRequest(item, 'accept')"
-                  class="viewmore_button"
+                  class="secondary_button"
+                  [disabled]="item['isApprovedByAdmin']"
                 >
-                  Approve
+                  {{ item["isApprovedByAdmin"] ? "Approved" : "Approve" }}
                 </button>
                 <button
+                  nz-button
                   (click)="handleRequest(item, 'deny')"
-                  class="viewmore_button"
+                  class="secondary_button"
                 >
                   Deny
                 </button>
@@ -87,7 +90,7 @@
           [columns]="listOfColumns"
           [enablePagination]="true"
           [enableSorting]="true"
-          [enableSearch]="true"
+          [enableSearch]="false"
           [enableActions]="true"
           (sortChange)="onSortChange($event)"
           [loader]="loader"
@@ -109,7 +112,7 @@
                   [ngStyle]="
                     item['reservedPrice'] > 0
                       ? { background: '#2FC07C', color: '#fff' }
-                      : { background: '#097F54' }
+                      : { background: '#097F54', color: '#fff' }
                   "
                 >
                   {{ item["reservedPrice"] > 0 ? "Reserved" : "No Reserve" }}
@@ -126,8 +129,9 @@
               <td>{{ item["currentBid"]?.amount }}</td>
               <td>
                 <button
+                  nz-button
                   (click)="handleViewMore(item['_id'])"
-                  class="viewmore_button"
+                  class="secondary_button"
                 >
                   View More
                 </button>

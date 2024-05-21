@@ -16,11 +16,11 @@ import { HttpClient } from '@angular/common/http';
 interface GeoJSONFeature {
   type: string;
   properties: {
-    name: string; // Or whatever properties your GeoJSON features have
+    name: string;
   };
   geometry: {
     type: string;
-    coordinates: number[] | number[][] | number[][][]; // Adjust this based on your GeoJSON format
+    coordinates: number[] | number[][] | number[][][];
   };
 }
 
@@ -36,6 +36,8 @@ export class LocationGraphComponent {
   context!: any;
   graphData: any;
   chart!: Chart;
+  selectedCountry: 'usa' | 'ca' = 'usa';
+  private chartInstance!: Chart;
   constructor(
     private analyticsService: AnalyticsService,
     private http: HttpClient
@@ -52,61 +54,13 @@ export class LocationGraphComponent {
     );
     this.context = this.canvas.nativeElement.getContext('2d');
     Chart.register(...registerables);
-    this.createMap();
-    // this.createChoroplethMap();
+    this.createMap(this.selectedCountry);
   }
 
-  async createChoroplethMap() {
-    // Fetch GeoJSON data for Canada
-    const response = await fetch(
-      'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/canada.geojson'
-    );
-    const canadaGeoJSON = await response.json();
-
-    // Prepare the data
-    const data = {
-      labels: canadaGeoJSON.features.map((d: any) => d.properties.name),
-      datasets: [
-        {
-          label: 'Canada Choropleth',
-          data: canadaGeoJSON.features.map((d: any) => ({
-            feature: d,
-            value: Math.random() * 100,
-          })),
-          backgroundColor: 'rgba(255, 99, 132, 0.2)',
-          borderColor: 'rgba(255, 99, 132, 1)',
-          borderWidth: 1,
-          outline: canadaGeoJSON,
-        },
-      ],
-    };
-
-    this.chart = new Chart(this.context, {
-      type: 'choropleth',
-      data: data,
-      options: {
-        showOutline: true,
-        showGraticule: false,
-        scales: {
-          xy: {
-            projection: 'equalEarth',
-          },
-        },
-        plugins: {
-          legend: {
-            display: false,
-          },
-          tooltip: {
-            callbacks: {
-              label: (context: any) =>
-                `${
-                  context.feature.properties.name
-                }: ${context.raw.value.toFixed(2)}`,
-            },
-          },
-        },
-      },
-    });
+  selectCountry(country: 'usa' | 'ca') {
+    this.selectedCountry = country;
+    this.fetchGraphDetails(this.selectedCountry, '');
+    this.createMap(country);
   }
 
   fetchGraphDetails(country: string, state: string) {
@@ -133,6 +87,106 @@ export class LocationGraphComponent {
         console.error(err);
       },
     });
+  }
+
+  ngOnDestroy() {
+    this.chartInstance.destroy();
+  }
+
+  createMap(country: 'ca' | 'usa') {
+    let url: string = '';
+    let projectionName: string = '';
+    let label: string = '';
+
+    if (country === 'ca') {
+      url = 'assets/canadageo.json';
+      projectionName = 'equirectangular';
+      label = 'Canada Provinces';
+    } else if (country === 'usa') {
+      url = 'https://unpkg.com/us-atlas/states-10m.json';
+      projectionName = 'albersUsa';
+      label = 'USA States';
+    }
+
+    fetch(url)
+      .then((r) => r.json())
+      .then((data) => {
+        let features: any;
+        let outline;
+
+        if (country === 'ca') {
+          features = data.features;
+          outline = data;
+        } else if (country === 'usa') {
+          outline = (
+            ChartGeo.topojson.feature(data, data.objects.nation) as any
+          ).features[0];
+          features = (
+            ChartGeo.topojson.feature(data, data.objects.states) as any
+          ).features;
+        }
+        if (this.chartInstance) {
+          this.chartInstance.destroy();
+        }
+        this.chartInstance = new Chart(this.context, {
+          type: 'choropleth',
+          data: {
+            labels: features.map((d: any) => d.properties.name),
+            datasets: [
+              {
+                label: label,
+                outline: outline,
+                data: features.map((d: any) => ({
+                  feature: d,
+                  value: Math.random() * 100,
+                })),
+                backgroundColor: '#377E7F',
+                borderColor: '#ffffff',
+                hoverBackgroundColor: '#0B5455',
+                clickBackgroundColor: '#0B5455',
+              },
+            ],
+          },
+          options: {
+            plugins: {
+              legend: {
+                display: false,
+              },
+              tooltip: {
+                callbacks: {
+                  label: (tooltipItem: any) => {
+                    const stateName = tooltipItem.raw.feature.properties.name;
+                    return stateName;
+                  },
+                },
+              },
+            },
+            interaction: {
+              mode: 'nearest',
+              intersect: false,
+            },
+            onClick: (event, elements) => {
+              if (elements && elements.length > 0) {
+                const stateName = features[elements[0].index].properties.name;
+                console.log('Clicked State:', stateName);
+                this.fetchGraphDetails(country, stateName);
+              }
+            },
+            scales: {
+              projection: {
+                axis: 'x',
+                projection: projectionName as any,
+              },
+              color: {
+                axis: 'x',
+                quantize: 5,
+                display: false,
+              },
+            },
+            responsive: true,
+          },
+        });
+      });
   }
 
   // createMap() {
@@ -188,7 +242,7 @@ export class LocationGraphComponent {
   //           scales: {
   //             projection: {
   //               axis: 'x',
-  //               projection: 'albersUsa',
+  //               projection: 'equirectangular',
   //             },
   //             color: {
   //               axis: 'x',
@@ -202,73 +256,73 @@ export class LocationGraphComponent {
   //     });
   // }
 
-  createMap() {
-    fetch('https://unpkg.com/us-atlas/states-10m.json')
-      .then((r) => r.json())
-      .then((us) => {
-        const nation = (ChartGeo.topojson.feature(us, us.objects.nation) as any)
-          .features[0];
-        const states = (ChartGeo.topojson.feature(us, us.objects.states) as any)
-          .features;
+  // createMap() {
+  //   fetch('https://unpkg.com/us-atlas/states-10m.json')
+  //     .then((r) => r.json())
+  //     .then((us) => {
+  //       const nation = (ChartGeo.topojson.feature(us, us.objects.nation) as any)
+  //         .features[0];
+  //       const states = (ChartGeo.topojson.feature(us, us.objects.states) as any)
+  //         .features;
 
-        const chart = new Chart(this.context, {
-          type: 'choropleth',
-          data: {
-            labels: states.map((d: any) => d.properties.name),
-            datasets: [
-              {
-                label: 'States',
-                outline: nation,
-                data: states.map((d: any) => ({
-                  feature: d,
-                  value: 0,
-                })),
-                backgroundColor: '#377E7F',
-                borderColor: '#ffffff',
-                hoverBackgroundColor: '#0B5455',
-                clickBackgroundColor: '#0B5455',
-              },
-            ],
-          },
-          options: {
-            plugins: {
-              legend: {
-                display: false,
-              },
-              tooltip: {
-                callbacks: {
-                  label: (tooltipItem: any) => {
-                    const stateName = tooltipItem.raw.feature.properties.name;
-                    return stateName;
-                  },
-                },
-              },
-            },
-            interaction: {
-              mode: 'nearest',
-              intersect: false,
-            },
+  //       const chart = new Chart(this.context, {
+  //         type: 'choropleth',
+  //         data: {
+  //           labels: states.map((d: any) => d.properties.name),
+  //           datasets: [
+  //             {
+  //               label: 'States',
+  //               outline: nation,
+  //               data: states.map((d: any) => ({
+  //                 feature: d,
+  //                 value: 0,
+  //               })),
+  //               backgroundColor: '#377E7F',
+  //               borderColor: '#ffffff',
+  //               hoverBackgroundColor: '#0B5455',
+  //               clickBackgroundColor: '#0B5455',
+  //             },
+  //           ],
+  //         },
+  //         options: {
+  //           plugins: {
+  //             legend: {
+  //               display: false,
+  //             },
+  //             tooltip: {
+  //               callbacks: {
+  //                 label: (tooltipItem: any) => {
+  //                   const stateName = tooltipItem.raw.feature.properties.name;
+  //                   return stateName;
+  //                 },
+  //               },
+  //             },
+  //           },
+  //           interaction: {
+  //             mode: 'nearest',
+  //             intersect: false,
+  //           },
 
-            onClick: (event, elements) => {
-              if (elements && elements.length > 0) {
-                const stateName = states[elements[0].index].properties.name;
-                console.log('Clicked State:', stateName);
-                this.fetchGraphDetails('usa', stateName);
-              }
-            },
-            scales: {
-              projection: {
-                axis: 'x',
-                projection: 'albersUsa',
-              },
-              color: {
-                axis: 'x',
-                quantize: 5,
-                display: false,
-              },
-            },
-          },
-        });
-      });
-  }
+  //           onClick: (event, elements) => {
+  //             if (elements && elements.length > 0) {
+  //               const stateName = states[elements[0].index].properties.name;
+  //               console.log('Clicked State:', stateName);
+  //               this.fetchGraphDetails('usa', stateName);
+  //             }
+  //           },
+  //           scales: {
+  //             projection: {
+  //               axis: 'x',
+  //               projection: 'albersUsa',
+  //             },
+  //             color: {
+  //               axis: 'x',
+  //               quantize: 5,
+  //               display: false,
+  //             },
+  //           },
+  //         },
+  //       });
+  //     });
+  // }
 }

@@ -120,11 +120,11 @@ export class AuctionReportComponent {
         datasets: [
           {
             label: 'Auction',
-            data: data, // Example data, replace with your actual data
-            pointBackgroundColor:
-              'linear-gradient(180deg, #92C8C8 0%, rgba(255, 255, 255, 0.00) 141.68%);',
+            data: data,
+            pointBackgroundColor: '#377E7F',
             borderColor: '#377E7F',
             borderWidth: 1,
+            backgroundColor: 'rgba(55, 126, 127, 0.2)',
             fill: true,
             tension: 0.5,
           },

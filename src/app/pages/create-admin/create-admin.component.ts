@@ -65,8 +65,10 @@ export class CreateAdminComponent {
     this.adminService.getAllAdmins().subscribe({
       next: (data) => {
         console.log('admins list', data?.data?.admins);
-        this.adminList = data?.data?.admins;
-        this.totalAdmins = data?.data?.count;
+        this.adminList = data?.data?.admins.filter(
+          (item: any) => item.role === 'admin'
+        );
+        this.totalAdmins = this.adminList.length;
       },
       error: (err) => {
         console.error(err);
@@ -141,6 +143,7 @@ export class CreateAdminComponent {
         next: (data) => {
           console.log(data);
           this.addAdminModal = false;
+          this.messageService.success('Details updated successfully');
           this.fetchAllAdmin();
         },
         error: (err) => {
@@ -158,6 +161,7 @@ export class CreateAdminComponent {
         next: (data) => {
           console.log(data);
           this.addAdminModal = false;
+          this.messageService.success('Admin added successfully');
           this.fetchAllAdmin();
         },
         error: (err) => {

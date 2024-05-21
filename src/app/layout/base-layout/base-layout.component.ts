@@ -6,6 +6,7 @@ import { Router, RouterModule } from '@angular/router';
 import { ProfileService } from '../../core/services/profile/profile.service';
 import { Privileges } from '../../core/models/rolePrivileges';
 import { ModalComponent } from '../../shared/components/modal/modal.component';
+import { BehaviorSubject } from 'rxjs';
 
 interface MenuItem {
   label: string;
@@ -30,6 +31,10 @@ export class BaseLayoutComponent {
   openLogoutModal: boolean = false;
   menuItems: MenuItem[] = [];
   logoutLoader: boolean = false;
+
+  private adminDetailsSubject = new BehaviorSubject<any>(null);
+  public adminDetails$ = this.adminDetailsSubject.asObservable();
+
   constructor(
     private authService: AuthService,
     private messageService: MessageService,
@@ -38,31 +43,32 @@ export class BaseLayoutComponent {
   ) {}
   ngOnInit() {
     this.fetchAdminDetails();
+    // this.profileService.fetchAdminDetails();
     this.menuItems = [
-      { label: 'Dasboard', icon: 'home', route: '/dashboard' },
+      { label: 'Dashboard', icon: 'home', route: '/dashboard' },
       {
         label: 'User List',
         icon: 'unordered-list',
         route: '/dashboard/user-listing',
-        privilege: Privileges.USER_LISTING,
+        // privilege: Privileges.USER_LISTING,
       },
       {
         label: 'Seller List',
         icon: 'unordered-list',
         route: '/dashboard/seller-listing',
-        privilege: Privileges.SELLER_LISTING,
+        // privilege: Privileges.SELLER_LISTING,
       },
       {
         label: 'Category Listing',
         icon: 'appstore',
         route: '/dashboard/category-listing',
-        privilege: Privileges.CATEGORY_LISTING,
+        // privilege: Privileges.CATEGORY_LISTING,
       },
       {
         label: 'Control Panel',
         icon: 'setting',
         route: '/dashboard/control-panel',
-        privilege: Privileges.CONTROL_PANEL,
+        // privilege: Privileges.CONTROL_PANEL,
       },
       // Add other menu items here
     ];
@@ -86,15 +92,21 @@ export class BaseLayoutComponent {
         console.log(data);
         if (data?.data) {
           this.adminDetails = data?.data;
-          this.hasUserListingAccess =
-            this.authService.hasReadAccess(Privileges.USER_LISTING) ||
-            this.authService.hasWriteAccess(Privileges.USER_LISTING);
-          this.hasSellerListingAccess =
-            this.authService.hasReadAccess(Privileges.SELLER_LISTING) ||
-            this.authService.hasWriteAccess(Privileges.SELLER_LISTING);
-          this.hasControlPanelAccess =
-            this.authService.hasReadAccess(Privileges.CONTROL_PANEL) ||
-            this.authService.hasWriteAccess(Privileges.CONTROL_PANEL);
+          const admin = {
+            role: data?.data?.role,
+            privileges: data?.data?.privileges,
+          };
+          // this.adminDetailsSubject.next(admin);
+          // localStorage.setItem('admin', JSON.stringify(admin));
+          // this.hasUserListingAccess =
+          //   this.authService.hasReadAccess(Privileges.USER_LISTING) ||
+          //   this.authService.hasWriteAccess(Privileges.USER_LISTING);
+          // this.hasSellerListingAccess =
+          //   this.authService.hasReadAccess(Privileges.SELLER_LISTING) ||
+          //   this.authService.hasWriteAccess(Privileges.SELLER_LISTING);
+          // this.hasControlPanelAccess =
+          //   this.authService.hasReadAccess(Privileges.CONTROL_PANEL) ||
+          //   this.authService.hasWriteAccess(Privileges.CONTROL_PANEL);
         }
       },
       error: (err) => {
@@ -132,11 +144,11 @@ export class BaseLayoutComponent {
     });
   }
 
-  hasAccess(privilege: any): boolean {
-    return (
-      this.authService.hasReadAccess(privilege) ||
-      this.authService.hasWriteAccess(privilege)
-    );
+  hasAccess(privilege: any) {
+    // return (
+    //   this.authService.hasReadAccess(privilege) ||
+    //   this.authService.hasWriteAccess(privilege)
+    // );
   }
 
   handleCancel() {
