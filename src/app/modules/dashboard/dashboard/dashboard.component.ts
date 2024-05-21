@@ -128,8 +128,15 @@ export class DashboardComponent {
       next: (data: any) => {
         console.log(data);
         if (data) {
-          this.exteriorImageUrl = getExteriorImageUrl(data?.data?.categories);
-          this.auctionInfo = data?.data?.categories;
+          const auctionsWithImageUrl = data?.data?.categories.map(
+            (auction: any) => {
+              return {
+                ...auction,
+                exteriorImageUrl: getExteriorImageUrl(auction),
+              };
+            }
+          );
+          this.auctionInfo = auctionsWithImageUrl;
           this.carouselItems = this.auctionInfo.map((item: any) => ({
             year: item.tractorId.purchaseYear,
             title: item.tractorId.name,

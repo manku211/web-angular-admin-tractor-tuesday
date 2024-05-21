@@ -8,7 +8,10 @@ import { Router } from '@angular/router';
 import { DenyModalComponent } from '../deny-modal/deny-modal.component';
 import { ApproveModalComponent } from '../approve-modal/approve-modal.component';
 import { DetailsCardComponent } from '../../../shared/components/details-card/details-card.component';
-import { styleObject } from '../../../utilities/helpers/helper';
+import {
+  getExteriorImageUrl,
+  styleObject,
+} from '../../../utilities/helpers/helper';
 import { EquipmentCategory } from '../../../core/models/equipmentCategories';
 
 interface Seller {
@@ -185,12 +188,18 @@ export class DetailsComponent {
       next: (data: any) => {
         console.log(data);
         if (data) {
+          const auctionsWithImageUrl = data?.data?.auctions.map(
+            (auction: any) => {
+              return {
+                ...auction,
+                exteriorImageUrl: getExteriorImageUrl(auction),
+              };
+            }
+          );
           this.loader = false;
-          if (this.tabIndex === 0) this.auctionInfo = data?.data?.auctions;
+          if (this.tabIndex === 0) this.auctionInfo = auctionsWithImageUrl;
           else if (this.tabIndex === 1) {
-            this.auctionInfo = data?.data?.auctions.filter(
-              (auction: any) => auction?.auctionStatus !== 'PENDING'
-            );
+            this.auctionInfo = auctionsWithImageUrl;
           }
           this.totalRecords = data?.data?.count;
         }

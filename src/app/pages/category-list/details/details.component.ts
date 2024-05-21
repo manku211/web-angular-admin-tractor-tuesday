@@ -127,8 +127,15 @@ export class DetailsComponent {
       next: (data: any) => {
         console.log(data);
         if (data) {
-          this.exteriorImageUrl = getExteriorImageUrl(data?.data?.categories);
-          this.auctionInfo = data?.data?.categories;
+          const auctionsWithImageUrl = data?.data?.categories.map(
+            (auction: any) => {
+              return {
+                ...auction,
+                exteriorImageUrl: getExteriorImageUrl(auction),
+              };
+            }
+          );
+          this.auctionInfo = auctionsWithImageUrl;
           this.totalRecords = data?.data?.count;
         }
       },

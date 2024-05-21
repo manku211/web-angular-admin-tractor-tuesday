@@ -32,18 +32,6 @@ export class ApproveModalComponent {
     this.populateDateTime();
   }
 
-  // getExteriorImageUrl(): void {
-  //   if (this.tractorData && this.tractorData?.tractorId?.images) {
-  //     const exteriorImage = this.tractorData.tractorId.images.find(
-  //       (image: any) => image.type === 'exterior'
-  //     );
-  //     console.log(exteriorImage);
-  //     if (exteriorImage) {
-  //       this.exteriorImageUrl = exteriorImage.link;
-  //     }
-  //   }
-  // }
-
   populateDateTime(): void {
     if (this.tractorData) {
       this.date = new Date(this.tractorData.proposedStartTime * 1000);

@@ -16,18 +16,20 @@
   <ng-template #tableRowTemplate let-data let-columns="columns">
     <tr *ngFor="let item of data">
       <td>
-        <img
-          src="assets/icons/profile_container.svg"
-          alt="profile"
-          width="40"
-          height="40"
-        />
-        <img
-          [src]="exteriorImageUrl || 'assets/icons/Tractor.svg'"
-          class="tractor-picture"
-          alt="profile"
-        />
-        &nbsp;<span>{{ item["tractorId"]?.name }}</span>
+        <div nz-flex nzAlign="center">
+          <img
+            src="assets/icons/profile_container.svg"
+            alt="profile"
+            width="40"
+            height="40"
+          />
+          <img
+            [src]="item?.exteriorImageUrl || 'assets/icons/Tractor.png'"
+            class="tractor-picture"
+            alt="profile"
+          />
+          &nbsp;<span>{{ item["tractorId"]?.name }}</span>
+        </div>
       </td>
       <td>{{ item["tractorId"]?.category }}</td>
       <td>{{ item["tractorId"]?.vin }}</td>

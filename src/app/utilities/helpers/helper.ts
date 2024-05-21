@@ -7,10 +7,10 @@ export const styleObject = (status: any) => {
 
 export const getExteriorImageUrl = (tractorData: any) => {
   if (tractorData && tractorData?.tractorId?.images) {
-    const exteriorImage = tractorData.tractorId.images.find(
-      (image: any) => image.type === 'exterior'
+    const exteriorImage = tractorData?.tractorId?.images.find(
+      (image: any) => image.type === 'All'
     );
-    console.log(exteriorImage);
+
     if (exteriorImage) {
       return exteriorImage.link;
     }

@@ -12,7 +12,10 @@ import { AuctionService } from '../../../core/services/auction/auction.service';
 import { ModalComponent } from '../../../shared/components/modal/modal.component';
 import { CountryHelperService } from '../../../utilities/helpers/country-helper.service';
 import { DetailsCardComponent } from '../../../shared/components/details-card/details-card.component';
-import { styleObject } from '../../../utilities/helpers/helper';
+import {
+  getExteriorImageUrl,
+  styleObject,
+} from '../../../utilities/helpers/helper';
 import { AlgoliaSearchService } from '../../../utilities/helpers/algolia-search.service';
 import { EquipmentCategory } from '../../../core/models/equipmentCategories';
 interface User {
@@ -170,7 +173,15 @@ export class DetailsComponent {
       next: (data: any) => {
         console.log(data);
         if (data) {
-          this.auctionInfo = data?.data?.auctions;
+          const auctionsWithImageUrl = data?.data?.auctions.map(
+            (auction: any) => {
+              return {
+                ...auction,
+                exteriorImageUrl: getExteriorImageUrl(auction),
+              };
+            }
+          );
+          this.auctionInfo = auctionsWithImageUrl;
           this.totalRecords = data?.data?.count;
         }
       },

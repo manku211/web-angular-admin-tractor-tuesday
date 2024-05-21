@@ -120,9 +120,14 @@ export class AuctionManagementComponent {
     this.loader = true;
     this.auctionService.getAllAuctions(params).subscribe((res) => {
       console.log('Response', res?.data?.auctions);
-      this.exteriorImageUrl = getExteriorImageUrl(res?.data?.auctions);
+      const auctionsWithImageUrl = res?.data?.auctions.map((auction: any) => {
+        return {
+          ...auction,
+          exteriorImageUrl: getExteriorImageUrl(auction),
+        };
+      });
       this.loader = false;
-      this.listOfData = res.data?.auctions;
+      this.listOfData = auctionsWithImageUrl;
       this.totalRecords = res.data?.count;
     });
   }
