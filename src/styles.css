@@ -256,6 +256,14 @@ body {
 
 /* custom classes */
 
+.tractor-picture {
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  top: 18px;
+  left: 18px;
+  position: absolute;
+}
 .block_status {
   color: #b57803;
   background-color: var(--block-color);
