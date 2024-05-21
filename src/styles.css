@@ -253,7 +253,10 @@ body {
 .ant-switch-checked {
   background-color: var(--green-color);
 }
-
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
 /* custom classes */
 
 .tractor-picture {

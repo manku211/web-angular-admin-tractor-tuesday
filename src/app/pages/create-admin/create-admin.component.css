@@ -1,6 +1,6 @@
 .privileges-list {
-  border-top: 1px solid var(--bordr_color, #dadce0);
-  border-bottom: 1px solid var(--bordr_color, #dadce0);
+  border-top: 1px solid var(--primary-color);
+  border-bottom: 1px solid var(--primary-color);
 }
 .scrollable-col {
   overflow-x: auto;
@@ -22,8 +22,11 @@
 
 .list-header {
   padding: 20px;
+  border-right: 1px solid var(--primary-color);
 }
-
+.admin-item:last-child {
+  border-bottom: 1px solid var(--primary-color);
+}
 .ant-select {
   width: 90px;
 }
@@ -39,7 +42,7 @@
   line-height: 19px;
   color: var(--grey-color);
 }
-.admin-value-info{
+.admin-value-info {
   font-size: 48px;
   font-weight: var(--font-weight-bold);
 }
