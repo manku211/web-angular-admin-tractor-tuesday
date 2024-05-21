@@ -28,10 +28,13 @@
       </td>
       <td>{{ item["bidders"] }}</td>
 
-      <!-- <td>{{ item["startTime"] | date : "d MMM, y" }}</td> -->
+      <td>
+        {{ item["startTime"] && item["startTime"] * 1000 | date : "d MMM, y" }}
+      </td>
       <td>
         <button
-          class="viewmore_button"
+          nz-button
+          class="secondary_button"
           (click)="handleViewMore(item['category'])"
         >
           View More

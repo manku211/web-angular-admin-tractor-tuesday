@@ -1,9 +1,9 @@
 canvas {
-  width: 100%;
-  height: 100%;
+  width: 100% !important;
+  height: 100% !important;
 }
 .geo-graph-container {
-  /* margin-top: 24px; */
+  height: 500px;
 }
 .stats-value {
   font-size: var(--font-m);
@@ -35,4 +35,20 @@ canvas {
 .all-users {
   margin-top: 10px;
   margin-bottom: 30px;
+}
+.country-name {
+  font-size: var(--font-s);
+  font-weight: var(--font-weight-semi-bold);
+  margin-left: 5px;
+}
+.country-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.checkmark {
+  margin-top: 10px;
 }

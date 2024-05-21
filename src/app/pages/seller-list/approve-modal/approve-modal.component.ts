@@ -74,7 +74,7 @@ export class ApproveModalComponent {
     console.log(startTimeStamp, endTimeStamp);
     const payload = {
       startTime: startTimeStamp,
-      endTime: endTimeStamp,
+      endTime: endTimeStamp ? endTimeStamp : 0,
       auctionStatus: 'PENDING',
       // title: 'Auction Title',
       // subtitle: 'Auction SubTitle',

@@ -46,11 +46,13 @@ export class CategoryListComponent {
       label: 'Country',
       sort: false,
     },
+
     {
       key: 'noOfBidder',
       label: 'Number Of Bidders',
       sort: false,
     },
+    { key: 'auctionDate', label: 'Last Auction Date', sort: false },
   ];
 
   constructor(

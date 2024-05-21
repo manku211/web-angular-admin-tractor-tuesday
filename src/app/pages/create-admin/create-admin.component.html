@@ -8,13 +8,13 @@
       <nz-divider></nz-divider>
       <nz-flex [nzGap]="40">
         <nz-flex nzAlign="center" [nzVertical]="true">
-          <span class="admin-label-info">Total Users </span>
+          <span class="admin-label-info">Total Admins </span>
           <span class="admin-value-info">{{ totalAdmins }}</span>
         </nz-flex>
-        <nz-flex nzAlign="center" [nzVertical]="true">
+        <!-- <nz-flex nzAlign="center" [nzVertical]="true">
           <span class="admin-label-info">Active Users </span>
           <span class="admin-value-info">2</span>
-        </nz-flex>
+        </nz-flex> -->
       </nz-flex>
     </div>
     <div nz-col nzSpan="4">
@@ -40,9 +40,9 @@
             class="privilege-item"
           >
             <span>{{ privilege?.label }}</span>
-            <div nz-flex nzGap="large">
+            <div nz-flex nzGap="small">
               <span>Read</span>
-              <span>Write</span>
+              <span>Read/Write</span>
             </div>
           </div>
         </ng-container>
@@ -53,21 +53,32 @@
     <div nz-col nzSpan="4" class="list-header">
       <div nz-flex nzAlign="center" nzJustify="space-between">
         <span>{{ item?.name }}</span>
-        <span
-          nz-icon
-          nzType="ellipsis"
-          nzTheme="outline"
+
+        <button
+          nz-button
+          nzType="text"
           nz-popover
           [nzPopoverVisible]="visibleIndex === i"
           (nzPopoverVisibleChange)="change($event, i)"
           nzPopoverTrigger="click"
           nzPopoverPlacement="right"
           [nzPopoverContent]="contentTemplate"
-        ></span>
+        >
+          <span
+            nz-icon
+            nzType="ellipsis"
+            nzTheme="outline"
+            style="font-size: 24px"
+          ></span>
+        </button>
         <ng-template #contentTemplate>
-          <nz-flex [nzVertical]="true">
-            <a (click)="editAdmin(item?._id)">Edit</a>
-            <a (click)="removeAdmin(item?._id)">Remove</a>
+          <nz-flex [nzVertical]="true" nzGap="small">
+            <button nz-button nzType="text" (click)="editAdmin(item?._id)">
+              <span>Edit Admin Details</span>
+            </button>
+            <button nz-button nzType="text" (click)="removeAdmin(item?._id)">
+              <span>Remove Admin</span>
+            </button>
           </nz-flex>
         </ng-template>
       </div>

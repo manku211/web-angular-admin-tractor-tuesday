@@ -1,0 +1,3 @@
+::ng-deep .nz-table-out-bordered > .ant-table-container {
+  border-radius: 14px 14px 14px 14px;
+}

@@ -114,11 +114,8 @@ export class DetailsComponent {
       sort: false,
       filter: true,
       listOfFilter: [
-        { text: 'Pending', value: 'PENDING' },
         { text: 'Ongoing', value: 'ONGOING' },
         { text: 'Ended', value: 'ENDED' },
-        { text: 'Denied', value: 'DENIED' },
-        { text: 'All', value: 'ALL', byDefault: true },
       ],
     },
 
@@ -148,8 +145,6 @@ export class DetailsComponent {
     this.query = {
       ...this.query,
       userId: this.userId,
-      equipmentCategories:
-        'Tractors,Harvesters,Planting Equipment,Chemical Applicators,Tillage Equipment,Hay & Forage,Trucks,Motorsports,Skid Steers,Construction,Other',
     };
     this.fetchAuctionDetails(this.query);
   }
@@ -249,6 +244,10 @@ export class DetailsComponent {
       this.query = { ...this.query, [key]: filteredColumn.event };
       console.log(this.query);
       this.fetchAuctionDetails(this.query);
+    } else {
+      const updatedQuery = { ...this.query };
+      delete updatedQuery[key];
+      this.fetchAuctionDetails(updatedQuery);
     }
   }
 

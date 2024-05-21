@@ -7,13 +7,20 @@
     [(nzCollapsed)]="isCollapsed"
     [nzTrigger]="null"
   >
-    <div class="sidebar-logo">
+    <div class="sidebar-logo" [ngClass]="{ collapsed: isCollapsed }">
       <img
-        [src]="
-          isCollapsed ? 'assets/icons/Tractor.svg' : 'assets/icons/logo.svg'
-        "
+        *ngIf="isCollapsed"
+        src="assets/icons/tractor_logo.svg"
         alt="logo"
-        [ngClass]="{ collapsed: isCollapsed }"
+        width="40"
+        height="30"
+      />
+      <img
+        *ngIf="!isCollapsed"
+        src="assets/icons/logo.svg"
+        alt="logo"
+        width="125"
+        height="44"
       />
     </div>
 
@@ -29,23 +36,21 @@
           [routerLink]="menuItem.route"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
-          *ngIf="hasAccess(menuItem?.privilege)"
         >
           <span nz-icon [nzType]="menuItem.icon"></span>
           <span>{{ menuItem.label }}</span>
         </li>
       </ng-container>
-      <div class="sidebar-bottom-menu">
-        <li
-          nz-menu-item
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          (click)="handleOpenLogoutModal()"
-        >
-          <span nz-icon nzType="logout"></span>
-          <span>Sign Out</span>
-        </li>
-      </div>
+      <li
+        class="sidebar-bottom-menu"
+        nz-menu-item
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="handleOpenLogoutModal()"
+      >
+        <span nz-icon nzType="logout"></span>
+        <span>Sign Out</span>
+      </li>
     </ul>
   </nz-sider>
   <nz-layout class="main-content" [ngClass]="{ collapsed: isCollapsed }">

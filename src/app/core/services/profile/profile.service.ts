@@ -7,10 +7,27 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class ProfileService {
   baseUrl = 'https://api-dev.tractortuesday.xyz/api/v1/';
+
+  private adminDetailsSubject = new BehaviorSubject<any>(null);
+  public adminDetails$ = this.adminDetailsSubject.asObservable();
+
   private profileDataSubject: BehaviorSubject<any> = new BehaviorSubject<any>(
     {}
   );
   constructor(private http: HttpClient) {}
+
+  fetchAdminDetails() {
+    this.getAdmin().subscribe({
+      next: (data) => {
+        if (data?.data) {
+          this.adminDetailsSubject.next(data.data);
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching admin details:', error);
+      },
+    });
+  }
 
   getAdmin() {
     return this.http.get<any>(this.baseUrl + `admin`);

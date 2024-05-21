@@ -58,7 +58,6 @@ export class DetailsComponent {
     return Object.entries(EquipmentCategory).map(([key, value]) => ({
       text: value,
       value: value,
-      byDefault: true,
     }));
   };
 
@@ -83,13 +82,13 @@ export class DetailsComponent {
       sort: false,
     },
     {
-      key: 'reserveStatus',
+      key: 'filter',
       label: 'Reserve Status',
       sort: false,
       filter: true,
       listOfFilter: [
-        { text: 'Reserved', value: 'reserved' },
-        { text: 'Non-reserved', value: 'unreserved' },
+        { text: 'Reserved', value: 'RESERVED' },
+        { text: 'Non-reserved', value: 'UNRESERVED' },
       ],
     },
     {
@@ -119,8 +118,6 @@ export class DetailsComponent {
       sellerId: this.userId,
       auctionStatus: 'PENDING',
       auctionsFilter: 'CREATED_AT_LAST',
-      equipmentCategories:
-        'Tractors,Harvesters,Planting Equipment,Chemical Applicators,Tillage Equipment,Hay & Forage,Trucks,Motorsports,Skid Steers,Construction,Other',
     };
     this.fetchAuctionDetails(this.query);
   }
@@ -148,13 +145,12 @@ export class DetailsComponent {
         listOfFilter: [
           { text: 'Ongoing', value: 'ONGOING' },
           { text: 'Ended', value: 'ENDED' },
-          { text: 'Denied', value: 'DENIED' },
         ],
       };
       this.query = {
         ...this.query,
         sellerId: this.userId,
-        auctionStatus: 'ALL',
+        auctionStatus: 'ONGOING, ENDED',
         auctionsFilter: 'CREATED_AT_LAST',
       };
       this.fetchAuctionDetails(this.query);
@@ -221,6 +217,10 @@ export class DetailsComponent {
       this.query = { ...this.query, [key]: filteredColumn.event };
       console.log(this.query);
       this.fetchAuctionDetails(this.query);
+    } else {
+      const updatedQuery = { ...this.query };
+      delete updatedQuery[key];
+      this.fetchAuctionDetails(updatedQuery);
     }
   }
 
