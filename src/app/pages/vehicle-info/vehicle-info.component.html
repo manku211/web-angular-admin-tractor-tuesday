@@ -45,7 +45,12 @@
           <span>Service Logs</span>
         </div>
         <div *ngFor="let log of vehicleInfo?.tractorId?.serviceLogs">
-          <span>Service Date: {{ log.serviceDate | date : "dd-M-yyyy" }}</span>
+          <span
+            >Service Date:
+            {{
+              log.serviceDate && log.serviceDate * 1000 | date : "dd-M-yyyy"
+            }}</span
+          >
           <nz-divider nzType="vertical"></nz-divider>
           <span>
             Download file:
@@ -56,6 +61,7 @@
           </span>
         </div>
       </div>
+
       <div class="info-container">
         <div class="info-text" nz-flex nzAlign="center">
           <span>Flaws</span>
@@ -67,7 +73,7 @@
           nzAlign="center"
         >
           <img
-            [src]="flaw?.image || 'assets/images/image.svg'"
+            [src]="flaw?.image || 'assets/images/placeholder.svg'"
             alt="Flaw"
             width="100"
             height="85"

@@ -123,10 +123,12 @@ export class DetailsComponent {
   }
 
   fetchAuctionDetails(query: any) {
+    this.loader = true;
     this.categoryService.getCategory(query).subscribe({
       next: (data: any) => {
         console.log(data);
         if (data) {
+          this.loader = false;
           const auctionsWithImageUrl = data?.data?.categories.map(
             (auction: any) => {
               return {
@@ -140,6 +142,7 @@ export class DetailsComponent {
         }
       },
       error: (error) => {
+        this.loader = false;
         console.error('An error occurred during admin login:', error);
         this.messageService.error(error);
       },

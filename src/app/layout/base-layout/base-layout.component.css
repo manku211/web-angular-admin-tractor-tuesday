@@ -29,7 +29,8 @@
 
 ::ng-deep
   .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal)
-  .ant-menu-item-selected {
+  .ant-menu-item-selected,
+.ant-menu-item.active {
   background-color: var(--primary-color);
 }
 
