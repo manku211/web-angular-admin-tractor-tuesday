@@ -48,6 +48,17 @@ export const routes: Routes = [
         },
       },
       {
+        path: 'photoshoot-requests',
+        loadChildren: () =>
+          import('./modules/photographer/photographer.module').then(
+            (m) => m.PhotographerModule
+          ),
+        canActivate: [PrivilegeGuard],
+        data: {
+          breadcrumb: 'Photoshoot Requests',
+        },
+      },
+      {
         path: 'category-listing',
         loadChildren: () =>
           import('./modules/category-lisitng/category-lisitng.module').then(

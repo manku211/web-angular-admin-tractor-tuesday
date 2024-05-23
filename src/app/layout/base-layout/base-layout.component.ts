@@ -59,6 +59,12 @@ export class BaseLayoutComponent {
         // privilege: Privileges.SELLER_LISTING,
       },
       {
+        label: 'Photoshoot Requests',
+        icon: 'camera',
+        route: '/dashboard/photoshoot-requests',
+        // privilege: Privileges.SELLER_LISTING,
+      },
+      {
         label: 'Category Listing',
         icon: 'appstore',
         route: '/dashboard/category-listing',
