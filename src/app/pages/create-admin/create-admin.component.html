@@ -149,7 +149,7 @@
         class="error-message"
       >
         <div *ngIf="email?.errors?.['required']">Email is required.</div>
-        <div *ngIf="email?.errors?.['email']">Invalid email format.</div>
+        <div *ngIf="email?.errors?.['pattern']">Invalid email format.</div>
       </div>
     </div>
     <div nz-flex [nzGap]="85" class="add-admin-input">
@@ -181,6 +181,9 @@
         <div *ngIf="phoneNumber?.errors?.['required']">
           Phone number is required.
         </div>
+        <div *ngIf="phoneNumber?.errors?.['phoneNumber']">
+          {{ phoneNumber?.errors?.["phoneNumber"] }}
+        </div>
       </div>
     </nz-input-number-group>
   </div>
@@ -190,7 +193,7 @@
       nz-button
       class="modal-button"
       (click)="handleAddAdmin()"
-      [disabled]="addAdminForm.invalid"
+      [disabled]="addAdminForm.invalid || !hasFormChanged()"
     >
       {{ editAdminDetails ? "Edit" : "Add" }} Admin
     </button>

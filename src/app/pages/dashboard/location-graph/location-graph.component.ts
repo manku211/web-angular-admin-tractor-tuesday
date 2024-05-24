@@ -167,7 +167,8 @@ export class LocationGraphComponent {
             },
             onClick: (event, elements) => {
               if (elements && elements.length > 0) {
-                const stateName = features[elements[0].index].properties.name;
+                const stateName =
+                  features[elements[0].index].properties.name.toLowerCase();
                 console.log('Clicked State:', stateName);
                 this.fetchGraphDetails(country, stateName);
               }

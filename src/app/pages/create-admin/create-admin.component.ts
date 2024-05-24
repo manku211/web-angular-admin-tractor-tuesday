@@ -10,6 +10,7 @@ import {
 } from '@angular/forms';
 import { ProfileService } from '../../core/services/profile/profile.service';
 import { MessageService } from '../../core/services/message/message.service';
+import { phoneNumberValidator } from '../../utilities/helpers/helper';
 
 @Component({
   selector: 'app-create-admin',
@@ -28,6 +29,7 @@ export class CreateAdminComponent {
   totalAdmins!: number;
   openDeleteModal: boolean = false;
   editAdminDetails: boolean = false;
+  initialFormValues: any;
   privileges: { label: string; value: string }[] = [
     { label: 'User Listing', value: 'USER_LISTING' },
     { label: 'Seller Listing', value: 'SELLER_LISTING' },
@@ -51,9 +53,17 @@ export class CreateAdminComponent {
           Validators.maxLength(20),
         ],
       ],
-      email: ['', [Validators.required, Validators.email]],
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+          ),
+        ],
+      ],
       code: ['', Validators.required],
-      phoneNumber: ['', Validators.required],
+      phoneNumber: ['', [Validators.required, phoneNumberValidator()]],
     });
   }
 
@@ -64,7 +74,6 @@ export class CreateAdminComponent {
   fetchAllAdmin() {
     this.adminService.getAllAdmins().subscribe({
       next: (data) => {
-        console.log('admins list', data?.data?.admins);
         this.adminList = data?.data?.admins.filter(
           (item: any) => item.role === 'admin'
         );
@@ -97,7 +106,6 @@ export class CreateAdminComponent {
     privilege: any,
     type: 'read' | 'write'
   ) {
-    console.log(event, adminId, privilege, type);
     let payload = {
       adminId: adminId,
       privilege: privilege,
@@ -112,7 +120,6 @@ export class CreateAdminComponent {
     };
     this.adminService.updatePrivilege(payload).subscribe({
       next: (data) => {
-        console.log(data);
         if (data) {
           this.messageService.success('Updated Successfully!');
           this.fetchAllAdmin();
@@ -120,18 +127,18 @@ export class CreateAdminComponent {
       },
       error: (err) => {
         console.error(err), this.fetchAllAdmin();
-        this.messageService.error(err?.error?.error);
+        this.messageService.error(err?.error?.message);
       },
     });
   }
 
   openAddAdminModal() {
+    this.addAdminForm.reset();
     this.editAdminDetails = false;
     this.addAdminModal = true;
   }
 
   handleAddAdmin() {
-    console.log(this.addAdminForm.value);
     if (this.editAdminDetails) {
       let payload = {
         adminId: this.editAdminId,
@@ -141,13 +148,13 @@ export class CreateAdminComponent {
       };
       this.adminService.updateAdmin(payload).subscribe({
         next: (data) => {
-          console.log(data);
           this.addAdminModal = false;
           this.messageService.success('Details updated successfully');
           this.fetchAllAdmin();
         },
         error: (err) => {
           console.error(err?.error?.error);
+          this.messageService.error(err?.error?.message);
         },
       });
     } else {
@@ -159,16 +166,17 @@ export class CreateAdminComponent {
       };
       this.adminService.addAdmin(payload).subscribe({
         next: (data) => {
-          console.log(data);
           this.addAdminModal = false;
           this.messageService.success('Admin added successfully');
           this.fetchAllAdmin();
         },
         error: (err) => {
           console.error(err?.error?.error);
+          this.messageService.error(err?.error?.message);
         },
       });
     }
+    this.addAdminForm.reset();
   }
 
   handleCancel() {
@@ -185,7 +193,6 @@ export class CreateAdminComponent {
     let payload = { adminId: this.removeAdminId };
     this.adminService.removeAdmin(payload).subscribe({
       next: (data) => {
-        console.log(data);
         this.openDeleteModal = false;
         this.messageService.success('Account is Removed successfully');
         this.fetchAllAdmin();
@@ -201,17 +208,24 @@ export class CreateAdminComponent {
     this.editAdminId = id;
     this.adminService.getAdminById(id).subscribe({
       next: (data) => {
-        console.log(data);
-        this.addAdminForm.patchValue({
+        this.initialFormValues = {
           username: data?.data?.name,
           email: data?.data?.email,
-          phoneNumber: data?.data?.phoneNumber,
           code: data?.data?.countryCode,
-        });
+          phoneNumber: data?.data?.phoneNumber,
+        };
+        this.addAdminForm.patchValue(this.initialFormValues);
         this.addAdminModal = true;
       },
       error: (err) => console.error(err),
     });
+  }
+
+  hasFormChanged(): boolean {
+    const currentValues = this.addAdminForm.value;
+    return (
+      JSON.stringify(currentValues) !== JSON.stringify(this.initialFormValues)
+    );
   }
 
   change(visible: boolean, index: number): void {
