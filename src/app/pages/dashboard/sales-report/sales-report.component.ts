@@ -58,7 +58,9 @@ export class SalesReportComponent {
         this.graphData = data?.data;
         this.isLoading = false;
         this.cdr.detectChanges();
-        const amounts = data?.data.map((item: any) => item.amount || 0);
+        const amounts = data?.data
+          .map((item: any) => item.amount || 0)
+          .reverse();
         const labels = this.getLabelsForPeriod(this.selectedPeriod);
         this.createBarChart(amounts, labels);
       },

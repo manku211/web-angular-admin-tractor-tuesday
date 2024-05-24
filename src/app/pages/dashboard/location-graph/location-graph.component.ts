@@ -38,6 +38,7 @@ export class LocationGraphComponent {
   chart!: Chart;
   selectedCountry: 'usa' | 'ca' = 'usa';
   private chartInstance!: Chart;
+  isLoading = false;
   constructor(
     private analyticsService: AnalyticsService,
     private http: HttpClient
@@ -64,6 +65,7 @@ export class LocationGraphComponent {
   }
 
   fetchGraphDetails(country: string, state: string) {
+    this.isLoading = true;
     let paylod = {
       country: country,
       state: state,
@@ -82,9 +84,11 @@ export class LocationGraphComponent {
           allUsers !== 0
             ? ((this.graphData.activeSellers / allUsers) * 100).toFixed(1)
             : 0;
+        this.isLoading = false;
       },
       error: (err) => {
         console.error(err);
+        this.isLoading = false;
       },
     });
   }
@@ -189,141 +193,4 @@ export class LocationGraphComponent {
         });
       });
   }
-
-  // createMap() {
-  //   fetch('assets/canadageo.json')
-  //     .then((r) => r.json())
-  //     .then((world) => {
-  //       const canadaGeoJSON = world;
-
-  //       const chart = new Chart(this.context, {
-  //         type: 'choropleth',
-  //         data: {
-  //           labels: canadaGeoJSON.features.map((d: any) => d.properties.name),
-  //           datasets: [
-  //             {
-  //               label: 'States',
-  //               outline: canadaGeoJSON,
-  //               data: canadaGeoJSON.features.map((d: any) => ({
-  //                 feature: d,
-  //                 value: Math.random() * 100,
-  //               })),
-  //               backgroundColor: '#377E7F',
-  //               borderColor: '#ffffff',
-  //               hoverBackgroundColor: '#0B5455',
-  //               clickBackgroundColor: '#0B5455',
-  //             },
-  //           ],
-  //         },
-  //         options: {
-  //           plugins: {
-  //             legend: {
-  //               display: false,
-  //             },
-  //             tooltip: {
-  //               callbacks: {
-  //                 label: (tooltipItem: any) => {
-  //                   const stateName = tooltipItem.raw.feature.properties.name;
-  //                   return stateName;
-  //                 },
-  //               },
-  //             },
-  //           },
-  //           // interaction: {
-  //           //   mode: 'nearest',
-  //           //   intersect: false,
-  //           // },
-
-  //           // onClick: (event, elements) => {
-  //           //   if (elements && elements.length > 0) {
-  //           //     const stateName = states[elements[0].index].properties.name;
-  //           //     console.log('Clicked State:', stateName);
-  //           //   }
-  //           // },
-  //           scales: {
-  //             projection: {
-  //               axis: 'x',
-  //               projection: 'equirectangular',
-  //             },
-  //             color: {
-  //               axis: 'x',
-  //               quantize: 5,
-  //               display: false,
-  //             },
-  //           },
-  //           responsive: true,
-  //         },
-  //       });
-  //     });
-  // }
-
-  // createMap() {
-  //   fetch('https://unpkg.com/us-atlas/states-10m.json')
-  //     .then((r) => r.json())
-  //     .then((us) => {
-  //       const nation = (ChartGeo.topojson.feature(us, us.objects.nation) as any)
-  //         .features[0];
-  //       const states = (ChartGeo.topojson.feature(us, us.objects.states) as any)
-  //         .features;
-
-  //       const chart = new Chart(this.context, {
-  //         type: 'choropleth',
-  //         data: {
-  //           labels: states.map((d: any) => d.properties.name),
-  //           datasets: [
-  //             {
-  //               label: 'States',
-  //               outline: nation,
-  //               data: states.map((d: any) => ({
-  //                 feature: d,
-  //                 value: 0,
-  //               })),
-  //               backgroundColor: '#377E7F',
-  //               borderColor: '#ffffff',
-  //               hoverBackgroundColor: '#0B5455',
-  //               clickBackgroundColor: '#0B5455',
-  //             },
-  //           ],
-  //         },
-  //         options: {
-  //           plugins: {
-  //             legend: {
-  //               display: false,
-  //             },
-  //             tooltip: {
-  //               callbacks: {
-  //                 label: (tooltipItem: any) => {
-  //                   const stateName = tooltipItem.raw.feature.properties.name;
-  //                   return stateName;
-  //                 },
-  //               },
-  //             },
-  //           },
-  //           interaction: {
-  //             mode: 'nearest',
-  //             intersect: false,
-  //           },
-
-  //           onClick: (event, elements) => {
-  //             if (elements && elements.length > 0) {
-  //               const stateName = states[elements[0].index].properties.name;
-  //               console.log('Clicked State:', stateName);
-  //               this.fetchGraphDetails('usa', stateName);
-  //             }
-  //           },
-  //           scales: {
-  //             projection: {
-  //               axis: 'x',
-  //               projection: 'albersUsa',
-  //             },
-  //             color: {
-  //               axis: 'x',
-  //               quantize: 5,
-  //               display: false,
-  //             },
-  //           },
-  //         },
-  //       });
-  //     });
-  // }
 }

@@ -112,7 +112,7 @@
         </nz-card>
         <div nz-flex nzJustify="space-between">
           <span
-            >Auction ends:{{ vehicleInfo?.endTime | date : "medium" }}
+            >Auction ends:{{ vehicleInfo?.endTime * 1000 | date : "medium" }}
           </span>
           <span>Status: {{ vehicleInfo?.auctionStatus }}</span>
         </div>
@@ -121,7 +121,9 @@
             <div nz-col nzSpan="12" class="col-wrap" nzAlign="middle">
               <div nz-flex [nzVertical]="true" nzAlign="center">
                 <span class="top-bid-key">Top Current Bid:</span>
-                <span class="top-bid-amount">$54000</span>
+                <span class="top-bid-amount"
+                  >${{ vehicleInfo?.currentBid?.amount }}</span
+                >
               </div>
             </div>
             <div nz-col nzSpan="12" class="col-wrap" nzAlign="middle">
@@ -134,7 +136,9 @@
                 </div>
                 <div nz-flex [nzVertical]="true" nzAlign="flex-start">
                   <span>{{ vehicleInfo?.userId?.username }}</span>
-                  <span>{{ vehicleInfo?.endTime | date : "short" }}</span>
+                  <span>{{
+                    vehicleInfo?.endTime * 1000 | date : "short"
+                  }}</span>
                   <span>{{ vehicleInfo?.totalBids }}</span>
                   <span>{{ vehicleInfo?.views }}</span>
                 </div>
