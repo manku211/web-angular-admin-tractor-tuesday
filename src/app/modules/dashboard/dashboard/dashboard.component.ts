@@ -229,19 +229,11 @@ export class DashboardComponent {
     this.chart = new Chart(ctx, {
       type: 'doughnut',
       data: {
-        labels: [
-          'Tractors',
-          'Harvestors',
-          'Hay & Forage',
-          'Trucks',
-          'Construction',
-          'Trillage Equipment',
-          'Motorsports',
-        ],
+        labels: labels,
         datasets: [
           {
             label: 'Top Selling Category',
-            data: [10, 2, 8, 2, 7, 5, 2],
+            data: data,
           },
         ],
       },
