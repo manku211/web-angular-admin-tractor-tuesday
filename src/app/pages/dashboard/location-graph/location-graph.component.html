@@ -107,6 +107,9 @@
       </nz-flex>
     </div>
     <div nz-col nzOffset="2" nzSpan="18">
+      <div *ngIf="isLoading" class="loader">
+        <nz-spin [nzSize]="'large'" nzSimple></nz-spin>
+      </div>
       <canvas #canvas></canvas>
     </div>
   </nz-row>

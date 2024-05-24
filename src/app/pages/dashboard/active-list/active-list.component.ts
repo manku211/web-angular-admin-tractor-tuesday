@@ -83,6 +83,7 @@ export class ActiveListComponent {
       key: 'fullName',
       label: 'Name',
       sort: true,
+      sortField: 'fullName',
       sortOrder: 'DESC',
     },
     // {
