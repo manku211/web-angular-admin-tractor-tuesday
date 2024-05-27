@@ -1,25 +1,38 @@
 <nz-carousel [nzEffect]="effect">
-  @for (item of carouselItems; track item) {
-  <div nz-carousel-content>
-    <div class="carousel-content">
-      <span class="vehicle-year">{{ item.year }}</span>
-      <div class="title">{{ item.title }}</div>
-      <div class="bid-start-date">Starting Bid From {{ item.startingBid }}</div>
-      <div class="date-info" nz-flex nzGap="small" nzAlign="center">
-        <span nz-icon nzType="calendar" nzTheme="outline"></span>
-        <span>Start Date</span>
-        <span>{{ item?.startDate }}</span>
-      </div>
-      <button
-        class="primary-button viewmore-button"
-        nz-button
-        [routerLink]="'/dashboard/control-panel'"
-      >
-        View More
-      </button>
-    </div>
+  <div nz-carousel-content *ngIf="loading" nz-flex nzJustify="center">
+    <nz-spin nzSimple></nz-spin>
   </div>
-  }
+  <ng-container *ngFor="let item of carouselItems">
+    <div nz-carousel-content *ngIf="!loading">
+      <div class="carousel-content">
+        <span class="vehicle-year">{{ item.year }}</span>
+        <div class="title">{{ item.title }}</div>
+        <div class="bid-start-date">
+          Starting Bid From {{ item.startingBid }}
+        </div>
+        <div class="date-info" nz-flex nzGap="small" nzAlign="center">
+          <span nz-icon nzType="calendar" nzTheme="outline"></span>
+          <span>Start Date</span>
+          <span>{{ item?.startDate }}</span>
+        </div>
+        <button
+          class="primary-button viewmore-button"
+          nz-button
+          [routerLink]="'/dashboard/control-panel'"
+        >
+          View More
+        </button>
+      </div>
+    </div>
+  </ng-container>
+
+  <div
+    nz-carousel-content
+    nzJustify="center"
+    *ngIf="!carouselItems || carouselItems.length === 0"
+  >
+    <img src="assets/images/no_data.svg" alt="no_data" />
+  </div>
 </nz-carousel>
 
 <div class="dashboard-cards">
@@ -70,12 +83,6 @@
               <td>
                 <div nz-flex nzAlign="center">
                   <img
-                    src="assets/icons/profile_container.svg"
-                    alt="profile"
-                    width="40"
-                    height="40"
-                  />
-                  <img
                     [src]="item?.exteriorImageUrl || 'assets/icons/Tractor.png'"
                     class="tractor-picture"
                     alt="profile"
@@ -92,7 +99,7 @@
                 <button
                   nz-button
                   class="secondary_button"
-                  [routerLink]="'/dashboard/user-listing'"
+                  [routerLink]="'/dashboard/category-listing'"
                 >
                   View More
                 </button>

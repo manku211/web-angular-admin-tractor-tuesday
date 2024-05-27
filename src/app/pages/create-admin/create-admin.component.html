@@ -157,7 +157,7 @@
       <span>Phone Number</span>
     </div>
     <nz-input-number-group nzCompact>
-      <nz-select formControlName="code" ngModel="+91">
+      <nz-select formControlName="code">
         <nz-option nzValue="+91" nzLabel="+91"></nz-option>
         <nz-option nzValue="+1" nzLabel="+1" selected></nz-option>
       </nz-select>
@@ -181,6 +181,7 @@
         <div *ngIf="phoneNumber?.errors?.['required']">
           Phone number is required.
         </div>
+
         <div *ngIf="phoneNumber?.errors?.['phoneNumber']">
           {{ phoneNumber?.errors?.["phoneNumber"] }}
         </div>
