@@ -27,10 +27,17 @@ export class PhotographService {
       queryParams = queryParams.set(key, params[key]);
     });
     return this.http.get<any>(
-      this.baseUrl + `photographer/get-all-photoshoot-request/${id}`,
+      this.baseUrl + `photographer/get-photoshoot-request/${id}`,
       {
         params: queryParams,
       }
+    );
+  }
+
+  updatePhotoshootRequest(id: string, payload: any) {
+    return this.http.patch<any>(
+      this.baseUrl + `admin/update-photoshoot-request/${id}`,
+      payload
     );
   }
 }

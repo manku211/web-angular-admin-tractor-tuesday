@@ -17,10 +17,11 @@ export class VehicleInfoComponent {
   hours: number = 0;
   minutes: number = 0;
   seconds: number = 0;
-  array = ['', '', '', ''];
+  isCarouselVisible = false;
+  tractorImages: string[] = [];
   additionalInfo: any[] = [
-    { label: 'Name', key: 'tractorId', subkey: 'name' },
-    { label: 'Vin', key: 'tractorId', subkey: 'vin' },
+    { label: 'Name Of The Vehicle', key: 'tractorId', subkey: 'name' },
+    { label: 'VIN', key: 'tractorId', subkey: 'vin' },
     { label: 'Vehicle Number', key: 'tractorId', subkey: 'number' },
     { label: 'Model Number', key: 'tractorId', subkey: 'brand' },
     { label: 'Vehicle Year', key: 'tractorId', subkey: 'year' },
@@ -36,6 +37,7 @@ export class VehicleInfoComponent {
     { label: 'Location', key: 'tractorId', subkey: 'location' },
     { label: 'Total Number of Hours', key: 'tractorId', subkey: 'totalHrs' },
   ];
+
   constructor(private auctionService: AuctionService) {}
 
   ngOnInit(): void {
@@ -50,6 +52,9 @@ export class VehicleInfoComponent {
         console.log(data);
         if (data) {
           this.vehicleInfo = data?.data;
+          this.tractorImages = data?.data?.tractorId?.images.map(
+            (image: any) => image.link
+          );
           this.additionalInfo = this.generateAdditionalInfo(this.vehicleInfo);
           this.calculateTimeLeft(this.vehicleInfo?.endTime);
           console.log(this.additionalInfo);
@@ -59,6 +64,10 @@ export class VehicleInfoComponent {
         console.error('An error occurred during admin login:', error);
       },
     });
+  }
+
+  viewAllImages() {
+    this.isCarouselVisible = true;
   }
 
   calculateTimeLeft(endTime: number): {
