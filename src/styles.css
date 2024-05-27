@@ -70,6 +70,10 @@ body {
   font-family: "Lato", sans-serif;
 }
 
+.heading {
+  font-size: var(--font-xl);
+  font-weight: var(--font-weight-bold);
+}
 .sub-heading {
   font-size: var(--font-l);
   font-weight: var(--font-weight-semi-bold);
