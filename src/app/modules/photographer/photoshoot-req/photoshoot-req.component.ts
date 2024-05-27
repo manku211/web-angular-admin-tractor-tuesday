@@ -21,7 +21,9 @@ export class PhotoshootReqComponent {
   constructor(
     private photographService: PhotographService,
     private router: Router
-  ) {}
+  ) {
+    this.routePath = this.router.url;
+  }
 
   ngOnInit() {
     this.router.events
