@@ -1,0 +1,160 @@
+<nz-card class="details_card">
+  <div nz-row *ngIf="photographRequestData; else skeleton">
+    <div nz-col nzSpan="5">
+      <div class="personal_details">
+        <div
+          nz-flex
+          nzJustify="center"
+          nzAlign="center"
+          [nzVertical]="true"
+          nzGap="small"
+        >
+          <img src="assets/icons/profile_container.svg" alt="profile" />
+
+          <img
+            [src]="photographRequestData?.sellerId?.profilePicture"
+            alt="Profile Picture"
+            class="details_picture"
+          />
+          <span class="personal-details-name">
+            {{
+              photographRequestData?.sellerId?.fullName
+                ? photographRequestData?.sellerId?.fullName
+                : "N/A"
+            }}</span
+          >
+        </div>
+        <div nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true">
+          <span>Member Since:</span>
+          <!-- <span> {{ userInfo.createdAt | date : "d MMM, y" }}</span> -->
+        </div>
+      </div>
+    </div>
+    <nz-divider nzType="vertical" class="vertical-divider"></nz-divider>
+    <div nz-col nzOffset="1" nzSpan="17" class="nz-mb-2">
+      <div
+        nz-flex
+        nzJustify="space-between"
+        nzAlign="end"
+        class="personal_info"
+      >
+        <span class="personal-info-title">Personal Information</span>
+      </div>
+      <div nz-row class="personal-info-container">
+        <div nz-col nzSpan="10">
+          <div nz-flex nzGap="small" class="personal-info-row">
+            <div class="personal-info-row-key">
+              <span nz-icon nzType="user" nzTheme="outline"></span>&nbsp;<span
+                >Full name:</span
+              >
+            </div>
+            <span class="personal-info-row-value">
+              {{
+                photographRequestData?.sellerId?.fullName
+                  ? photographRequestData?.sellerId?.fullName
+                  : "N/A"
+              }}</span
+            >
+          </div>
+          <div nz-flex nzGap="small" class="personal-info-row">
+            <div class="personal-info-row-key">
+              <span nz-icon nzType="phone" nzTheme="outline"></span>&nbsp;<span
+                >Phone Number:</span
+              >
+            </div>
+            <span class="personal-info-row-value">
+              {{
+                photographRequestData?.sellerId?.phoneNumber
+                  ? photographRequestData?.sellerId?.phoneNumber
+                  : "N/A"
+              }}</span
+            >
+          </div>
+          <div nz-flex nzGap="small" class="personal-info-row">
+            <div class="personal-info-row-key">
+              <span nz-icon nzType="camera" nzTheme="outline"></span>&nbsp;<span
+                >Number Of Photos:</span
+              >
+            </div>
+            <div class="personal-info-row-value">
+              <span>100+</span>
+            </div>
+          </div>
+        </div>
+        <div nz-col nzSpan="12">
+          <div nz-flex nzGap="small" class="personal-info-row">
+            <div class="personal-info-row-key">
+              <span nz-icon nzType="mail" nzTheme="outline"></span>&nbsp;<span
+                >Email Address:</span
+              >
+            </div>
+            <span class="personal-info-row-value">{{
+              photographRequestData?.sellerId?.email
+                ? photographRequestData?.sellerId?.email
+                : "N/A"
+            }}</span>
+          </div>
+          <div nz-flex nzGap="small" class="personal-info-row">
+            <div class="personal-info-row-key">
+              <span nz-icon nzType="calendar" nzTheme="outline"></span
+              >&nbsp;<span>Date of Request:</span>
+            </div>
+            <span class="personal-info-row-value">
+              {{ photographRequestData?.createdAt | date : "d MMM, y" }}</span
+            >
+          </div>
+          <div nz-flex nzGap="small" class="personal-info-row">
+            <div class="personal-info-row-key">
+              <span nz-icon nzType="reconciliation" nzTheme="outline"></span
+              >&nbsp;<span>Status:</span>
+            </div>
+            <span class="personal-info-row-value">
+              {{ photographRequestData?.status }}</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #skeleton>
+    <div nz-row>
+      <div nz-col nzSpan="6">
+        <div
+          nz-flex
+          nzJustify="center"
+          nzAlign="center"
+          [nzVertical]="true"
+          nzGap="small"
+          class="personal_details"
+        >
+          <nz-skeleton-element
+            nzType="avatar"
+            [nzSize]="100"
+          ></nz-skeleton-element>
+        </div>
+      </div>
+      <div nz-col nzOffset="1" nzSpan="17" class="nz-mb-2">
+        <nz-skeleton [nzActive]="true"></nz-skeleton>
+      </div>
+    </div>
+  </ng-template>
+</nz-card>
+<div class="add_price_container">
+  <div class="addprice_header">
+    <span nz-icon nzType="dollar-circle" nzTheme="outline"></span>
+    <span>Add Photographer Price</span>
+  </div>
+  <div class="addprice_content" nz-flex [nzVertical]="true" nzGap="small">
+    <span>Price</span>
+    <nz-input-number-group nzAddOnAfterIcon="dollar">
+      <nz-input-number
+        [(ngModel)]="photographerPrice"
+        [nzStep]="1"
+      ></nz-input-number>
+    </nz-input-number-group>
+
+    <button nz-button class="primary-button" (click)="handleSubmit()">
+      Submit
+    </button>
+  </div>
+</div>

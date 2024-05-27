@@ -1,0 +1,45 @@
+<nz-flex [nzVertical]="true" [nzGap]="15">
+  <nz-card>
+    <nz-breadcrumb
+      nz-page-header-breadcrumb
+      [nzAutoGenerate]="true"
+    ></nz-breadcrumb>
+  </nz-card>
+  <div *ngIf="routePath == '/dashboard/photoshoot-requests'">
+    <nz-table #basicTable [nzData]="photographRequests">
+      <thead>
+        <tr>
+          <th>Location</th>
+          <th>Date Of Request</th>
+          <th>Photos</th>
+          <th>Seller Name</th>
+          <th>Request Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable.data">
+          <td>{{ data?.sellerId?.address?.city }}</td>
+          <td>
+            {{ data?.createdAt | date : "d MMM, y" }}
+          </td>
+          <td>100+</td>
+          <td>{{ data?.sellerId?.fullName }}</td>
+          <td>{{ data?.status }}</td>
+          <td>
+            <button
+              nz-button
+              class="secondary_button"
+              (click)="handleViewMore(data)"
+            >
+              View More
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+  <div *ngIf="routePath == '/dashboard/photoshoot-requests/details'">
+    <app-photograph-req-details></app-photograph-req-details>
+  </div>
+</nz-flex>
