@@ -158,9 +158,21 @@
     </button>
   </div>
 </div>
-<nz-card class="detail-outer-card">
-  <nz-flex class="heading" nzAlign="center" nzGap="small">
-    <span nz-icon nzType="camera" nzTheme="outline"></span>
-    <span>Photographer Tracker</span>
-  </nz-flex>
-</nz-card>
+
+<div class="detail-outer-card">
+  <div class="nz-row">
+    <nz-flex class="heading" nzAlign="center" nzGap="small">
+      <span nz-icon nzType="camera" nzTheme="outline"></span>
+      <span>Photographer Tracker</span>
+    </nz-flex>
+    <div nz-col nzSpan="12">
+      <div
+        style="height: 300px; width: 400px"
+        leaflet
+        leafletDraw
+        [leafletOptions]="mapOptions"
+        (leafletMapReady)="initMarkers($event)"
+      ></div>
+    </div>
+  </div>
+</div>
