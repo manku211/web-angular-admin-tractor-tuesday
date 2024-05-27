@@ -1,84 +1,134 @@
 import { Component } from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
-import { FormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ContentManagementService } from '../../core/services/content-management/content-management.service';
 import { MessageService } from '../../core/services/message/message.service';
 
 @Component({
   selector: 'app-platform-management',
   standalone: true,
-  imports: [SharedModule, FormsModule],
+  imports: [SharedModule, FormsModule, ReactiveFormsModule],
   templateUrl: './platform-management.component.html',
   styleUrl: './platform-management.component.css',
 })
 export class PlatformManagementComponent {
-  platformFeesSeller: any;
-  platformFeesBuyer: any;
-  maxFees: any;
-  minFees: any;
-  referralUsageCount: any;
-  referralUsedCount: any;
-  sellerDiscount: any;
-  buyerDiscount: any;
-  isReferralEnabled: any;
-  platformFeesModified: boolean = false;
-  capModified: boolean = false;
-  referralFeesModified: boolean = false;
-  referralUsageModified: boolean = false;
-  referralEnableModified: boolean = false;
+  platformForm!: FormGroup;
+  capForm!: FormGroup;
+  referralForm!: FormGroup;
+  usageForm!: FormGroup;
 
-  platformFeesChanged: boolean = true;
-  capChanged: boolean = true;
-  referralFeesChanged: boolean = true;
-  referralUsageChanged: boolean = true;
+  isReferralEnabled: boolean = false;
 
   constructor(
+    private fb: FormBuilder,
     private platformService: ContentManagementService,
     private messageService: MessageService
   ) {}
   ngOnInit() {
+    this.initializeForms();
     this.fetchPlatformSettings();
   }
+
+  initializeForms() {
+    this.platformForm = this.fb.group({
+      platformFeesSeller: [
+        null,
+        [Validators.required, Validators.min(0), Validators.max(1000)],
+      ],
+      platformFeesBuyer: [
+        null,
+        [Validators.required, Validators.min(0), Validators.max(100)],
+      ],
+    });
+
+    this.capForm = this.fb.group({
+      maxFees: [
+        null,
+        [Validators.required, Validators.min(0), Validators.max(2000)],
+      ],
+      minFees: [
+        null,
+        [Validators.required, Validators.min(0), Validators.max(1000)],
+      ],
+    });
+
+    this.referralForm = this.fb.group({
+      sellerDiscount: [
+        null,
+        [Validators.required, Validators.min(0), Validators.max(100)],
+      ],
+      buyerDiscount: [
+        null,
+        [Validators.required, Validators.min(0), Validators.max(100)],
+      ],
+    });
+
+    this.usageForm = this.fb.group({
+      referralUsageCount: [
+        null,
+        [Validators.required, Validators.min(0), Validators.max(100)],
+      ],
+      referralUsedCount: [
+        null,
+        [Validators.required, Validators.min(0), Validators.max(100)],
+      ],
+    });
+  }
+
   fetchPlatformSettings() {
     this.platformService.getAllPlatformSettings().subscribe({
       next: (data) => {
-        console.log(data);
         const settings = data?.data;
-        this.platformFeesSeller = settings.find(
-          (item: any) => item.key === 'platformFeesSeller'
-        )?.setting;
-        this.platformFeesBuyer = settings.find(
-          (item: any) => item.key === 'platformFeesBuyer'
-        )?.setting;
-        this.referralUsageCount = settings.find(
-          (item: any) => item.key === 'referralUsageCount'
-        )?.setting;
-        this.referralUsedCount = settings.find(
-          (item: any) => item.key === 'referralUsedCount'
-        )?.setting;
-        this.sellerDiscount = settings.find(
-          (item: any) => item.key === 'sellerDiscount'
-        )?.setting;
-        this.buyerDiscount = settings.find(
-          (item: any) => item.key === 'buyerDiscount'
-        )?.setting;
-        this.minFees = settings.find(
-          (item: any) => item.key === 'minFees'
-        )?.setting;
-        this.maxFees = settings.find(
-          (item: any) => item.key === 'maxFees'
-        )?.setting;
+        this.platformForm.patchValue({
+          platformFeesSeller: settings.find(
+            (item: any) => item.key === 'platformFeesSeller'
+          )?.setting,
+          platformFeesBuyer: settings.find(
+            (item: any) => item.key === 'platformFeesBuyer'
+          )?.setting,
+        });
+
+        this.capForm.patchValue({
+          maxFees: settings.find((item: any) => item.key === 'maxFees')
+            ?.setting,
+          minFees: settings.find((item: any) => item.key === 'minFees')
+            ?.setting,
+        });
+
+        this.referralForm.patchValue({
+          sellerDiscount: settings.find(
+            (item: any) => item.key === 'sellerDiscount'
+          )?.setting,
+          buyerDiscount: settings.find(
+            (item: any) => item.key === 'buyerDiscount'
+          )?.setting,
+        });
+
+        this.usageForm.patchValue({
+          referralUsageCount: settings.find(
+            (item: any) => item.key === 'referralUsageCount'
+          )?.setting,
+          referralUsedCount: settings.find(
+            (item: any) => item.key === 'referralUsedCount'
+          )?.setting,
+        });
+
         this.isReferralEnabled =
           settings.find((item: any) => item.key === 'isReferralEnabled')
-            ?.setting == 1
-            ? true
-            : false;
+            ?.setting === 1;
       },
       error: (err) => {
         console.error(err);
       },
     });
   }
+
   updatePlatformSettings(payload: any) {
     this.platformService.updatePlatformSettings(payload).subscribe({
       next: (data) => {
@@ -95,63 +145,30 @@ export class PlatformManagementComponent {
   }
 
   handlePlatformFees() {
-    let payload = {
-      platformFeesSeller: String(this.platformFeesSeller),
-      platformFeesBuyer: String(this.platformFeesBuyer),
-    };
-    this.updatePlatformSettings(payload);
-    this.platformFeesModified = true;
+    if (this.platformForm.valid) {
+      this.updatePlatformSettings(this.platformForm.value);
+    }
   }
 
   handleCap() {
-    let payload = {
-      minFees: String(this.minFees),
-      maxFees: String(this.maxFees),
-    };
-    this.updatePlatformSettings(payload);
+    if (this.capForm.valid) {
+      this.updatePlatformSettings(this.capForm.value);
+    }
   }
 
   handleReferralFees() {
-    let payload = {
-      buyersReward: String(this.buyerDiscount),
-      sellersReward: String(this.sellerDiscount),
-    };
-    this.updatePlatformSettings(payload);
+    if (this.referralForm.valid) {
+      this.updatePlatformSettings(this.referralForm.value);
+    }
   }
 
   handleReferralUsage() {
-    let payload = {
-      referralUsedCount: String(this.referralUsedCount),
-      referralUsageCount: String(this.referralUsageCount),
-    };
-    this.updatePlatformSettings(payload);
+    if (this.usageForm.valid) {
+      this.updatePlatformSettings(this.usageForm.value);
+    }
   }
 
-  handleRefferalEnable(event: Event) {
-    console.log(event);
-    this.referralFeesChanged = false;
-    let payload = {
-      isReferralEnabled: event ? '1' : '0',
-    };
-    this.updatePlatformSettings(payload);
+  handleRefferalEnable(event: boolean) {
+    this.updatePlatformSettings({ isReferralEnabled: event ? '1' : '0' });
   }
-
-  handlePlatformInputChange() {
-    console.log('tested');
-    this.platformFeesChanged = false;
-  }
-
-  handleCapInputChange() {
-    console.log('tested cap');
-    this.capChanged = false;
-  }
-
-  handleReferralFeeInputChange() {
-    this.referralFeesChanged = false;
-  }
-
-  handleReferralUsageInputChange() {
-    this.referralUsageChanged = false;
-  }
-  // Method to reset the changed state when a button is clicked
 }

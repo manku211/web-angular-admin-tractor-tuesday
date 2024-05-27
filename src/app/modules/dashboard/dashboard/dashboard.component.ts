@@ -74,8 +74,8 @@ export class DashboardComponent {
   array = [1, 2, 3, 4];
   effect = 'scrollx';
   chart!: any;
-
-  carouselItems: CarouselItem[] = [];
+  loading: boolean = false;
+  carouselItems!: CarouselItem[];
 
   getCategoryFilters = () => {
     return Object.entries(EquipmentCategory).map(([key, value]) => ({
@@ -124,6 +124,7 @@ export class DashboardComponent {
   }
 
   fetchCategoryList(query: any) {
+    this.loading = true;
     this.categoryService.getCategory(query).subscribe({
       next: (data: any) => {
         console.log(data);
@@ -137,6 +138,7 @@ export class DashboardComponent {
             }
           );
           this.auctionInfo = auctionsWithImageUrl;
+          this.loading = false;
           this.carouselItems = this.auctionInfo.map((item: any) => ({
             year: item.tractorId.purchaseYear,
             title: item.tractorId.name,
@@ -146,6 +148,7 @@ export class DashboardComponent {
         }
       },
       error: (error) => {
+        this.loading = false;
         console.error('An error occurred during admin login:', error);
         this.messageService.error(error);
       },

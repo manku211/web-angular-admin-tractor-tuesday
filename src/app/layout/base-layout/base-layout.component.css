@@ -27,10 +27,17 @@
   height: 50px;
 }
 
-::ng-deep
-  .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal)
-  .ant-menu-item-selected,
 .ant-menu-item.active {
+  background-color: var(--primary-color);
+}
+
+/* Exclude cases where both selected and active classes are present */
+.ant-menu-item.ant-menu-item-selected:not(.active) {
+  background-color: transparent;
+}
+
+/* Apply background color when both selected and active classes are present */
+.ant-menu-item.ant-menu-item-selected.active {
   background-color: var(--primary-color);
 }
 
