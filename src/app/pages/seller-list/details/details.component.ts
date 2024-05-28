@@ -13,6 +13,10 @@ import {
   styleObject,
 } from '../../../utilities/helpers/helper';
 import { EquipmentCategory } from '../../../core/models/equipmentCategories';
+import { ModalComponent } from '../../../shared/components/modal/modal.component';
+import { AuthService } from '../../../core/services/auth/auth.service';
+import { PrivilegeDirective } from '../../../core/directives/privilege.directive';
+import { Privileges } from '../../../core/models/rolePrivileges';
 
 interface Seller {
   _id: string;
@@ -40,6 +44,8 @@ interface ColumnInfo {
     DenyModalComponent,
     ApproveModalComponent,
     DetailsCardComponent,
+    ModalComponent,
+    PrivilegeDirective,
   ],
   templateUrl: './details.component.html',
   styleUrl: './details.component.css',
@@ -56,6 +62,8 @@ export class DetailsComponent {
   openApproveModal: boolean = false;
   tractorData: any;
   tabIndex: number = 0;
+  openRejectModal: boolean = false;
+  privileges = Privileges;
 
   getCategoryFilters = () => {
     return Object.entries(EquipmentCategory).map(([key, value]) => ({
@@ -110,6 +118,7 @@ export class DetailsComponent {
     private auctionService: AuctionService,
     private userService: UserListingService,
     private messageService: MessageService,
+    private authService: AuthService,
     private router: Router
   ) {}
   ngOnInit(): void {
@@ -256,13 +265,50 @@ export class DetailsComponent {
     ]);
   }
 
-  handleRequest(data: any, type: string) {
+  // handleRequest(data: any, type: string) {
+  //   this.tractorData = data;
+  //   if (type === 'deny') {
+  //     this.openDenialModal = true;
+  //   }
+  //   if (type === 'accept') {
+  //     this.openApproveModal = true;
+  //   }
+  // }
+
+  handleReject() {
+    const payload = {
+      auctionStatus: 'ENDED',
+      tractorId: this.tractorData?.tractorId?._id,
+      isApprovedByAdmin: false,
+    };
+    console.log(payload);
+    const auctionId = this.tractorData?._id;
+    this.auctionService.updateAuction(auctionId, payload).subscribe({
+      next: (data) => {
+        console.log(data);
+        this.openRejectModal = false;
+      },
+      error: (err) => {
+        this.openRejectModal = false;
+      },
+    });
+  }
+
+  handleRequest(data: any, action: string): void {
     this.tractorData = data;
-    if (type === 'deny') {
-      this.openDenialModal = true;
-    }
-    if (type === 'accept') {
-      this.openApproveModal = true;
+    switch (action) {
+      case 'accept':
+        this.openApproveModal = true;
+        break;
+      case 'deny':
+        this.openDenialModal = true;
+        break;
+      case 'reject':
+        this.openRejectModal = true;
+        break;
+      case 'edit':
+        // Edit logic
+        break;
     }
   }
 
@@ -270,5 +316,6 @@ export class DetailsComponent {
     this.fetchAuctionDetails(this.query);
     this.openDenialModal = false;
     this.openApproveModal = false;
+    this.openRejectModal = false;
   }
 }

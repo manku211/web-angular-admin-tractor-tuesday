@@ -50,7 +50,11 @@
                   class="tractor-picture"
                   alt="profile"
                 />
-                &nbsp;<span>{{ item["tractorId"]?.name }}</span>
+                &nbsp;<span
+                  (click)="handleViewMore(item['_id'])"
+                  class="clickable-name"
+                  >{{ item["tractorId"]?.name }}</span
+                >
               </div>
             </td>
             <td>{{ item["tractorId"]?.category }}</td>
@@ -73,6 +77,74 @@
               <div nz-flex nzGap="small">
                 <button
                   nz-button
+                  nz-dropdown
+                  nzPlacement="bottomLeft"
+                  nzTrigger="click"
+                  [nzDropdownMenu]="actions"
+                  [appPrivilege]="privileges.SELLER_LISTING"
+                  appPrivilegeAction="write"
+                >
+                  More Actions
+                  <i nz-icon nzType="down"></i>
+                </button>
+                <nz-dropdown-menu #actions="nzDropdownMenu">
+                  <ul nz-menu class="actions_list">
+                    <li
+                      nz-menu-item
+                      (click)="handleRequest(item, 'accept')"
+                      [nzDisabled]="item['isApprovedByAdmin']"
+                      nz-flex
+                      nzGap="middle"
+                    >
+                      <span
+                        nz-icon
+                        nzType="check-circle"
+                        nzTheme="outline"
+                      ></span>
+                      <span>
+                        {{
+                          item["isApprovedByAdmin"] ? "Approved" : "Approve"
+                        }}</span
+                      >
+                    </li>
+                    <nz-divider></nz-divider>
+                    <li
+                      nz-menu-item
+                      (click)="handleRequest(item, 'deny')"
+                      nz-flex
+                      nzGap="small"
+                    >
+                      <span nz-icon nzType="stop" nzTheme="outline"></span>
+                      <span>Deny</span>
+                    </li>
+                    <nz-divider></nz-divider>
+                    <li
+                      nz-menu-item
+                      (click)="handleRequest(item, 'reject')"
+                      nz-flex
+                      nzGap="small"
+                    >
+                      <span
+                        nz-icon
+                        nzType="close-circle"
+                        nzTheme="outline"
+                      ></span>
+                      <span>Reject</span>
+                    </li>
+                    <nz-divider></nz-divider>
+                    <li
+                      nz-menu-item
+                      (click)="handleRequest(item, 'edit')"
+                      nz-flex
+                      nzGap="small"
+                    >
+                      <span nz-icon nzType="edit" nzTheme="outline"></span>
+                      <span> Edit</span>
+                    </li>
+                  </ul>
+                </nz-dropdown-menu>
+                <!-- <button
+                  nz-button
                   (click)="handleRequest(item, 'accept')"
                   class="secondary_button"
                   [disabled]="item['isApprovedByAdmin']"
@@ -85,7 +157,7 @@
                   class="secondary_button"
                 >
                   Deny
-                </button>
+                </button> -->
               </div>
             </td>
           </tr>
@@ -150,6 +222,8 @@
                   nz-button
                   (click)="handleViewMore(item['_id'])"
                   class="secondary_button"
+                  [appPrivilege]="privileges.SELLER_LISTING"
+                  appPrivilegeAction="write"
                 >
                   View More
                 </button>
@@ -173,3 +247,20 @@
     [tractorData]="tractorData"
   ></app-approve-modal>
 </div>
+
+<app-modal [showModal]="openRejectModal" (handleCancelModal)="handleClose()">
+  <div modal-content>
+    <nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true">
+      <img src="assets/icons/block.svg" alt="block" width="50" height="50" />
+      <div class="modal-header-text">
+        <h2>Reject the Listing</h2>
+        <span>Are you sure you want to proceed with this action?</span>
+      </div>
+    </nz-flex>
+  </div>
+  <div modal-footer>
+    <button nz-button class="modal-button" (click)="handleReject()">
+      Reject
+    </button>
+  </div>
+</app-modal>

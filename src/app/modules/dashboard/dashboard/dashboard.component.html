@@ -3,7 +3,11 @@
     <nz-spin nzSimple></nz-spin>
   </div>
   <ng-container *ngFor="let item of carouselItems">
-    <div nz-carousel-content *ngIf="!loading">
+    <div
+      nz-carousel-content
+      *ngIf="!loading"
+      class="carousel-content with-background"
+    >
       <div class="carousel-content">
         <span class="vehicle-year">{{ item.year }}</span>
         <div class="title">{{ item.title }}</div>
@@ -28,6 +32,7 @@
 
   <div
     nz-carousel-content
+    class="carousel-content"
     nz-flex
     nzJustify="center"
     *ngIf="!carouselItems || carouselItems.length === 0"
@@ -61,7 +66,12 @@
           <span class="sub-title">Top Selling Categories</span>
         </nz-flex>
         <div class="doughnut-chart">
-          <canvas #doughnutChartRef></canvas>
+          <canvas *ngIf="!showNoData" #doughnutChartRef></canvas>
+          <img
+            *ngIf="showNoData"
+            src="assets/images/pie_no_data.svg"
+            alt="no_data"
+          />
         </div>
       </div>
       <div nz-col nzSpan="12">

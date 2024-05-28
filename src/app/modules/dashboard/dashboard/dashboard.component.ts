@@ -76,6 +76,7 @@ export class DashboardComponent {
   chart!: any;
   loading: boolean = false;
   carouselItems!: CarouselItem[];
+  showNoData: boolean = false;
 
   getCategoryFilters = () => {
     return Object.entries(EquipmentCategory).map(([key, value]) => ({
@@ -164,7 +165,14 @@ export class DashboardComponent {
           const counts = Object.values(data.data).slice(0, -1); // Extract counts
           const labels = Object.keys(data.data).slice(0, -1); // Extract labels
           console.log(counts, labels);
-          this.createDoughnutChart(counts, labels);
+          const allZero = counts.every((count) => count === 0);
+
+          if (allZero) {
+            this.showNoData = true;
+          } else {
+            this.showNoData = false;
+            this.createDoughnutChart(counts, labels);
+          }
         }
       },
       error: (error) => {

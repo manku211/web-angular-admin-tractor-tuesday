@@ -5,6 +5,13 @@ import { Observable, Subject, Subscription, interval, of } from 'rxjs';
 import { Privileges, Roles } from '../../models/rolePrivileges';
 // import { environment } from '../../../../environments/environment';
 
+interface Privilege {
+  name: string;
+  read: boolean;
+  write: boolean;
+  _id: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -138,31 +145,29 @@ export class AuthService {
     );
   }
 
-  hasReadAccess(admin: any, privilege: Privileges): boolean {
-    if (this.isSuperAdmin(admin)) {
-      return true;
-    } else {
-      const userPrivileges = admin.privileges;
-      const matchedPrivilege = userPrivileges.find(
-        (p: any) => p.name === privilege
-      );
-      return matchedPrivilege ? matchedPrivilege.read : false;
-    }
+  private privileges: Privilege[] = [];
+  private role!: string;
+  setPrivileges(privileges: Privilege[]): void {
+    this.privileges = privileges;
   }
 
-  hasWriteAccess(admin: any, privilege: Privileges): boolean {
-    if (this.isSuperAdmin(admin)) {
-      return true;
-    } else {
-      const userPrivileges = admin.privileges;
-      const matchedPrivilege = userPrivileges.find(
-        (p: any) => p.name === privilege
-      );
-      return matchedPrivilege ? matchedPrivilege.write : false;
-    }
+  setRole(role: string): void {
+    this.role = role;
   }
 
-  isSuperAdmin(admin: any): boolean {
-    return admin.role === Roles.SUPER_ADMIN;
+  hasReadAccess(privilegeName: string): boolean {
+    if (this.role === Roles.SUPER_ADMIN) {
+      return true;
+    }
+    const privilege = this.privileges.find((p) => p.name === privilegeName);
+    return privilege ? privilege.read : false;
+  }
+
+  hasWriteAccess(privilegeName: string): boolean {
+    if (this.role === Roles.SUPER_ADMIN) {
+      return true;
+    }
+    const privilege = this.privileges.find((p) => p.name === privilegeName);
+    return privilege ? privilege.write : false;
   }
 }
