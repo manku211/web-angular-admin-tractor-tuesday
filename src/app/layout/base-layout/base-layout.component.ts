@@ -4,7 +4,7 @@ import { AuthService } from '../../core/services/auth/auth.service';
 import { MessageService } from '../../core/services/message/message.service';
 import { Router, RouterModule } from '@angular/router';
 import { ProfileService } from '../../core/services/profile/profile.service';
-import { Privileges } from '../../core/models/rolePrivileges';
+import { Privileges, Roles } from '../../core/models/rolePrivileges';
 import { ModalComponent } from '../../shared/components/modal/modal.component';
 import { BehaviorSubject } from 'rxjs';
 
@@ -13,6 +13,12 @@ interface MenuItem {
   icon: string;
   route: string;
   privilege?: Privileges;
+}
+interface Privilege {
+  name: string;
+  read: boolean;
+  write: boolean;
+  _id: string;
 }
 
 @Component({
@@ -29,8 +35,9 @@ export class BaseLayoutComponent {
   hasSellerListingAccess: boolean = true;
   hasControlPanelAccess: boolean = true;
   openLogoutModal: boolean = false;
-  menuItems: MenuItem[] = [];
+  menuItems: any[] = [];
   logoutLoader: boolean = false;
+  privileges: Privilege[] = [];
 
   private adminDetailsSubject = new BehaviorSubject<any>(null);
   public adminDetails$ = this.adminDetailsSubject.asObservable();
@@ -43,41 +50,40 @@ export class BaseLayoutComponent {
   ) {}
   ngOnInit() {
     this.fetchAdminDetails();
-    // this.profileService.fetchAdminDetails();
-    this.menuItems = [
-      { label: 'Dashboard', icon: 'home', route: '/dashboard' },
-      {
-        label: 'User List',
-        icon: 'unordered-list',
-        route: '/dashboard/user-listing',
-        // privilege: Privileges.USER_LISTING,
-      },
-      {
-        label: 'Seller List',
-        icon: 'unordered-list',
-        route: '/dashboard/seller-listing',
-        // privilege: Privileges.SELLER_LISTING,
-      },
-      {
-        label: 'Photoshoot Requests',
-        icon: 'camera',
-        route: '/dashboard/photoshoot-requests',
-        // privilege: Privileges.SELLER_LISTING,
-      },
-      {
-        label: 'Category Listing',
-        icon: 'appstore',
-        route: '/dashboard/category-listing',
-        // privilege: Privileges.CATEGORY_LISTING,
-      },
-      {
-        label: 'Control Panel',
-        icon: 'setting',
-        route: '/dashboard/control-panel',
-        // privilege: Privileges.CONTROL_PANEL,
-      },
-      // Add other menu items here
-    ];
+    // this.menuItems = [
+    //   { label: 'Dashboard', icon: 'home', route: '/dashboard' },
+    //   {
+    //     label: 'User List',
+    //     icon: 'unordered-list',
+    //     route: '/dashboard/user-listing',
+    //     // privilege: Privileges.USER_LISTING,
+    //   },
+    //   {
+    //     label: 'Seller List',
+    //     icon: 'unordered-list',
+    //     route: '/dashboard/seller-listing',
+    //     // privilege: Privileges.SELLER_LISTING,
+    //   },
+    //   {
+    //     label: 'Photoshoot Requests',
+    //     icon: 'camera',
+    //     route: '/dashboard/photoshoot-requests',
+    //     // privilege: Privileges.SELLER_LISTING,
+    //   },
+    //   {
+    //     label: 'Category Listing',
+    //     icon: 'appstore',
+    //     route: '/dashboard/category-listing',
+    //     // privilege: Privileges.CATEGORY_LISTING,
+    //   },
+    //   {
+    //     label: 'Control Panel',
+    //     icon: 'setting',
+    //     route: '/dashboard/control-panel',
+    //     // privilege: Privileges.CONTROL_PANEL,
+    //   },
+    //   // Add other menu items here
+    // ];
     this.profileService.getProfileData().subscribe({
       next: (data) => {
         console.log('Admin details updated: ', data);
@@ -98,21 +104,55 @@ export class BaseLayoutComponent {
         console.log(data);
         if (data?.data) {
           this.adminDetails = data?.data;
-          const admin = {
-            role: data?.data?.role,
-            privileges: data?.data?.privileges,
-          };
-          // this.adminDetailsSubject.next(admin);
-          // localStorage.setItem('admin', JSON.stringify(admin));
-          // this.hasUserListingAccess =
-          //   this.authService.hasReadAccess(Privileges.USER_LISTING) ||
-          //   this.authService.hasWriteAccess(Privileges.USER_LISTING);
-          // this.hasSellerListingAccess =
-          //   this.authService.hasReadAccess(Privileges.SELLER_LISTING) ||
-          //   this.authService.hasWriteAccess(Privileges.SELLER_LISTING);
-          // this.hasControlPanelAccess =
-          //   this.authService.hasReadAccess(Privileges.CONTROL_PANEL) ||
-          //   this.authService.hasWriteAccess(Privileges.CONTROL_PANEL);
+          this.privileges = data?.data?.privileges;
+          this.authService.setRole(data?.data?.role);
+          this.authService.setPrivileges(data?.data?.privileges);
+
+          const allMenuItems = [
+            { label: 'Dashboard', icon: 'home', route: '/dashboard' },
+            {
+              label: 'User List',
+              icon: 'unordered-list',
+              route: '/dashboard/user-listing',
+              privilege: 'USER_LISTING',
+            },
+            {
+              label: 'Seller List',
+              icon: 'unordered-list',
+              route: '/dashboard/seller-listing',
+              privilege: 'SELLER_LISTING',
+            },
+            {
+              label: 'Photoshoot Requests',
+              icon: 'camera',
+              route: '/dashboard/photoshoot-requests',
+              privilege: 'PHOTOSHOOT_REQUESTS',
+            },
+            {
+              label: 'Category Listing',
+              icon: 'appstore',
+              route: '/dashboard/category-listing',
+              privilege: 'CATEGORY_LISTING',
+            },
+            {
+              label: 'Control Panel',
+              icon: 'setting',
+              route: '/dashboard/control-panel',
+              privilege: 'CONTROL_PANEL',
+            },
+          ];
+
+          if (data?.data?.role === Roles.SUPER_ADMIN) {
+            this.menuItems = allMenuItems;
+          } else {
+            this.menuItems = allMenuItems.filter((item) => {
+              if (!item.privilege) return true;
+              const privilege = this.privileges.find(
+                (p) => p.name === item.privilege
+              );
+              return privilege && privilege.read;
+            });
+          }
         }
       },
       error: (err) => {

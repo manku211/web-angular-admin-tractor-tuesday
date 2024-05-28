@@ -42,6 +42,8 @@
           nz-button
           (click)="displayBlockReason()"
           class="block-unblock-button"
+          [appPrivilege]="privileges.USER_LISTING"
+          appPrivilegeAction="write"
         >
           {{ userBlockText }} User
         </button>

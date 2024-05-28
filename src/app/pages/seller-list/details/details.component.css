@@ -8,3 +8,13 @@
 .personal_info {
   margin: 10px 0px;
 }
+.actions_list > li span:first-child {
+  color: var(--primary-color);
+  margin-right: 10px;
+}
+::ng-deep .ant-divider-horizontal {
+  margin: 5px 0px;
+}
+.actions_list {
+  padding: 10px;
+}
