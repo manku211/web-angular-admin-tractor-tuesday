@@ -17,6 +17,7 @@ import { ModalComponent } from '../../../shared/components/modal/modal.component
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { PrivilegeDirective } from '../../../core/directives/privilege.directive';
 import { Privileges } from '../../../core/models/rolePrivileges';
+import { CommentEditorComponent } from '../comment-editor/comment-editor.component';
 
 interface Seller {
   _id: string;
@@ -46,6 +47,7 @@ interface ColumnInfo {
     DetailsCardComponent,
     ModalComponent,
     PrivilegeDirective,
+    CommentEditorComponent,
   ],
   templateUrl: './details.component.html',
   styleUrl: './details.component.css',

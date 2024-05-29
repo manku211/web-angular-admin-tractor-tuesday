@@ -1,14 +1,16 @@
 <nz-carousel [nzEffect]="effect">
-  <div nz-carousel-content *ngIf="loading" nz-flex nzJustify="center">
+  <div
+    nz-carousel-content
+    class="carousel-content"
+    *ngIf="loading"
+    nz-flex
+    nzJustify="center"
+  >
     <nz-spin nzSimple></nz-spin>
   </div>
   <ng-container *ngFor="let item of carouselItems">
-    <div
-      nz-carousel-content
-      *ngIf="!loading"
-      class="carousel-content with-background"
-    >
-      <div class="carousel-content">
+    <div nz-carousel-content *ngIf="!loading">
+      <div class="carousel-info">
         <span class="vehicle-year">{{ item.year }}</span>
         <div class="title">{{ item.title }}</div>
         <div class="bid-start-date">
@@ -66,7 +68,7 @@
           <span class="sub-title">Top Selling Categories</span>
         </nz-flex>
         <div class="doughnut-chart">
-          <canvas *ngIf="!showNoData" #doughnutChartRef></canvas>
+          <canvas #doughnutChartRef></canvas>
           <img
             *ngIf="showNoData"
             src="assets/images/pie_no_data.svg"

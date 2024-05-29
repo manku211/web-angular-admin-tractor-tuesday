@@ -15,7 +15,7 @@
   border: 1px solid var(--primary, #377e7f);
   box-shadow: 0px 20px 20px 0px rgba(55, 126, 127, 0.1);
 }
-/* [nz-carousel-content] {
+[nz-carousel-content] {
   text-align: left;
   padding: 20px;
   background: linear-gradient(
@@ -32,7 +32,7 @@
   overflow: hidden;
   display: flex !important;
   align-items: center;
-} */
+}
 
 .carousel-content.with-background {
   background: linear-gradient(
@@ -54,10 +54,6 @@
 }
 
 .carousel-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 300px;
   text-align: left;
   padding: 20px;
   border-radius: 14px;
@@ -66,6 +62,13 @@
   overflow: hidden;
   display: flex !important;
   align-items: center;
+}
+
+.carousel-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 300px;
 }
 h3 {
   color: #fff;
