@@ -21,7 +21,7 @@ interface TableColumn {
   sort: boolean;
   sortOrder?: NzTableSortOrder | undefined;
   sortFn?: NzTableSortFn<any> | undefined;
-  sortDirections?: NzTableSortOrder[] | undefined;
+  sortDirections?: any;
   filter?: boolean;
   listOfFilter?: any;
   isMultiple?: boolean;
@@ -68,8 +68,8 @@ export class TableViewComponent {
       });
   }
 
-  onSortChange(column: TableColumn): void {
-    console.log(column);
+  onSortChange(column: TableColumn, event: any): void {
+    console.log(column, event);
 
     this.columns.forEach((col) => {
       if (col !== column) {
@@ -77,7 +77,8 @@ export class TableViewComponent {
       }
     });
 
-    column.sortOrder = column.sortOrder === 'ASC' ? 'DESC' : 'ASC';
+    column.sortOrder =
+      event === 'ascend' ? 'ASC' : event === 'descend' ? 'DESC' : null;
     this.sortChange.emit(column);
   }
 

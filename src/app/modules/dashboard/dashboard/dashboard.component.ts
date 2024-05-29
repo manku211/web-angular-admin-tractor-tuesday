@@ -163,15 +163,24 @@ export class DashboardComponent {
         if (data && data.data) {
           console.log(data?.data);
           const counts = Object.values(data.data).slice(0, -1); // Extract counts
-          const labels = Object.keys(data.data).slice(0, -1); // Extract labels
+          const labels = Object.keys(data.data).slice(
+            0,
+            -1
+          ) as EquipmentCategory[];
           console.log(counts, labels);
+          const filteredData = counts
+            .map((count, index) => ({ count, label: labels[index] }))
+            .filter((item: any) => item.count > 0);
+
+          const filteredCounts = filteredData.map((item) => item.count);
+          const filteredLabels = filteredData.map((item) => item.label);
           const allZero = counts.every((count) => count === 0);
 
           if (allZero) {
             this.showNoData = true;
           } else {
             this.showNoData = false;
-            this.createDoughnutChart(counts, labels);
+            this.createDoughnutChart(filteredCounts, filteredLabels);
           }
         }
       },
@@ -231,12 +240,29 @@ export class DashboardComponent {
     });
   }
 
-  createDoughnutChart(data: any[], labels: string[]): void {
+  createDoughnutChart(data: any[], labels: EquipmentCategory[]): void {
     const ctx = this.doughnutChartRef.nativeElement.getContext('2d');
     console.log(data);
     if (this.chart) {
       this.chart.destroy();
     }
+
+    const colors: Record<EquipmentCategory, string> = {
+      [EquipmentCategory.Tractors]: '#FF6384',
+      [EquipmentCategory.Trucks]: '#36A2EB',
+      [EquipmentCategory.Harvesters]: '#FFCE56',
+      [EquipmentCategory.TillageEquipment]: '#4BC0C0',
+      [EquipmentCategory.HayAndForage]: '#9966FF',
+      [EquipmentCategory.SkidSteers]: '#FF9F40',
+      [EquipmentCategory.Motorsports]: '#E7E9ED',
+      [EquipmentCategory.ChemicalApplicators]: '#FF8800',
+      [EquipmentCategory.Construction]: '#00FF00',
+      [EquipmentCategory.PlantingEquipment]: '#0000FF',
+      [EquipmentCategory.OTHER]: '#FFFF00',
+    };
+
+    const backgroundColors = labels.map((label) => colors[label]);
+
     this.chart = new Chart(ctx, {
       type: 'doughnut',
       data: {
@@ -245,6 +271,7 @@ export class DashboardComponent {
           {
             label: 'Top Selling Category',
             data: data,
+            backgroundColor: backgroundColors,
           },
         ],
       },

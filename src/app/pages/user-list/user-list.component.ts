@@ -22,10 +22,11 @@ interface ColumnInfo {
   key: string;
   label: string;
   sort: boolean;
-  sortOrder?: string;
+  sortOrder?: string | null;
   type?: string;
   sortField?: string;
   altSortField?: string;
+  sortDirections?: any[];
   listOfFilter?: any[];
   filter?: boolean;
 }
@@ -50,8 +51,9 @@ export class UserListComponent {
       key: 'fullName',
       label: 'Full Name',
       sort: true,
-      sortOrder: 'DESC',
+      sortOrder: null,
       sortField: 'fullName',
+      sortDirections: ['ascend', 'descend', null],
       altSortField: 'username',
     },
     {
@@ -122,11 +124,16 @@ export class UserListComponent {
 
   onSortChange(column: any): void {
     console.log(column);
-    this.query = {
-      ...this.query,
-      sortOrder: column.sortOrder,
-      sortField: column.sortField ? column.sortField : column.altSortField,
-    };
+    if (column?.sortOrder === null) {
+      const { sortOrder, sortField, ...newQuery } = this.query;
+      this.query = newQuery;
+    } else {
+      this.query = {
+        ...this.query,
+        sortOrder: column.sortOrder,
+        sortField: column.sortField ? column.sortField : column.altSortField,
+      };
+    }
     console.log(this.query);
     this.fetchDetails(this.query);
   }

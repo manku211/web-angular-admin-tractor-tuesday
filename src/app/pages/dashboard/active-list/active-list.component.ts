@@ -159,4 +159,15 @@ export class ActiveListComponent {
     console.log(this.query);
     this.fetchDetails(this.query);
   }
+
+  onSortChangeSeller(column: any): void {
+    console.log(column);
+    this.sellerQuery = {
+      ...this.sellerQuery,
+      sortOrder: column.sortOrder,
+      sortField: column.sortField ? column.sortField : column.altSortField,
+    };
+    console.log(this.query);
+    this.fetchSellerDetails(this.sellerQuery);
+  }
 }

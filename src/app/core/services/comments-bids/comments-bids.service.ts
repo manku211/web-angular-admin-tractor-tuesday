@@ -47,4 +47,14 @@ export class CommentsBidsService {
       params: queryParams,
     });
   }
+
+  getCommentEditorData(params: any) {
+    let queryParams = new HttpParams();
+    Object.keys(params).forEach((key) => {
+      queryParams = queryParams.set(key, params[key]);
+    });
+    return this.http.get<any>(this.baseUrl + `comment/comment-editor`, {
+      params: queryParams,
+    });
+  }
 }
