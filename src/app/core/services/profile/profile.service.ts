@@ -48,7 +48,6 @@ export class ProfileService {
   }
 
   uploadFile(presignedURL: any, file: any) {
-    console.log(presignedURL, file);
     const headers = new HttpHeaders({
       'Content-Type': file.type,
     });

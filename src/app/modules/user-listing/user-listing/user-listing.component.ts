@@ -28,7 +28,6 @@ export class UserListingComponent {
       .pipe(filter((event: any) => event instanceof NavigationEnd))
       .subscribe(() => {
         this.routePath = this.router.url;
-        console.log('Current route path:', this.routePath);
       });
   }
 }

@@ -86,7 +86,6 @@ export class BaseLayoutComponent {
     // ];
     this.profileService.getProfileData().subscribe({
       next: (data) => {
-        console.log('Admin details updated: ', data);
         if (data) {
           this.adminDetails.name = data.fullName;
           this.adminDetails.profilePicture = data.profilePicture;
@@ -101,7 +100,6 @@ export class BaseLayoutComponent {
   fetchAdminDetails() {
     this.profileService.getAdmin().subscribe({
       next: (data) => {
-        console.log(data);
         if (data?.data) {
           this.adminDetails = data?.data;
           this.privileges = data?.data?.privileges;
@@ -170,11 +168,9 @@ export class BaseLayoutComponent {
   }
 
   logout() {
-    console.log('logout');
     this.logoutLoader = true;
     this.authService.logout().subscribe({
       next: (data) => {
-        console.log(data);
         if (data) {
           localStorage.clear();
           this.logoutLoader = false;

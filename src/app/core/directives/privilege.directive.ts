@@ -16,7 +16,6 @@ export class PrivilegeDirective {
 
   ngOnInit(): void {
     this.checkPrivilege();
-    console.log('check', this.checkPrivilege());
   }
 
   private checkPrivilege(): void {

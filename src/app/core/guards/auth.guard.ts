@@ -26,7 +26,6 @@ export const PrivilegeGuard: CanActivateFn = (route, state) => {
     return new Observable<boolean>((observer) => {
       profileService.getAdmin().subscribe({
         next: (adminDetails) => {
-          console.log('profile', adminDetails);
           if (!adminDetails?.data) {
             // Admin details not yet fetched, handle appropriately
             router.navigate(['/']);
@@ -35,20 +34,13 @@ export const PrivilegeGuard: CanActivateFn = (route, state) => {
             return;
           }
           const isAdmin = adminDetails?.data.role === Roles.ADMIN;
-          console.log('isAdmin', isAdmin);
+
           if (!isAdmin) {
             observer.next(true);
             observer.complete();
             return;
           }
-          console.log(
-            'test',
-            requiredPrivileges &&
-              !authService.hasRequiredPrivilege(
-                adminDetails?.data.privileges,
-                requiredPrivileges
-              )
-          );
+
           if (
             requiredPrivileges &&
             !authService.hasRequiredPrivilege(
