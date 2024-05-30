@@ -62,7 +62,6 @@ export class ForgetPasswordComponent {
 
   submitForm(): void {
     if (this.validateForm.valid) {
-      console.log('submit', this.validateForm.value);
       let payload;
       if (this.validateForm.controls.email.value != '') {
         payload = {
@@ -70,7 +69,6 @@ export class ForgetPasswordComponent {
         };
         this.authService.verifyViaEmail(payload).subscribe({
           next: (data) => {
-            console.log(data);
             this.messageService.success('Email sent successfully!');
           },
           error: (error) => {
@@ -85,7 +83,6 @@ export class ForgetPasswordComponent {
         };
         this.authService.otpVerify(payload).subscribe({
           next: (data) => {
-            console.log(data);
             if (data?.data) {
               this.messageService.success('Otp verified successfully!');
               this.router.navigate(['/reset-password']);
@@ -100,7 +97,6 @@ export class ForgetPasswordComponent {
             this.messageService.error(error?.error?.message);
           },
         });
-        console.log(payload);
       }
     } else {
       Object.values(this.validateForm.controls).forEach((control) => {
@@ -123,7 +119,6 @@ export class ForgetPasswordComponent {
       );
       this.authService.verifyViaPhone(payload).subscribe({
         next: (data) => {
-          console.log(data);
           if (data?.data) {
             this.otpHash = data?.data?.otpToken;
             this.messageService.success('Otp sent successfully!');

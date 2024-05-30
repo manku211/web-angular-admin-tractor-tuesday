@@ -56,7 +56,6 @@ export class LoginComponent {
       };
       this.authService.adminLogin(payload).subscribe({
         next: (data: any) => {
-          console.log(data);
           if (data) {
             localStorage.setItem(
               'token',

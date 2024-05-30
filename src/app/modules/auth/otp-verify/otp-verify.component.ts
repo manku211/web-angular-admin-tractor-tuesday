@@ -103,14 +103,12 @@ export class OtpVerifyComponent {
   }
 
   onSubmit(): void {
-    console.log('Entered OTP:', this.otpValue);
     let payload = {
       otp: this.otpValue,
       hash: localStorage.getItem('otp_token'),
     };
     this.authService.otpVerify(payload).subscribe({
       next: (data) => {
-        console.log(data);
         if (data?.data) {
           this.messageService.success('Otp verified successfully!');
           this.router.navigate(['/reset-password']);
@@ -134,7 +132,6 @@ export class OtpVerifyComponent {
     };
     this.authService.verifyViaPhone(payload).subscribe({
       next: (data) => {
-        console.log(data);
         if (data?.data) {
           this.messageService.success('Otp sent successfully!');
           localStorage.setItem('otp_token', data?.data?.otpToken);

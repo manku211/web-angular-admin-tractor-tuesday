@@ -310,6 +310,13 @@ export class DetailsComponent {
         break;
       case 'edit':
         // Edit logic
+        localStorage.setItem('selectedAuctionId', data?._id);
+        this.router.navigate(
+          ['/dashboard/seller-listing/seller-details/vehicle-info'],
+          {
+            state: { isEditMode: true },
+          }
+        );
         break;
     }
   }

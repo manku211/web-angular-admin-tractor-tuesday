@@ -30,7 +30,6 @@ export class PhotoshootReqComponent {
       .pipe(filter((event: any) => event instanceof NavigationEnd))
       .subscribe(() => {
         this.routePath = this.router.url;
-        console.log('Current route path:', this.routePath);
       });
     this.fetchPhotograhRequests();
   }
@@ -39,7 +38,6 @@ export class PhotoshootReqComponent {
     this.loading = true;
     this.photographService.getPhotoshootRequest(this.query).subscribe({
       next: (data) => {
-        console.log(data);
         this.photographRequests = data?.data?.photographerRequests;
         this.loading = false;
         this.totalRecords = data?.data?.totalCount;

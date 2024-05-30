@@ -16,7 +16,7 @@ export const httpInterceptorInterceptor: HttpInterceptorFn = (
   const router = inject(Router);
   const token = localStorage.getItem('token');
   const refresh_token = localStorage.getItem('refresh_token');
-  console.log('req', req);
+
   let cloned: any;
   if (token || refresh_token) {
     if (req.url.includes('generateAccessTokenUser')) {
@@ -25,7 +25,7 @@ export const httpInterceptorInterceptor: HttpInterceptorFn = (
           authorization: 'Bearer ' + refresh_token,
         },
       });
-    } else if (req.url.includes('s3.us-east-2.amazonaws.com')) {
+    } else if (req.url.includes('amazonaws.com')) {
       cloned = req.clone({
         setHeaders: {},
       });

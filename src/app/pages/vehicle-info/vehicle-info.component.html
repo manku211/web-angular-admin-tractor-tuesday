@@ -87,6 +87,7 @@
           </nz-carousel>
         </ng-container>
       </nz-modal>
+
       <div class="info-container">
         <div class="info-text" nz-flex nzAlign="center">
           <span>Additional Information</span>
@@ -94,13 +95,44 @@
         <div
           *ngFor="let item of additionalInfo; let i = index"
           class="additional-info"
-          nz-flex
+          nz-row
         >
-          <span class="info-label">{{ item.label }}</span>
-          <span class="info-veh-value">{{ item.value }}</span>
+          <div nz-col nzSpan="8">
+            <span class="info-label">{{ item.label }}</span>
+          </div>
+          <div
+            nz-col
+            nzOffset="1"
+            nzSpan="15"
+            nz-flex
+            class="info-veh-value"
+            nzJustify="space-between"
+          >
+            <ng-container *ngIf="!item.editMode; else editTemplate">
+              <span>{{ item.value }}</span>
+              <i
+                *ngIf="isEditMode"
+                nz-icon
+                nzType="edit"
+                nzTheme="outline"
+                (click)="toggleEditMode(i)"
+              ></i>
+            </ng-container>
+            <ng-template #editTemplate>
+              <nz-input-group [nzSuffix]="suffixButton">
+                <input nz-input [(ngModel)]="item.value" />
+              </nz-input-group>
+              <ng-template #suffixButton>
+                <button nz-button class="primary-button" (click)="saveEdit(i)">
+                  Submit
+                </button>
+              </ng-template>
+            </ng-template>
+          </div>
         </div>
       </div>
-      <div class="info-container">
+
+      <!-- <div class="info-container">
         <div class="info-text" nz-flex nzAlign="center">
           <span>Modifications</span>
         </div>
@@ -111,12 +143,164 @@
             {{ modification }}
           </li>
         </ul>
-      </div>
+      </div> -->
+
       <div class="info-container">
-        <div class="info-text" nz-flex nzAlign="center">
-          <span>Service Logs</span>
+        <div
+          class="info-text"
+          nz-flex
+          nzAlign="center"
+          nzJustify="space-between"
+        >
+          <span>Modifications</span>
+          <i
+            *ngIf="isEditMode"
+            nz-icon
+            nzType="edit"
+            nzTheme="outline"
+            (click)="toggleModificationEditMode()"
+          ></i>
         </div>
-        <div *ngFor="let log of vehicleInfo?.tractorId?.serviceLogs">
+        <form
+          [formGroup]="modificationsForm"
+          *ngIf="isModificationEditMode"
+          (ngSubmit)="onModificationsSubmit()"
+        >
+          <ul formArrayName="modifications" class="modifications-list">
+            <li
+              *ngFor="let modCtrl of modificationControls; let i = index"
+              [formGroupName]="i"
+            >
+              <div nz-row nzAlign="middle">
+                <div nz-col nzSpan="20">
+                  <input
+                    nz-input
+                    formControlName="modification"
+                    nzPlaceHolder="Enter modification"
+                  />
+                </div>
+                <div nz-col nzSpan="4">
+                  <span
+                    *ngIf="i === modificationControls.length - 1"
+                    nz-icon
+                    nzType="plus-circle"
+                    nzTheme="outline"
+                    (click)="addModification()"
+                  ></span>
+                  <span
+                    *ngIf="i > 0"
+                    nz-icon
+                    nzType="delete"
+                    nzTheme="outline"
+                    (click)="removeModification(i)"
+                  ></span>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <div nz-row nzJustify="end">
+            <button nz-button class="primary-button" type="submit">
+              Edit Modifications
+            </button>
+          </div>
+        </form>
+        <ul *ngIf="!isModificationEditMode" class="modifications-list">
+          <li
+            *ngFor="let modification of vehicleInfo?.tractorId?.modifications"
+          >
+            {{ modification }}
+          </li>
+        </ul>
+      </div>
+
+      <div class="info-container">
+        <div
+          class="info-text"
+          nz-flex
+          nzAlign="center"
+          nzJustify="space-between"
+        >
+          <span>Service Logs</span>
+          <i
+            *ngIf="isEditMode"
+            nz-icon
+            nzType="edit"
+            nzTheme="outline"
+            (click)="toggleServiceLogEditMode()"
+          ></i>
+        </div>
+        <form
+          [formGroup]="serviceLogsForm"
+          *ngIf="isServiceLogEditMode"
+          (ngSubmit)="onServiceLogsSubmit()"
+        >
+          <div formArrayName="serviceLogs" class="service-logs-list">
+            <div
+              *ngFor="let logCtrl of serviceLogControls; let i = index"
+              [formGroupName]="i"
+            >
+              <div nz-row nzAlign="middle" nzGutter="16">
+                <div nz-col nzSpan="10">
+                  <nz-date-picker
+                    formControlName="serviceDate"
+                    nzFormat="dd-MM-yyyy"
+                    nzPlaceHolder="Select date"
+                  ></nz-date-picker>
+                </div>
+                <div nz-col nzSpan="10">
+                  <nz-upload
+                    nzListType="text"
+                    [nzShowUploadList]="false"
+                    [nzCustomRequest]="handleCustomRequest(i)"
+                  >
+                    <button nz-button>
+                      <i nz-icon nzType="upload"></i>
+                      <span>{{
+                        logCtrl.get("fileName")?.value || "Click to Upload"
+                      }}</span>
+                    </button>
+                  </nz-upload>
+                </div>
+                <div nz-col nzSpan="4">
+                  <span
+                    nz-icon
+                    nzType="plus-circle"
+                    nzTheme="outline"
+                    *ngIf="i === serviceLogControls.length - 1"
+                    (click)="addServiceLog()"
+                  ></span>
+                  <span
+                    nz-icon
+                    nzType="delete"
+                    nzTheme="outline"
+                    *ngIf="i > 0"
+                    (click)="removeServiceLog(i)"
+                  ></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div nz-row nzJustify="end">
+            <button nz-button nzType="primary" type="submit">Save</button>
+          </div>
+        </form>
+        <div *ngIf="!isServiceLogEditMode">
+          <div *ngFor="let log of vehicleInfo?.tractorId?.serviceLogs">
+            <span
+              >Service Date:
+              {{ log.serviceDate * 1000 | date : "dd-MM-yyyy" }}</span
+            >
+            <nz-divider nzType="vertical"></nz-divider>
+            <span>
+              Download file:
+              <a href="{{ log.fileUrl }}" download>
+                <i nz-icon nzType="download"></i>
+              </a>
+              {{ log.fileName }}
+            </span>
+          </div>
+        </div>
+        <!-- <div *ngFor="let log of vehicleInfo?.tractorId?.serviceLogs">
           <span
             >Service Date:
             {{
@@ -131,27 +315,105 @@
             </a>
             {{ log.message }}
           </span>
-        </div>
+        </div> -->
       </div>
 
       <div class="info-container">
-        <div class="info-text" nz-flex nzAlign="center">
-          <span>Flaws</span>
-        </div>
         <div
-          *ngFor="let flaw of vehicleInfo?.tractorId?.flaws"
+          class="info-text"
           nz-flex
-          [nzGap]="20"
           nzAlign="center"
+          nzJustify="space-between"
         >
-          <img
-            [src]="flaw?.image || 'assets/images/placeholder.svg'"
-            alt="Flaw"
-            width="100"
-            height="85"
-          />
-          <span class="flaw-description">{{ flaw.flaw }}</span>
+          <span>Flaws</span>
+          <i
+            *ngIf="isEditMode"
+            nz-icon
+            nzType="edit"
+            nzTheme="outline"
+            (click)="toggleFlawEditMode()"
+          ></i>
         </div>
+        <form nz-form [formGroup]="flawsForm" (ngSubmit)="onSubmit()">
+          <div formArrayName="flaws">
+            <div
+              *ngFor="let flawCtrl of flawControls; let i = index"
+              [formGroupName]="i"
+              nz-row
+            >
+              <div nz-col nzSpan="24">
+                <nz-form-item nzFlex nzAlign="middle">
+                  <nz-form-control nzSpan="8">
+                    <div class="image-container">
+                      <img
+                        [src]="
+                          flawCtrl.get('image')?.value ||
+                          'assets/images/placeholder.svg'
+                        "
+                        alt="Flaw"
+                        width="100"
+                        height="85"
+                        [class.faded]="isFlawEditMode"
+                        [hidden]="imageLoaded"
+                      />
+                      <nz-spin *ngIf="imageLoaded" nzSimple></nz-spin>
+
+                      <nz-upload
+                        *ngIf="isFlawEditMode"
+                        class="upload-image"
+                        nzListType="picture-card"
+                        [nzShowUploadList]="false"
+                        [nzFileType]="
+                          'image/png,image/jpeg,image/gif,image/bmp'
+                        "
+                        [nzCustomRequest]="handleCustomRequest(i)"
+                      >
+                        <i nz-icon nzType="edit" nzTheme="outline"></i>
+                      </nz-upload>
+                    </div>
+                  </nz-form-control>
+                  <nz-form-control nzSpan="12">
+                    <span *ngIf="!isFlawEditMode" class="flaw-description">
+                      {{ flawCtrl.get("flaw")?.value }}
+                    </span>
+                    <input
+                      *ngIf="isFlawEditMode"
+                      nz-input
+                      formControlName="flaw"
+                      nzPlaceHolder="Enter flaw description"
+                    />
+                  </nz-form-control>
+                  <nz-form-control nzSpan="4" *ngIf="isFlawEditMode">
+                    <div nz-flex>
+                      <span
+                        nz-icon
+                        nzType="plus-circle"
+                        nzTheme="outline"
+                        (click)="addFlaw()"
+                      ></span>
+                      <span
+                        *ngIf="i > 0"
+                        nz-icon
+                        nzType="delete"
+                        nzTheme="outline"
+                        (click)="removeFlaw(i)"
+                      ></span>
+                    </div>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+          </div>
+          <div
+            *ngIf="isFlawEditMode && flaws.length > 0"
+            nz-row
+            nzJustify="end"
+          >
+            <button nz-button class="primary-button" type="submit">
+              Edit Flaws
+            </button>
+          </div>
+        </form>
       </div>
     </div>
     <div nz-col nzSpan="11" class="col-wrap">

@@ -128,7 +128,6 @@ export class DashboardComponent {
     this.loading = true;
     this.categoryService.getCategory(query).subscribe({
       next: (data: any) => {
-        console.log(data);
         if (data) {
           const auctionsWithImageUrl = data?.data?.categories.map(
             (auction: any) => {
@@ -159,15 +158,13 @@ export class DashboardComponent {
   fetchTopSellingCategory() {
     this.analyticsService.getCategoryAnalytics().subscribe({
       next: (data: any) => {
-        console.log(data);
         if (data && data.data) {
-          console.log(data?.data);
           const counts = Object.values(data.data).slice(0, -1); // Extract counts
           const labels = Object.keys(data.data).slice(
             0,
             -1
           ) as EquipmentCategory[];
-          console.log(counts, labels);
+
           const filteredData = counts
             .map((count, index) => ({ count, label: labels[index] }))
             .filter((item: any) => item.count > 0);
@@ -210,7 +207,6 @@ export class DashboardComponent {
   fetchStats() {
     this.analyticsService.getDashboardStats().subscribe({
       next: (data) => {
-        console.log(data);
         this.cards = [
           {
             imgSrc: 'assets/icons/totalearns.svg',
@@ -242,7 +238,7 @@ export class DashboardComponent {
 
   createDoughnutChart(data: any[], labels: EquipmentCategory[]): void {
     const ctx = this.doughnutChartRef.nativeElement.getContext('2d');
-    console.log(data);
+
     if (this.chart) {
       this.chart.destroy();
     }
@@ -289,22 +285,20 @@ export class DashboardComponent {
   }
 
   onSortChange(column: any): void {
-    console.log(column);
     this.query = {
       ...this.query,
       sortOrder: column.sortOrder,
       sortField: column.sortField ? column.sortField : column.altSortField,
     };
-    console.log(this.query);
+
     this.fetchCategoryList(this.query);
   }
 
   onFilterHandler(filteredColumn: any): void {
-    console.log(filteredColumn);
     const key = filteredColumn?.column?.key;
     if (filteredColumn.event != null) {
       this.query = { ...this.query, [key]: filteredColumn.event };
-      console.log(this.query);
+
       this.fetchCategoryList(this.query);
     } else {
       const updatedQuery = { ...this.query };

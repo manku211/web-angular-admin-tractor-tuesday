@@ -44,17 +44,15 @@ export class ResetPasswordComponent {
   }
 
   ngOnInit() {
-    console.log('URL:', this.router.url);
-    console.log('Current URL:', window.location.href);
     localStorage.setItem('resetpassword_token_email', this.getUserToken());
   }
 
   getUserToken = () => {
     if (typeof window !== 'undefined') {
       const searchParams = new URLSearchParams(window.location.search);
-      console.log(searchParams);
+
       const tokenVal = searchParams.get('token');
-      console.log(decodeURIComponent(String(tokenVal)));
+
       return decodeURIComponent(String(tokenVal));
     }
     return '';
@@ -92,7 +90,6 @@ export class ResetPasswordComponent {
         };
         this.authService.resetPasswordEmail(payload).subscribe({
           next: (data) => {
-            console.log(data);
             if (data?.data) {
               this.messageService.success('Password reset successfully!');
               this.router.navigate(['/']);
@@ -113,7 +110,6 @@ export class ResetPasswordComponent {
         };
         this.authService.resetPasswordPhone(payload).subscribe({
           next: (data) => {
-            console.log(data);
             if (data?.data) {
               this.messageService.success('Password reset successfully!');
               this.router.navigate(['/']);
