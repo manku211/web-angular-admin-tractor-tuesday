@@ -1,0 +1,34 @@
+.auction-card {
+  border-radius: 10px;
+  position: relative;
+  border: 1px solid var(--bordr_color, #dadce0);
+  padding: 10px;
+  margin-bottom: 20px;
+  div {
+    padding: 5px;
+    font-size: var(--font-xs);
+  }
+}
+.tractor-info {
+  margin: 20px 0px;
+}
+.card-heading {
+  position: absolute;
+  top: -15px;
+  left: 10px;
+  background-color: #fff;
+  padding: 5px;
+  z-index: 1;
+  color: var(--green-color);
+}
+
+.actions_list > li span:first-child {
+  color: var(--primary-color);
+  margin-right: 10px;
+}
+::ng-deep .ant-divider-horizontal {
+  margin: 5px 0px;
+}
+.actions_list {
+  padding: 10px;
+}

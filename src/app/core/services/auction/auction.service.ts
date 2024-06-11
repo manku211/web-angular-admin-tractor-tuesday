@@ -54,4 +54,17 @@ export class AuctionService {
       params: queryParams,
     });
   }
+
+  getPendingRequests(params: any) {
+    let queryParams = new HttpParams();
+    Object.keys(params).forEach((key) => {
+      queryParams = queryParams.set(key, params[key]);
+    });
+    return this.http.get<any>(
+      this.baseUrl + `auctions/get-auction-for-approval`,
+      {
+        params: queryParams,
+      }
+    );
+  }
 }

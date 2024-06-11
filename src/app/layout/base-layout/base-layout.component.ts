@@ -121,6 +121,12 @@ export class BaseLayoutComponent {
               privilege: 'SELLER_LISTING',
             },
             {
+              label: 'Pending List',
+              icon: 'field-time',
+              route: '/dashboard/pending-auctions',
+              privilege: 'SELLER_LISTING',
+            },
+            {
               label: 'Photoshoot Requests',
               icon: 'camera',
               route: '/dashboard/photoshoot-requests',
