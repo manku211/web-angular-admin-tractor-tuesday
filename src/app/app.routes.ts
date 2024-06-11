@@ -48,6 +48,16 @@ export const routes: Routes = [
         },
       },
       {
+        path: 'pending-auctions',
+        loadChildren: () =>
+          import('./modules/pending-list/pending-list.module').then(
+            (m) => m.PendingListModule
+          ),
+        data: {
+          breadcrumb: 'Pending List',
+        },
+      },
+      {
         path: 'photoshoot-requests',
         loadChildren: () =>
           import('./modules/photographer/photographer.module').then(

@@ -153,18 +153,22 @@
       ></nz-input-number>
     </nz-input-number-group>
 
-    <button nz-button class="primary-button" (click)="handleSubmit()">
+    <button
+      nz-button
+      class="primary-button submit-button"
+      (click)="handleSubmit()"
+    >
       Submit
     </button>
   </div>
 </div>
 
 <div class="detail-outer-card">
-  <div class="nz-row">
-    <nz-flex class="heading" nzAlign="center" nzGap="small">
-      <span nz-icon nzType="camera" nzTheme="outline"></span>
-      <span>Photographer Tracker</span>
-    </nz-flex>
+  <nz-flex class="heading" nzAlign="center" nzGap="small">
+    <span nz-icon nzType="camera" nzTheme="outline"></span>
+    <span>Photographer Tracker</span>
+  </nz-flex>
+  <div nz-row>
     <div nz-col nzSpan="12">
       <div
         style="height: 300px; width: 400px"
@@ -173,6 +177,22 @@
         [leafletOptions]="mapOptions"
         (leafletMapReady)="initMarkers($event)"
       ></div>
+    </div>
+    <div nz-col nzSpan="12">
+      <nz-flex [nzVertical]="true">
+        <nz-flex nzJustify="space-between" nzAlign="center">
+          <nz-flex [nzVertical]="true">
+            <span>Aron Mustov</span>
+            <span>{{ "aron@gmail.com" }}</span>
+          </nz-flex>
+          <img src="assets/icons/star.svg" alt="star" />
+          <img src="assets/icons/profile_container.svg" alt="profile" />
+          <nz-flex nzAlign="center">
+            <button nz-button class="primary-button">Contact</button>
+            <button nz-button class="secondary-button">View More</button>
+          </nz-flex>
+        </nz-flex>
+      </nz-flex>
     </div>
   </div>
 </div>

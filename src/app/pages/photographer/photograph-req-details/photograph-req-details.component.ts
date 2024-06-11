@@ -67,7 +67,7 @@ export class PhotographReqDetailsComponent {
     this.photographService.getPhotoshootRequestById(id, {}).subscribe({
       next: (data) => {
         console.log(data);
-        this.photographRequestData = data?.data;
+        this.photographRequestData = data?.data?.photoshootRequest  ;
         this.loading = false;
       },
       error: (err) => {
