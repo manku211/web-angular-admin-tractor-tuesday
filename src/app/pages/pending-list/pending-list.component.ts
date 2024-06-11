@@ -77,11 +77,11 @@ export class PendingListComponent {
     //   label: 'Category',
     //   sort: true,
     // },
-    {
-      key: 'seller_name',
-      label: 'Seller Name',
-      sort: false,
-    },
+    // {
+    //   key: 'seller_name',
+    //   label: 'Seller Name',
+    //   sort: false,
+    // },
 
     {
       key: 'createdAt',
