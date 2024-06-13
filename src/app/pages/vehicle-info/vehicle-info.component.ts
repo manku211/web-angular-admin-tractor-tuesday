@@ -79,9 +79,7 @@ export class VehicleInfoComponent {
 
   ngOnInit(): void {
     this.auctionId = localStorage.getItem('selectedAuctionId');
-    console.log('Auction ID:', this.auctionId);
     const state = history.state as { isEditMode?: boolean };
-    console.log(state);
     if (state && typeof state.isEditMode === 'boolean') {
       this.isEditMode = state.isEditMode;
     }
@@ -91,7 +89,6 @@ export class VehicleInfoComponent {
   fetchVehicleDetails(auctionId: string) {
     this.auctionService.getAuctionById(auctionId).subscribe({
       next: (data: any) => {
-        console.log(data);
         if (data) {
           this.vehicleInfo = data?.data;
           this.tractorImages = data?.data?.tractorId?.images.map(
@@ -101,7 +98,6 @@ export class VehicleInfoComponent {
           this.flaws = data?.data?.tractorId?.flaws || [];
           this.createForm();
           this.calculateTimeLeft(this.vehicleInfo?.endTime);
-          console.log(this.additionalInfo);
         }
       },
       error: (error) => {
@@ -198,8 +194,6 @@ export class VehicleInfoComponent {
 
   saveEdit(index: number): void {
     const editedItem = this.additionalInfo[index];
-    // Implement save logic here, e.g., call a service to update the data on the server
-    console.log('Saved value:', editedItem.value);
 
     // Exit edit mode
     this.additionalInfo[index].editMode = false;
@@ -228,8 +222,6 @@ export class VehicleInfoComponent {
 
   onSubmit(): void {
     if (this.flawsForm.valid) {
-      console.log('Flaws:', this.flaws);
-      console.log(this.flawsForm.value);
       this.toggleFlawEditMode();
     }
   }
@@ -266,7 +258,6 @@ export class VehicleInfoComponent {
 
   onModificationsSubmit(): void {
     if (this.modificationsForm.valid) {
-      console.log(this.modificationsForm.value);
       this.toggleModificationEditMode();
     }
   }
@@ -340,7 +331,6 @@ export class VehicleInfoComponent {
     (index: number) =>
     (item: NzUploadXHRArgs): Subscription => {
       this.imageLoaded = true;
-      console.log(item);
       const uploadData = {
         fileName: item.file.name,
         filePath: 'images',
@@ -354,7 +344,6 @@ export class VehicleInfoComponent {
             index
           );
           flawControl.get('image')?.setValue(key);
-          console.log('avatar url', flawurl);
 
           this.uploadFile(item.file, url);
         },
@@ -366,12 +355,8 @@ export class VehicleInfoComponent {
     };
 
   private uploadFile(file: any, url: any): void {
-    console.log('Uploading file:', file);
-    console.log('To URL:', url);
-
     this.profileService.uploadFile(url, file).subscribe(
       (data) => {
-        console.log('Upload', data);
         this.imageLoaded = false;
         this.cdr.detectChanges();
       },

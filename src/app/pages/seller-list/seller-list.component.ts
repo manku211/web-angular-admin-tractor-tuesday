@@ -72,10 +72,8 @@ export class SellerListComponent {
   }
 
   fetchDetails(params: any) {
-    console.log(params);
     this.loader = true;
     this.userService.getAllUsers(params).subscribe((res) => {
-      console.log('Response', res?.data?.users);
       this.loader = false;
       this.listOfData = res.data?.users;
       this.totalRecords = res.data?.count;
@@ -83,9 +81,7 @@ export class SellerListComponent {
   }
 
   onSortChange(column: any): void {
-    console.log(column);
     this.query = { ...this.query, sortOrder: column.sortOrder };
-    console.log(this.query);
     this.fetchDetails(this.query);
   }
 
@@ -95,7 +91,6 @@ export class SellerListComponent {
   }
 
   onSearchInput(search: any): void {
-    console.log(search);
     search = search.trim();
     if (search.length < 3 && search.length >= 1) {
       this.messageService.warning(
@@ -112,7 +107,6 @@ export class SellerListComponent {
   }
 
   handleViewMore(id: any) {
-    console.log(id);
     localStorage.setItem('selectedUserId', id);
     this.router.navigate(['/dashboard/seller-listing/seller-details']);
   }

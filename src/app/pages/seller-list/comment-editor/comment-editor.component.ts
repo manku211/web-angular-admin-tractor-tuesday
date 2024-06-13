@@ -82,7 +82,6 @@ export class CommentEditorComponent {
     this.loader = true;
     this.commentEditorService.getCommentEditorData(params).subscribe({
       next: (data) => {
-        console.log(data);
         this.loader = false;
         this.commentEditorData = data?.data?.comments;
 
@@ -96,18 +95,14 @@ export class CommentEditorComponent {
   }
 
   onSortChange(column: any): void {
-    console.log(column);
     this.query = { ...this.query, sortOrder: column.sortOrder };
-    console.log(this.query);
     this.fetchCommentEditorDetails(this.query);
   }
 
   onFilterHandler(filteredColumn: any): void {
-    console.log(filteredColumn);
     const key = filteredColumn?.column?.key;
     if (filteredColumn.event != null) {
       this.query = { ...this.query, [key]: filteredColumn.event };
-      console.log(this.query);
       this.fetchCommentEditorDetails(this.query);
     } else {
       const updatedQuery = { ...this.query };

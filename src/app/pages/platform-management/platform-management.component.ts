@@ -132,7 +132,6 @@ export class PlatformManagementComponent {
   updatePlatformSettings(payload: any) {
     this.platformService.updatePlatformSettings(payload).subscribe({
       next: (data) => {
-        console.log(data);
         if (data?.success) {
           this.messageService.success('Updated Successfully');
           this.fetchPlatformSettings();

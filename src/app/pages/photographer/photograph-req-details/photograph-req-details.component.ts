@@ -80,7 +80,6 @@ export class PhotographReqDetailsComponent {
       .getPhotoshootRequestById(id, { maxDistance: 50000 })
       .subscribe({
         next: (data) => {
-          console.log(data);
           this.photographRequestData = data?.data?.photoshootRequest;
           this.photographerData = data?.data?.photographers;
           this.coordinates = data?.data?.photographers.map(
@@ -90,7 +89,6 @@ export class PhotographReqDetailsComponent {
               return { lat, lng };
             }
           );
-          console.log(this.coordinates);
           this.loading = false;
         },
         error: (err) => {
@@ -120,7 +118,6 @@ export class PhotographReqDetailsComponent {
       .updatePhotoshootRequest(this.photoshootRequestId, payload)
       .subscribe({
         next: (data) => {
-          console.log(data);
           this.contactDialog = false;
           this.fetchPhotograhRequestsById(this.photoshootRequestId);
         },

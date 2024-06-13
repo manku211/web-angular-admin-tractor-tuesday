@@ -27,7 +27,6 @@ export class ApproveModalComponent {
   ) {}
 
   ngOnInit() {
-    console.log('tractor', this.tractorData);
     this.exteriorImageUrl = getExteriorImageUrl(this.tractorData);
     this.populateDateTime();
   }
@@ -40,17 +39,11 @@ export class ApproveModalComponent {
     }
   }
 
-  onChange(result: Event): void {
-    console.log('onChange: ', result);
-  }
+  onChange(result: Event): void {}
 
-  start_time_log(time: Date): void {
-    console.log(time && time.toTimeString());
-  }
+  start_time_log(time: Date): void {}
 
-  end_time_log(time: Date): void {
-    console.log(time && time.toTimeString());
-  }
+  end_time_log(time: Date): void {}
   handleCancel() {
     this.handleClose.emit();
   }
@@ -59,22 +52,16 @@ export class ApproveModalComponent {
     const startTimeStamp = this.combineDateTime(this.date, this.start_time);
     const endTimeStamp = this.combineDateTime(this.date, this.end_time);
 
-    console.log(startTimeStamp, endTimeStamp);
     const payload = {
       startTime: startTimeStamp,
       endTime: endTimeStamp ? endTimeStamp : 0,
       auctionStatus: 'PENDING',
-      // title: 'Auction Title',
-      // subtitle: 'Auction SubTitle',
       tractorId: this.tractorData?.tractorId?._id,
       isApprovedByAdmin: true,
-      // denialReason: 'Inaccurate Information about the vehicle',
     };
-    console.log(payload);
     const auctionId = this.tractorData?._id;
     this.auctionService.updateAuction(auctionId, payload).subscribe({
       next: (data) => {
-        console.log(data);
         this.messageService.success('Auction Approved Successfully');
         this.handleClose.emit();
       },

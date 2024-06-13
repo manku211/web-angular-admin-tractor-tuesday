@@ -18,13 +18,8 @@ export class DetailsCardComponent {
   @Input() isUser: boolean = false;
   @Output() showBlockReason = new EventEmitter();
   privileges = Privileges;
-  constructor(public countryHelper: CountryHelperService) {
-    console.log('dataaa');
-  }
-  ngOnInit() {
-    console.log('data');
-    console.log(this.userInfo);
-  }
+  constructor(public countryHelper: CountryHelperService) {}
+  ngOnInit() {}
 
   displayBlockReason() {
     this.showBlockReason.emit();

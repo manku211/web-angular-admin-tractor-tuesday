@@ -105,11 +105,9 @@ export class UserListComponent {
   }
 
   fetchDetails(params: any) {
-    console.log(params);
     this.loader = true;
     this.userService.getAllUsers(params).subscribe({
       next: (res) => {
-        console.log('Response', res?.data?.users);
         this.loader = false;
         this.listOfData = res.data?.users;
         this.totalRecords = res.data?.count;
@@ -123,7 +121,6 @@ export class UserListComponent {
   }
 
   onSortChange(column: any): void {
-    console.log(column);
     if (column?.sortOrder === null) {
       const { sortOrder, sortField, ...newQuery } = this.query;
       this.query = newQuery;
@@ -134,7 +131,6 @@ export class UserListComponent {
         sortField: column.sortField ? column.sortField : column.altSortField,
       };
     }
-    console.log(this.query);
     this.fetchDetails(this.query);
   }
 
@@ -144,11 +140,9 @@ export class UserListComponent {
   }
 
   onFilterHandler(filteredColumn: any): void {
-    console.log(filteredColumn);
     const key = filteredColumn?.column?.key;
     if (filteredColumn.event != null) {
       this.query = { ...this.query, [key]: filteredColumn.event };
-      console.log(this.query);
       this.fetchDetails(this.query);
     } else {
       const updatedQuery = { ...this.query };
@@ -159,9 +153,6 @@ export class UserListComponent {
 
   async onSearchInput(search: any): Promise<void> {
     search = search.trim();
-    console.log(search.length);
-    // this.searchResults = await this.algoliaService.userSearch(search);
-    // console.log(this.searchResults);
     if (search.length < 3 && search.length >= 1) {
       this.messageService.warning(
         'Please search for atleast three characters.'
@@ -178,8 +169,7 @@ export class UserListComponent {
   }
 
   handleViewMore(id: any) {
-    console.log(id);
     localStorage.setItem('selectedUserId', id);
     this.router.navigate(['/dashboard/user-listing/user-details']);
-  } // Assign the imported countryCodes array to a property in your component
+  }
 }
