@@ -4,11 +4,16 @@ import { SharedModule } from '../../../shared/shared.module';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { PhotographReqDetailsComponent } from '../../../pages/photographer/photograph-req-details/photograph-req-details.component';
+import { PhotographerDetailComponent } from '../../../pages/photographer/photographer-detail/photographer-detail.component';
 
 @Component({
   selector: 'app-photoshoot-req',
   standalone: true,
-  imports: [SharedModule, PhotographReqDetailsComponent],
+  imports: [
+    SharedModule,
+    PhotographReqDetailsComponent,
+    PhotographerDetailComponent,
+  ],
   templateUrl: './photoshoot-req.component.html',
   styleUrl: './photoshoot-req.component.css',
 })
@@ -18,6 +23,7 @@ export class PhotoshootReqComponent {
   totalRecords!: number;
   loading: boolean = false;
   routePath!: string;
+  statuses = ['MATCHED', 'COMPLETED', 'WAITING', 'PAID', 'UNPAID'];
   constructor(
     private photographService: PhotographService,
     private router: Router
@@ -52,5 +58,21 @@ export class PhotoshootReqComponent {
   handleViewMore(data: any) {
     localStorage.setItem('selectedUserId', data?._id);
     this.router.navigate(['/dashboard/photoshoot-requests/details']);
+  }
+
+  changeStatus(data: any, newStatus: any): void {
+    let payload = {
+      status: newStatus,
+    };
+    this.photographService
+      .updatePhotoshootRequest(data?._id, payload)
+      .subscribe({
+        next: (data) => {
+          this.fetchPhotograhRequests();
+        },
+        error: (err) => {
+          console.error(err);
+        },
+      });
   }
 }

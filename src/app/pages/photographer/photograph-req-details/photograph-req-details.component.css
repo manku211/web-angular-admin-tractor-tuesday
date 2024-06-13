@@ -35,3 +35,17 @@
 .detail-outer-card {
   padding: 24px;
 }
+.contact-button {
+  height: auto;
+}
+.contact-card {
+  border-radius: 9px;
+  border: 1px solid var(--primary-color);
+  background: var(--white-color);
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 20px;
+}

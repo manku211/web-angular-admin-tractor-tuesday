@@ -44,8 +44,6 @@ export class FaqComponent {
     this.loading = true;
     this.contentService.getAllFaqs({}).subscribe({
       next: (data) => {
-        console.log(data);
-
         this.panels = data?.data.map((item: any) => ({
           id: item._id,
           active: false,
@@ -54,7 +52,6 @@ export class FaqComponent {
           content: item.answer,
         }));
         this.loading = false;
-        console.log(this.panels);
       },
     });
   }
@@ -65,14 +62,12 @@ export class FaqComponent {
   }
 
   editFaq(event: Event, id: string) {
-    console.log(id);
     this.editFaqId = id;
     event.stopPropagation();
     this.openFaqForm = true;
     this.isEdit = true;
     this.contentService.getFaqById(id).subscribe({
       next: (data) => {
-        console.log(data);
         if (data?.data) {
           this.faqForm.patchValue({
             question: data.data?.faq,
@@ -87,7 +82,6 @@ export class FaqComponent {
   }
 
   deleteFaq(event: Event, id: string) {
-    console.log(id);
     event.stopPropagation();
     this.deleteFaqId = id;
     this.openDeleteModal = true;
@@ -104,7 +98,6 @@ export class FaqComponent {
       if (!this.isEdit) {
         this.contentService.createFaq(payload).subscribe({
           next: (data) => {
-            console.log(data);
             if (data?.success) {
               this.messageService.success('FAQ created successfully');
               this.faqForm.reset();
@@ -119,7 +112,6 @@ export class FaqComponent {
       } else if (this.isEdit) {
         this.contentService.updateFaq(this.editFaqId, payload).subscribe({
           next: (data) => {
-            console.log(data);
             if (data?.success) {
               this.messageService.success('FAQ updated successfully');
               this.fetchFaqs();
@@ -147,7 +139,6 @@ export class FaqComponent {
   handleDeleteFaq() {
     this.contentService.deleteFaq(this.deleteFaqId).subscribe({
       next: (data) => {
-        console.log(data);
         if (data?.success) {
           this.messageService.success('Faq deleted successfully');
           this.fetchFaqs();

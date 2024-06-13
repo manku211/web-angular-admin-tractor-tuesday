@@ -116,10 +116,8 @@ export class AuctionManagementComponent {
   }
 
   fetchDetails(params: any) {
-    console.log(params);
     this.loader = true;
     this.auctionService.getAllAuctions(params).subscribe((res) => {
-      console.log('Response', res?.data?.auctions);
       const auctionsWithImageUrl = res?.data?.auctions.map((auction: any) => {
         return {
           ...auction,
@@ -140,7 +138,6 @@ export class AuctionManagementComponent {
   }
 
   onSortChange(column: any): void {
-    console.log(column);
     let auctionsFilter: any;
     if (column?.key === 'tractor_name') {
       auctionsFilter =
@@ -150,16 +147,13 @@ export class AuctionManagementComponent {
       ...this.query,
       auctionsFilter: auctionsFilter,
     };
-    console.log(this.query);
     this.fetchDetails(this.query);
   }
 
   onFilterHandler(filteredColumn: any): void {
-    console.log(filteredColumn);
     const key = filteredColumn?.column?.key;
     if (filteredColumn.event != null) {
       this.query = { ...this.query, [key]: filteredColumn.event };
-      console.log(this.query);
       this.fetchDetails(this.query);
     } else {
       const updatedQuery = { ...this.query };
@@ -174,7 +168,6 @@ export class AuctionManagementComponent {
   }
 
   onSearchInput(search: any): void {
-    console.log(search);
     if (search !== '') {
       this.query = { ...this.query, search: search };
     } else {
@@ -184,12 +177,10 @@ export class AuctionManagementComponent {
   }
 
   openAuctionDetailsModal(id: any) {
-    console.log(id);
     this.auctionDetailsLoader = true;
     this.showAuctionDetailsModal = true;
     this.auctionService.getAuctionById(id).subscribe({
       next: (data) => {
-        console.log(data);
         if (data?.data) {
           this.auctionDetails = data?.data;
           this.auctionDetailsLoader = false;

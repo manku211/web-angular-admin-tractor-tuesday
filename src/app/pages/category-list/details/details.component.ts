@@ -126,7 +126,6 @@ export class DetailsComponent {
     this.loader = true;
     this.categoryService.getCategory(query).subscribe({
       next: (data: any) => {
-        console.log(data);
         if (data) {
           this.loader = false;
           const auctionsWithImageUrl = data?.data?.categories.map(
@@ -150,22 +149,18 @@ export class DetailsComponent {
   }
 
   onSortChange(column: any): void {
-    console.log(column);
     this.query = {
       ...this.query,
       sortOrder: column.sortOrder,
       sortField: 'tractorId.name',
     };
-    console.log(this.query);
     this.fetchAuctionDetails(this.query);
   }
 
   onFilterHandler(filteredColumn: any): void {
-    console.log(filteredColumn);
     const key = filteredColumn?.column?.key;
     if (filteredColumn.event != null) {
       this.query = { ...this.query, [key]: filteredColumn.event };
-      console.log(this.query);
       this.fetchAuctionDetails(this.query);
     } else {
       const updatedQuery = { ...this.query };
@@ -183,9 +178,7 @@ export class DetailsComponent {
   }
 
   async onSearchInput(search: any): Promise<void> {
-    console.log(search);
     this.searchResults = await this.algoliaService.tractorSearch(search);
-    console.log(this.searchResults);
     if (search !== '') {
       this.query = { ...this.query, search: search };
     } else {
@@ -195,7 +188,6 @@ export class DetailsComponent {
   }
 
   handleViewMore(id: any) {
-    console.log(id);
     localStorage.setItem('selectedAuctionId', id);
     this.router.navigate([
       '/dashboard/category-listing/category-details/vehicle-info',

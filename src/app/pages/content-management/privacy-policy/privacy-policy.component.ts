@@ -19,9 +19,7 @@ export class PrivacyPolicyComponent {
   constructor(
     private contentService: ContentManagementService,
     private messageService: MessageService
-  ) {
-    console.log('selectedMenuItem', this.selectedMenuItem);
-  }
+  ) {}
 
   ngOnInit() {
     this.fetchTerms();
@@ -30,7 +28,6 @@ export class PrivacyPolicyComponent {
   fetchTerms() {
     this.contentService.getPolicyandTerms().subscribe({
       next: (data) => {
-        console.log(data);
         this.contentData = data?.data;
         this.privacyPolicy = data?.data?.privacyPolicy;
         this.termsAndCond = data?.data?.termsAndConditions;
@@ -49,19 +46,17 @@ export class PrivacyPolicyComponent {
   }
 
   sendData() {
-    console.log('HTML Content:', this.privacyPolicy);
     const payload = {
       privacyPolicy: this.privacyPolicy,
       termsAndConditions: this.termsAndCond,
     };
     this.contentService.updatePolicyandTerms(payload).subscribe({
       next: (data) => {
-        console.log(data);
         this.messageService.success('Content Updated Successfully');
         this.fetchTerms();
       },
       error: (err) => {
-        console.log(err);
+        console.error(err);
       },
     });
   }

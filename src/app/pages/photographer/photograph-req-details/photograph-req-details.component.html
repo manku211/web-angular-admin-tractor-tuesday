@@ -169,7 +169,7 @@
     <span>Photographer Tracker</span>
   </nz-flex>
   <div nz-row>
-    <div nz-col nzSpan="12">
+    <div nz-col nzSpan="12" *ngIf="coordinates">
       <div
         style="height: 300px; width: 400px"
         leaflet
@@ -179,20 +179,79 @@
       ></div>
     </div>
     <div nz-col nzSpan="12">
-      <nz-flex [nzVertical]="true">
-        <nz-flex nzJustify="space-between" nzAlign="center">
-          <nz-flex [nzVertical]="true">
-            <span>Aron Mustov</span>
-            <span>{{ "aron@gmail.com" }}</span>
+      <nz-flex [nzVertical]="true" nzGap="middle">
+        <ng-container *ngFor="let user of photographerData">
+          <nz-flex nzJustify="space-between" nzAlign="center">
+            <nz-flex nzGap="middle">
+              <img
+                [src]="user.profilePic || 'assets/icons/profile.svg'"
+                alt="profile"
+              />
+
+              <nz-flex [nzVertical]="true">
+                <nz-flex nzGap="middle">
+                  <span>{{ user.fullname }}</span>
+                  <ng-container *ngFor="let _ of [].constructor(user.rating)">
+                    <img src="assets/icons/star.svg" alt="star" />
+                  </ng-container>
+                </nz-flex>
+                <span>{{ user.email }}</span>
+              </nz-flex>
+            </nz-flex>
+            <nz-flex nzAlign="center" nzGap="middle">
+              <button
+                nz-button
+                class="primary-button contact-button"
+                (click)="openContact(user)"
+              >
+                Contact
+              </button>
+              <button
+                nz-button
+                class="secondary-button"
+                (click)="handleViewMore(user?._id)"
+              >
+                View More
+              </button>
+            </nz-flex>
           </nz-flex>
-          <img src="assets/icons/star.svg" alt="star" />
-          <img src="assets/icons/profile_container.svg" alt="profile" />
-          <nz-flex nzAlign="center">
-            <button nz-button class="primary-button">Contact</button>
-            <button nz-button class="secondary-button">View More</button>
-          </nz-flex>
+        </ng-container>
+      </nz-flex>
+
+      <div *ngIf="!loading && photographerData.length === 0">
+        No photographers found.
+      </div>
+    </div>
+  </div>
+</div>
+<app-modal [showModal]="contactDialog" (handleCancelModal)="handleCancel()">
+  <div modal-content>
+    <nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true">
+      <img src="assets/icons/camera.svg" alt="block" width="50" height="50" />
+      <h3>Contact Photographer</h3>
+      <span class="thin-text">Check number below</span>
+    </nz-flex>
+
+    <div class="contact-card">
+      <nz-flex nzGap="middle">
+        <img
+          [src]="photographerInfo?.profilePic || 'assets/icons/profile.svg'"
+          alt="profile"
+        />
+        <nz-flex [nzVertical]="true">
+          <span>{{ photographerInfo?.fullname }}</span>
+          <span>{{ photographerInfo?.email }}</span>
         </nz-flex>
       </nz-flex>
     </div>
   </div>
-</div>
+
+  <div modal-footer>
+    <button nz-button class="modal-button" (click)="handleCancel()">
+      Cancel
+    </button>
+    <button nz-button class="modal-button" (click)="handleAssign()">
+      Assign
+    </button>
+  </div>
+</app-modal>

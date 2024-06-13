@@ -25,7 +25,23 @@
           </td>
           <td>100+</td>
           <td>{{ data?.sellerId?.fullName }}</td>
-          <td>{{ data?.status }}</td>
+          <td>
+            <button nz-button nz-dropdown [nzDropdownMenu]="menu4">
+              {{ data.status }}
+              <span nz-icon nzType="down"></span>
+            </button>
+            <nz-dropdown-menu #menu4="nzDropdownMenu">
+              <ul nz-menu>
+                <li
+                  nz-menu-item
+                  *ngFor="let status of statuses"
+                  (click)="changeStatus(data, status)"
+                >
+                  {{ status }}
+                </li>
+              </ul>
+            </nz-dropdown-menu>
+          </td>
           <td>
             <button
               nz-button
@@ -39,7 +55,14 @@
       </tbody>
     </nz-table>
   </div>
+
   <div *ngIf="routePath == '/dashboard/photoshoot-requests/details'">
     <app-photograph-req-details></app-photograph-req-details>
+  </div>
+
+  <div
+    *ngIf="routePath == '/dashboard/photoshoot-requests/details/photographer'"
+  >
+    <app-photographer-detail></app-photographer-detail>
   </div>
 </nz-flex>
