@@ -47,10 +47,8 @@ export class CommentsBidsComponent {
   }
 
   fetchNewest(params: any) {
-    console.log(params);
     this.commentsBidsService.getCommentsAndBidsByTractorId(params).subscribe({
       next: (data) => {
-        console.log(data);
         this.totalCommentsAndBids = data?.data?.totalCount;
         this.newest = data?.data?.bidsAndComments;
         this.activeLink = 'newest';
@@ -64,7 +62,6 @@ export class CommentsBidsComponent {
   fetchComments(params: any) {
     this.commentsBidsService.getCommentsByTractorID(params).subscribe({
       next: (data) => {
-        console.log(data);
         this.activeLink = 'comments';
         this.commentHistory = data?.data?.comments;
       },
@@ -77,7 +74,6 @@ export class CommentsBidsComponent {
   fetchBids(params: any) {
     this.commentsBidsService.getBidsById(params).subscribe({
       next: (data) => {
-        console.log(data);
         this.activeLink = 'bids';
         this.bidHistory = data?.data?.bids;
       },
@@ -90,7 +86,6 @@ export class CommentsBidsComponent {
   fetchReplies(params: any) {
     this.commentsBidsService.getRepliesForComment(params).subscribe({
       next: (data) => {
-        console.log(data);
         this.replies = data?.data?.comments;
       },
       error: (err) => {

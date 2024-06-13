@@ -34,6 +34,12 @@ export class PhotographService {
     );
   }
 
+  getPhotograherById(id: string) {
+    return this.http.get<any>(
+      this.baseUrl + `photographer/get-photographer/${id}`
+    );
+  }
+
   updatePhotoshootRequest(id: string, payload: any) {
     return this.http.patch<any>(
       this.baseUrl + `admin/update-photoshoot-request/${id}`,

@@ -116,11 +116,9 @@ export class ActiveListComponent {
   }
 
   fetchDetails(params: any) {
-    console.log(params);
     this.loader = true;
     this.userService.getAllUsers(params).subscribe({
       next: (res) => {
-        console.log('Response', res?.data?.users);
         this.loader = false;
         this.listOfData = res.data?.users;
       },
@@ -133,11 +131,9 @@ export class ActiveListComponent {
   }
 
   fetchSellerDetails(params: any) {
-    console.log(params);
     this.loader = true;
     this.userService.getAllUsers(params).subscribe({
       next: (res) => {
-        console.log('Response', res?.data?.users);
         this.loader = false;
         this.listOfSellerData = res.data?.users;
       },
@@ -150,24 +146,20 @@ export class ActiveListComponent {
   }
 
   onSortChange(column: any): void {
-    console.log(column);
     this.query = {
       ...this.query,
       sortOrder: column.sortOrder,
       sortField: column.sortField ? column.sortField : column.altSortField,
     };
-    console.log(this.query);
     this.fetchDetails(this.query);
   }
 
   onSortChangeSeller(column: any): void {
-    console.log(column);
     this.sellerQuery = {
       ...this.sellerQuery,
       sortOrder: column.sortOrder,
       sortField: column.sortField ? column.sortField : column.altSortField,
     };
-    console.log(this.query);
     this.fetchSellerDetails(this.sellerQuery);
   }
 }

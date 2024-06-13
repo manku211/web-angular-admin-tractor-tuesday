@@ -69,14 +69,12 @@ export class CategoryListComponent {
   fetchDetails() {
     this.loader = true;
     this.categoryService.getCategoryList().subscribe((res) => {
-      console.log('Response', res?.data);
       this.loader = false;
       this.listOfData = res.data;
     });
   }
 
   handleViewMore(category: any) {
-    console.log(category);
     localStorage.setItem('selectedUserId', category);
     this.router.navigate(['/dashboard/category-listing/category-details']);
   }
