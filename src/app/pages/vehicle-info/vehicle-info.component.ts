@@ -15,6 +15,8 @@ import { NzUploadXHRArgs } from 'ng-zorro-antd/upload';
 import { Subscription } from 'rxjs';
 import { ProfileService } from '../../core/services/profile/profile.service';
 import { MessageService } from '../../core/services/message/message.service';
+import { EquipmentCategory } from '../../core/models/equipmentCategories';
+import { TranmissionTypes } from '../../core/models/transmissionTypes';
 
 @Component({
   selector: 'app-vehicle-info',
@@ -38,22 +40,112 @@ export class VehicleInfoComponent {
   isCarouselVisible = false;
   tractorImages: string[] = [];
   additionalInfo: any[] = [
-    { label: 'Name Of The Vehicle', key: 'tractorId', subkey: 'name' },
-    { label: 'VIN', key: 'tractorId', subkey: 'vin' },
-    { label: 'Vehicle Number', key: 'tractorId', subkey: 'number' },
-    { label: 'Model Number', key: 'tractorId', subkey: 'brand' },
-    { label: 'Vehicle Year', key: 'tractorId', subkey: 'year' },
-    { label: 'Brand Category', key: 'tractorId', subkey: 'category' },
-    { label: 'Engine Power', key: 'tractorId', subkey: 'power' },
-    { label: 'Seller Name', key: 'userId', subkey: 'username' },
-    { label: 'Seller Type', key: 'sellerType', subkey: '' },
-    { label: 'Vehicle Color', key: 'tractorId', subkey: 'name' },
-    { label: 'Transmission', key: 'tractorId', subkey: 'transmissionType' },
-    { label: 'Tyre Conditions', key: 'tractorId', subkey: 'condition' },
-    { label: 'Used/Unused', key: 'tractorId', subkey: 'isUsed' },
-    { label: 'Reserve', key: 'reservedPrice', subkey: '' },
-    { label: 'Location', key: 'tractorId', subkey: 'location' },
-    { label: 'Total Number of Hours', key: 'tractorId', subkey: 'totalHrs' },
+    {
+      label: 'Name Of The Vehicle',
+      key: 'tractorId',
+      subkey: 'name',
+      id: 'name',
+      isEdit: true,
+    },
+    { label: 'VIN', key: 'tractorId', subkey: 'vin', id: 'vin', isEdit: true },
+    {
+      label: 'Vehicle Number',
+      key: 'tractorId',
+      subkey: 'number',
+      id: 'number',
+      isEdit: true,
+    },
+    {
+      label: 'Model Number',
+      key: 'tractorId',
+      subkey: 'brand',
+      id: 'brand',
+      isEdit: true,
+    },
+    {
+      label: 'Vehicle Year',
+      key: 'tractorId',
+      subkey: 'year',
+      id: 'year',
+      isEdit: true,
+    },
+    {
+      label: 'Brand Category',
+      key: 'tractorId',
+      subkey: 'category',
+      id: 'category',
+      isEdit: true,
+    },
+    {
+      label: 'Engine Power',
+      key: 'tractorId',
+      subkey: 'power',
+      id: 'power',
+      isEdit: true,
+    },
+    {
+      label: 'Seller Name',
+      key: 'userId',
+      subkey: 'username',
+      isEdit: false,
+      id: 'sellerName',
+    },
+    {
+      label: 'Seller Type',
+      key: 'sellerType',
+      subkey: '',
+      isEdit: true,
+      id: 'sellerType',
+    },
+    {
+      label: 'Vehicle Color',
+      key: 'tractorId',
+      subkey: 'name',
+      id: 'color',
+      isEdit: true,
+    },
+    {
+      label: 'Transmission',
+      key: 'tractorId',
+      subkey: 'transmissionType',
+      id: 'transmissionType',
+      isEdit: true,
+    },
+    {
+      label: 'Tyre Conditions',
+      key: 'tractorId',
+      subkey: 'tyreConditions',
+      id: 'tyreConditions',
+      isEdit: true,
+    },
+    {
+      label: 'Used/Unused',
+      key: 'tractorId',
+      subkey: 'isUsed',
+      id: 'isUsed',
+      isEdit: true,
+    },
+    {
+      label: 'Reserve',
+      key: 'reservedPrice',
+      subkey: '',
+      isEdit: true,
+      id: 'reserve',
+    },
+    {
+      label: 'Location',
+      key: 'tractorId',
+      subkey: 'location',
+      id: 'location',
+      isEdit: false,
+    },
+    {
+      label: 'Total Number of Hours',
+      key: 'tractorId',
+      subkey: 'totalHrs',
+      id: 'totalHrs',
+      isEdit: true,
+    },
   ];
   isEditMode: boolean = false;
   isFlawEditMode: boolean = false;
@@ -65,6 +157,8 @@ export class VehicleInfoComponent {
   modificationsForm!: FormGroup;
   isServiceLogEditMode: boolean = false;
   serviceLogsForm!: FormGroup;
+  equipmentCategories = Object.values(EquipmentCategory);
+  transmissions = Object.values(TranmissionTypes);
 
   constructor(
     private auctionService: AuctionService,
@@ -147,44 +241,53 @@ export class VehicleInfoComponent {
 
   generateAdditionalInfo(vehicleInfo: any): { label: string; value: string }[] {
     return this.additionalInfo.map((info) => {
-      let value = '';
-      switch (info.label) {
-        case 'Name':
-        case 'Vin':
-        case 'Vehicle Number':
-        case 'Model Number':
-        case 'Brand Category':
-        case 'Engine Power':
-        case 'Transmission':
-        case 'Tyre Conditions':
-        case 'Location':
+      let value: any;
+      switch (info.id) {
+        case 'name':
+        case 'vin':
+        case 'number':
+        case 'brand':
+        case 'category':
+        case 'power':
+        case 'transmissionType':
           value = vehicleInfo[info.key]?.[info.subkey] || 'N/A';
           break;
-        case 'Vehicle Year':
+        case 'tyreConditions':
+          value = {
+            condition: vehicleInfo[info.key]?.[info.subkey]?.[info?.condiotion],
+            width: vehicleInfo[info.key]?.[info.subkey]?.[info?.width],
+            size: vehicleInfo[info.key]?.[info.subkey]?.[info?.size],
+          };
+          break;
+        case 'year':
           value = vehicleInfo[info.key]?.[info.subkey]?.toString() || 'N/A';
           break;
-        case 'Seller Name':
+        case 'sellerName':
           value = vehicleInfo[info.key]?.[info.subkey] || 'N/A';
           break;
-        case 'Seller Type':
+        case 'sellerType':
           value = 'Seller';
           break;
-        case 'Vehicle Color':
+        case 'color':
           value = 'Color';
           break;
-        case 'Used/Unused':
+        case 'isUsed':
           value = vehicleInfo[info.key]?.[info.subkey] ? 'Used' : 'Unused';
           break;
-        case 'Reserve':
+        case 'reserve':
           value = vehicleInfo[info.key] > 0 ? 'Reserved' : 'No Reserve';
           break;
-        case 'Total Number of Hours':
+        case 'totalHrs':
           value = vehicleInfo[info.key]?.[info.subkey]?.toString() || 'N/A';
           break;
         default:
           value = 'N/A';
       }
-      return { label: info.label, value, editMode: false };
+      return {
+        value,
+        editMode: false,
+        ...info,
+      };
     });
   }
 
@@ -194,9 +297,21 @@ export class VehicleInfoComponent {
 
   saveEdit(index: number): void {
     const editedItem = this.additionalInfo[index];
-
     // Exit edit mode
     this.additionalInfo[index].editMode = false;
+    let payload = {
+      [editedItem?.id]: editedItem?.value,
+    };
+    this.auctionService
+      .updateVehicleInfo(this.vehicleInfo?.tractorId?._id, payload)
+      .subscribe({
+        next: (data) => {
+          this.fetchVehicleDetails(this.auctionId);
+        },
+        error: (err) => {
+          console.error(err);
+        },
+      });
   }
 
   toggleFlawEditMode() {

@@ -109,9 +109,24 @@
             nzJustify="space-between"
           >
             <ng-container *ngIf="!item.editMode; else editTemplate">
-              <span>{{ item.value }}</span>
+              <span
+                *ngIf="
+                  item.id !== 'tyreConditions';
+                  else tyreConditionsTemplate
+                "
+                >{{ item.value }}</span
+              >
+              <ng-template #tyreConditionsTemplate>
+                <div>
+                  <div>
+                    Track Life Percentage: {{ item?.value?.condition }}%
+                  </div>
+                  <div>Track Width: {{ item?.value?.width }} inch</div>
+                  <div>Tyre Size: {{ item?.value?.size }} inch</div>
+                </div>
+              </ng-template>
               <i
-                *ngIf="isEditMode"
+                *ngIf="isEditMode && item.isEdit"
                 nz-icon
                 nzType="edit"
                 nzTheme="outline"
@@ -119,31 +134,88 @@
               ></i>
             </ng-container>
             <ng-template #editTemplate>
-              <nz-input-group [nzSuffix]="suffixButton">
-                <input nz-input [(ngModel)]="item.value" />
-              </nz-input-group>
-              <ng-template #suffixButton>
-                <button nz-button class="primary-button" (click)="saveEdit(i)">
-                  Submit
-                </button>
-              </ng-template>
+              <ng-container [ngSwitch]="item.id">
+                <!-- For category dropdown -->
+                <ng-container *ngSwitchCase="'category'">
+                  <nz-select [(ngModel)]="item.value">
+                    <nz-option
+                      *ngFor="let category of equipmentCategories"
+                      [nzLabel]="category"
+                      [nzValue]="category"
+                    ></nz-option>
+                  </nz-select>
+                  <button
+                    nz-button
+                    class="primary-button"
+                    (click)="saveEdit(i)"
+                  >
+                    Submit
+                  </button>
+                </ng-container>
+                <!-- For transmissionType dropdown -->
+                <ng-container *ngSwitchCase="'transmissionType'">
+                  <nz-select [(ngModel)]="item.value">
+                    <nz-option
+                      *ngFor="let transmission of transmissions"
+                      [nzLabel]="transmission"
+                      [nzValue]="transmission"
+                    ></nz-option>
+                  </nz-select>
+
+                  <button
+                    nz-button
+                    class="primary-button"
+                    (click)="saveEdit(i)"
+                  >
+                    Submit
+                  </button>
+                </ng-container>
+                <!-- Default input field for other editable items -->
+                <ng-container *ngSwitchCase="'tyreConditions'">
+                  <nz-flex [nzVertical]="true" nzGap="middle">
+                    <input
+                      nz-input
+                      [(ngModel)]="item.value.condition"
+                      placeholder="Track Life Percentage (%)"
+                    />
+                    <input
+                      nz-input
+                      [(ngModel)]="item.value.width"
+                      placeholder="Track Width (inch)"
+                    />
+                    <input
+                      nz-input
+                      [(ngModel)]="item.value.size"
+                      placeholder="Tyre Size (inch)"
+                    />
+                    <button
+                      nz-button
+                      class="primary-button"
+                      (click)="saveEdit(i)"
+                    >
+                      Submit
+                    </button>
+                  </nz-flex>
+                </ng-container>
+                <ng-container *ngSwitchDefault>
+                  <nz-input-group [nzSuffix]="suffixButton">
+                    <input nz-input [(ngModel)]="item.value" />
+                  </nz-input-group>
+                  <ng-template #suffixButton>
+                    <button
+                      nz-button
+                      class="primary-button"
+                      (click)="saveEdit(i)"
+                    >
+                      Submit
+                    </button>
+                  </ng-template>
+                </ng-container>
+              </ng-container>
             </ng-template>
           </div>
         </div>
       </div>
-
-      <!-- <div class="info-container">
-        <div class="info-text" nz-flex nzAlign="center">
-          <span>Modifications</span>
-        </div>
-        <ul class="modifications-list">
-          <li
-            *ngFor="let modification of vehicleInfo?.tractorId?.modifications"
-          >
-            {{ modification }}
-          </li>
-        </ul>
-      </div> -->
 
       <div class="info-container">
         <div

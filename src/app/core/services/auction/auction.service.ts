@@ -67,4 +67,11 @@ export class AuctionService {
       }
     );
   }
+
+  updateVehicleInfo(id: any, payload: any) {
+    return this.http.patch<any>(
+      this.baseUrl + `admin/update-tractor-admin/${id}`,
+      payload
+    );
+  }
 }

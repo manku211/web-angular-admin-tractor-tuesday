@@ -27,9 +27,7 @@ export class PhotographerDetailComponent {
   fetchPhotographerById(id: string) {
     this.photographService.getPhotograherById(id).subscribe({
       next: (data) => {
-        console.log(data);
         this.photographerData = data?.data;
-        console.log(this.photographerData);
         this.loading = false;
       },
       error: (err) => {

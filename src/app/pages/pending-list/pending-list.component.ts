@@ -97,10 +97,8 @@ export class PendingListComponent {
   }
 
   fetchDetails(params: any) {
-    console.log(params);
     this.loader = true;
     this.auctionService.getPendingRequests(params).subscribe((res) => {
-      console.log('Response', res?.data);
       const auctionsWithImageUrl = res?.data?.map((auction: any) => {
         return {
           ...auction,
@@ -121,7 +119,6 @@ export class PendingListComponent {
   }
 
   onSortChange(column: any): void {
-    console.log(column);
     let auctionsFilter: any;
     if (column?.key === 'tractor_name') {
       auctionsFilter =
@@ -131,16 +128,13 @@ export class PendingListComponent {
       ...this.query,
       auctionsFilter: auctionsFilter,
     };
-    console.log(this.query);
     this.fetchDetails(this.query);
   }
 
   onFilterHandler(filteredColumn: any): void {
-    console.log(filteredColumn);
     const key = filteredColumn?.column?.key;
     if (filteredColumn.event != null) {
       this.query = { ...this.query, [key]: filteredColumn.event };
-      console.log(this.query);
       this.fetchDetails(this.query);
     } else {
       const updatedQuery = { ...this.query };
@@ -155,7 +149,6 @@ export class PendingListComponent {
   }
 
   onSearchInput(search: any): void {
-    console.log(search);
     if (search !== '') {
       this.query = { ...this.query, search: search };
     } else {
@@ -165,12 +158,10 @@ export class PendingListComponent {
   }
 
   openAuctionDetailsModal(id: any) {
-    console.log(id);
     this.auctionDetailsLoader = true;
     this.showAuctionDetailsModal = true;
     this.auctionService.getAuctionById(id).subscribe({
       next: (data) => {
-        console.log(data);
         if (data?.data) {
           this.auctionDetails = data?.data;
           this.auctionDetailsLoader = false;
@@ -214,11 +205,9 @@ export class PendingListComponent {
       tractorId: this.tractorData?.tractorId?._id,
       isApprovedByAdmin: false,
     };
-    console.log(payload);
     const auctionId = this.tractorData?._id;
     this.auctionService.updateAuction(auctionId, payload).subscribe({
       next: (data) => {
-        console.log(data);
         this.openRejectModal = false;
       },
       error: (err) => {
