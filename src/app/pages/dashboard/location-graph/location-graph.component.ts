@@ -72,7 +72,6 @@ export class LocationGraphComponent {
     };
     this.analyticsService.getLocationGraph(paylod).subscribe({
       next: (data: any) => {
-        console.log('location', data);
         this.graphData = data?.data;
         const allUsers = this.graphData.allUsers;
 
@@ -173,7 +172,6 @@ export class LocationGraphComponent {
               if (elements && elements.length > 0) {
                 const stateName =
                   features[elements[0].index].properties.name.toLowerCase();
-                console.log('Clicked State:', stateName);
                 this.fetchGraphDetails(country, stateName);
               }
             },

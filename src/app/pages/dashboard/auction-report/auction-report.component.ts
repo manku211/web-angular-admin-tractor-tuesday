@@ -50,7 +50,6 @@ export class AuctionReportComponent {
     };
     this.analyticsService.getAuctionGraph(payload).subscribe({
       next: (data: any) => {
-        console.log('sales', data);
         this.graphData = data?.data;
         this.isLoading = false;
         this.cdr.detectChanges();

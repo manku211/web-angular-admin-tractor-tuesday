@@ -125,7 +125,6 @@ export class DetailsComponent {
   ) {}
   ngOnInit(): void {
     this.userId = localStorage.getItem('selectedUserId');
-    console.log('User ID:', this.userId);
     this.fetchUserDetails(this.userId);
     this.query = {
       ...this.query,
@@ -137,7 +136,6 @@ export class DetailsComponent {
   }
 
   onTabChange(index: any): void {
-    console.log('Selected tab index:', index);
     this.tabIndex = index;
     if (index === 0) {
       this.listOfColumns = this.listOfColumns.filter(
@@ -181,7 +179,6 @@ export class DetailsComponent {
   fetchUserDetails(userId: string) {
     this.userService.getUserDetailsById(userId).subscribe({
       next: (data: any) => {
-        console.log(data);
         if (data) {
           this.userInfo = data?.data;
         }
@@ -197,7 +194,6 @@ export class DetailsComponent {
     this.loader = true;
     this.auctionService.getAuctionDetailsBySellerId(query).subscribe({
       next: (data: any) => {
-        console.log(data);
         if (data) {
           const auctionsWithImageUrl = data?.data?.auctions.map(
             (auction: any) => {
@@ -224,18 +220,14 @@ export class DetailsComponent {
   }
 
   onSortChange(column: any): void {
-    console.log(column);
     this.query = { ...this.query, sortOrder: column.sortOrder };
-    console.log(this.query);
     this.fetchAuctionDetails(this.query);
   }
 
   onFilterHandler(filteredColumn: any): void {
-    console.log(filteredColumn);
     const key = filteredColumn?.column?.key;
     if (filteredColumn.event != null) {
       this.query = { ...this.query, [key]: filteredColumn.event };
-      console.log(this.query);
       this.fetchAuctionDetails(this.query);
     } else {
       const updatedQuery = { ...this.query };
@@ -250,7 +242,6 @@ export class DetailsComponent {
   }
 
   onSearchInput(search: any): void {
-    console.log(search);
     if (search !== '') {
       this.query = { ...this.query, search: search };
     } else {
@@ -260,7 +251,6 @@ export class DetailsComponent {
   }
 
   handleViewMore(id: any) {
-    console.log(id);
     localStorage.setItem('selectedAuctionId', id);
     this.router.navigate([
       '/dashboard/seller-listing/seller-details/vehicle-info',
@@ -283,11 +273,9 @@ export class DetailsComponent {
       tractorId: this.tractorData?.tractorId?._id,
       isApprovedByAdmin: false,
     };
-    console.log(payload);
     const auctionId = this.tractorData?._id;
     this.auctionService.updateAuction(auctionId, payload).subscribe({
       next: (data) => {
-        console.log(data);
         this.openRejectModal = false;
       },
       error: (err) => {

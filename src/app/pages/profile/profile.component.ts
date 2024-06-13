@@ -76,14 +76,13 @@ export class ProfileComponent {
     }, 100);
     this.profileService.getAdmin().subscribe({
       next: (data) => {
-        console.log(data);
         this.profileDetails = data?.data;
         this.profileName = data?.data?.name;
         this.avatarUrl = data?.data?.profilePicture;
         this.cdr.detectChanges();
       },
       error: (err) => {
-        console.log(err);
+        console.error(err);
       },
     });
   }
@@ -116,7 +115,6 @@ export class ProfileComponent {
     };
     this.profileService.updateProfileDetails(payload).subscribe({
       next: (data) => {
-        console.log(data);
         this.profileService.updateProfileData(payload);
         this.messageService.success('Profile updated successfully!');
       },
@@ -128,14 +126,12 @@ export class ProfileComponent {
 
   submitForm(): void {
     if (this.resetPasswordForm.valid) {
-      console.log(this.resetPasswordForm.value);
       let payload = {
         oldPassword: this.resetPasswordForm.get('oldPassword')!.value,
         newPassword: this.resetPasswordForm.get('password')!.value,
       };
       this.profileService.updateProfileDetails(payload).subscribe({
         next: (data) => {
-          console.log(data);
           if (data?.success) {
             this.messageService.success('Password changed successfully!');
             localStorage.clear();
@@ -158,7 +154,6 @@ export class ProfileComponent {
   }
 
   onProfileNameInputChange() {
-    console.log(this.profileName);
     if (
       this.profileDetails?.name === this.profileName ||
       this.profileName.length < 3 ||
@@ -173,7 +168,6 @@ export class ProfileComponent {
   handleCustomRequest = (item: NzUploadXHRArgs): Subscription => {
     this.imageLoaded = true;
     this.profileDetailsUpdated = true;
-    console.log(item);
     const uploadData = {
       fileName: item.file.name,
       filePath: 'images',
@@ -183,8 +177,6 @@ export class ProfileComponent {
       next: (data) => {
         const { url } = data?.data;
         this.avatarUrl = data?.data?.key;
-
-        console.log('avatar url', this.avatarUrl);
 
         this.uploadFile(item.file, url);
       },
@@ -196,11 +188,7 @@ export class ProfileComponent {
   };
 
   private uploadFile(file: any, url: any): void {
-    console.log('Uploading file:', file);
-    console.log('To URL:', url);
-
     this.profileService.uploadFile(url, file).subscribe((data) => {
-      console.log('Upload', data);
       this.imageLoaded = false;
       this.cdr.detectChanges();
     });

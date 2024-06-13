@@ -43,11 +43,9 @@ export class DenyModalComponent {
         ? this.selectedReason
         : this.otherReason,
     };
-    console.log(payload);
     const auctionId = this.tractorData?._id;
     this.auctionService.updateAuction(auctionId, payload).subscribe({
       next: (data) => {
-        console.log(data);
         this.handleClose.emit();
       },
       error: (err) => {

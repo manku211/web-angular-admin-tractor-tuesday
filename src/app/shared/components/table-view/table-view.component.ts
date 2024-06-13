@@ -57,20 +57,14 @@ export class TableViewComponent {
   searchInput = new FormControl('');
 
   constructor() {
-    // Subscribe to value changes of the search input and emit the event after debouncing
-    console.log(this.searchInput);
     this.searchInput.valueChanges
       .pipe(debounceTime(300))
       .subscribe((searchText: any) => {
-        // Emit the search event
-        console.log(searchText);
         this.search.emit(searchText);
       });
   }
 
   onSortChange(column: TableColumn, event: any): void {
-    console.log(column, event);
-
     this.columns.forEach((col) => {
       if (col !== column) {
         col.sortOrder = null;
@@ -83,13 +77,10 @@ export class TableViewComponent {
   }
 
   onFilterHandler(column: TableColumn, event: any): void {
-    console.log(column, event);
-
     this.filteredList.emit({ column: column, event: event });
   }
 
   onPageIndexChange(pageIndex: number): void {
-    console.log('Page index changed to:', pageIndex);
     this.pageChange.emit(pageIndex);
   }
 }
