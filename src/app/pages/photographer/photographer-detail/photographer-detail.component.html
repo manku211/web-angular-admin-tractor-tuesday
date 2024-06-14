@@ -135,3 +135,38 @@
     <span>Photographer Gallery</span>
   </nz-flex>
 </nz-card>
+
+<app-table-view
+  [data]="photographerServices"
+  [columns]="listOfColumns"
+  [enablePagination]="true"
+  [enableSorting]="true"
+  [enableSearch]="false"
+  [enableActions]="false"
+  (sortChange)="onSortChange($event)"
+  [loader]="loader"
+  [totalRecords]="totalCount"
+  [tableRowTemplate]="tableRowTemplate"
+  (pageChange)="onPageChange($event)"
+  (filteredList)="onFilterHandler($event)"
+>
+  <ng-template #tableRowTemplate let-data let-columns="columns">
+    <tr *ngFor="let item of data">
+      <td>
+        <span>{{ item["sellerId"]?.address?.state }}</span>
+      </td>
+      <td>
+        <span>{{ item["sellerId"]?.createdAt | date : "d MMM, y" }}</span>
+      </td>
+      <td>
+        <span>{{ "100+" }}</span>
+      </td>
+      <td>
+        <span>{{ item["sellerId"]?.fullName }}</span>
+      </td>
+      <td>
+        <span>{{ item?.status }}</span>
+      </td>
+    </tr>
+  </ng-template>
+</app-table-view>
