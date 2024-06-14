@@ -87,7 +87,6 @@ export class PhotographerDetailComponent {
   }
 
   fetchPhotographerHistory(id: string) {
-    console.log('photographer history');
     this.loader = true;
     let payload = {
       filter: 'PHOTOGRAPHER_ID',
@@ -95,7 +94,6 @@ export class PhotographerDetailComponent {
     };
     this.photographService.getPhotoshootRequest(payload).subscribe({
       next: (data) => {
-        console.log(data);
         this.photographerServices = data?.data?.photographerRequests;
         this.loader = false;
         this.totalCount = data?.data?.totalCount;
