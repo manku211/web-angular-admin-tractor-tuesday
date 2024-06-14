@@ -259,6 +259,18 @@ export class VehicleInfoComponent {
             size: vehicleInfo[info.key]?.[info.subkey]?.[info?.size],
           };
           break;
+        case 'location':
+          value =
+            vehicleInfo[info.key]?.[info.subkey]?.['streetAddress'] +
+            ', ' +
+            vehicleInfo[info.key]?.[info.subkey]?.['city'] +
+            ', ' +
+            vehicleInfo[info.key]?.[info.subkey]?.['stateOrProvince'] +
+            ', ' +
+            vehicleInfo[info.key]?.[info.subkey]?.['country'] +
+            ', ' +
+            vehicleInfo[info.key]?.[info.subkey]?.['zipOrPlace'];
+          break;
         case 'year':
           value = vehicleInfo[info.key]?.[info.subkey]?.toString() || 'N/A';
           break;
@@ -295,13 +307,7 @@ export class VehicleInfoComponent {
     this.additionalInfo[index].editMode = !this.additionalInfo[index].editMode;
   }
 
-  saveEdit(index: number): void {
-    const editedItem = this.additionalInfo[index];
-    // Exit edit mode
-    this.additionalInfo[index].editMode = false;
-    let payload = {
-      [editedItem?.id]: editedItem?.value,
-    };
+  updateVehicleInfo(payload: any) {
     this.auctionService
       .updateVehicleInfo(this.vehicleInfo?.tractorId?._id, payload)
       .subscribe({
@@ -312,6 +318,16 @@ export class VehicleInfoComponent {
           console.error(err);
         },
       });
+  }
+
+  saveEdit(index: number): void {
+    const editedItem = this.additionalInfo[index];
+    // Exit edit mode
+    this.additionalInfo[index].editMode = false;
+    let payload = {
+      [editedItem?.id]: editedItem?.value,
+    };
+    this.updateVehicleInfo(payload);
   }
 
   toggleFlawEditMode() {
@@ -373,6 +389,12 @@ export class VehicleInfoComponent {
 
   onModificationsSubmit(): void {
     if (this.modificationsForm.valid) {
+      const modifications = this.modificationsForm.value.modifications.map(
+        (mod: { modification: string }) => mod.modification
+      );
+
+      const payload = { modifications };
+      this.updateVehicleInfo(payload);
       this.toggleModificationEditMode();
     }
   }
