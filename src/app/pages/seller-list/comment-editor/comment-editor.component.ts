@@ -3,7 +3,11 @@ import { CommentsBidsService } from '../../../core/services/comments-bids/commen
 import { TableViewComponent } from '../../../shared/components/table-view/table-view.component';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../../shared/shared.module';
-import { styleObject } from '../../../utilities/helpers/helper';
+import {
+  getExteriorImageUrl,
+  styleObject,
+} from '../../../utilities/helpers/helper';
+import { Router } from '@angular/router';
 
 interface ColumnInfo {
   key: string;
@@ -67,7 +71,10 @@ export class CommentEditorComponent {
       sort: true,
     },
   ];
-  constructor(private commentEditorService: CommentsBidsService) {}
+  constructor(
+    private commentEditorService: CommentsBidsService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.userId = localStorage.getItem('selectedUserId');
@@ -116,5 +123,19 @@ export class CommentEditorComponent {
     this.fetchCommentEditorDetails(this.query);
   }
 
-  handleViewMore(data: any) {}
+  handleViewMore(data: any) {
+    const commentData = {
+      tractorId: data?.tractorId?._id,
+      image: getExteriorImageUrl(data),
+      name: data?.tractorId?.name,
+      status: data?.status,
+      currentBid: data?.auctionId?.amount,
+      auctionEndDate: data?.auctionId?.endTime,
+      totalBids: data?.auctionId?.totalBids,
+    };
+    localStorage.setItem('commentData', JSON.stringify(commentData));
+    this.router.navigate([
+      '/dashboard/seller-listing/seller-details/comment-listing',
+    ]);
+  }
 }

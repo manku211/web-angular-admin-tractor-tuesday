@@ -32,3 +32,37 @@ export function phoneNumberValidator(): ValidatorFn {
         };
   };
 }
+
+export const getStatusStyles = (
+  status: string
+): {
+  'background-color': string;
+  color: string;
+  'border-radius': string;
+  padding: string;
+  'font-size': string;
+} => {
+  const styles: {
+    [key: string]: { 'background-color': string; color: string };
+  } = {
+    'NOT STARTED': { 'background-color': '#CFFCF2', color: '#089171' },
+    ONGOING: { 'background-color': '#DED1F7', color: '#4D20A3' },
+    ENDED: { 'background-color': '#5E2EBA', color: '#FFF' },
+    DENIED: { 'background-color': '#E57373', color: '#FFF' },
+    COMPLETED: { 'background-color': '#81C784', color: '#FFF' },
+  };
+  return (
+    {
+      ...styles[status],
+      'border-radius': '12px',
+      padding: '4px 9px',
+      'font-size': '12px',
+    } || {
+      'background-color': '#FFF',
+      color: '#000',
+      'border-radius': '12px',
+      padding: '4px 9px',
+      'font-size': '12px',
+    }
+  );
+};
