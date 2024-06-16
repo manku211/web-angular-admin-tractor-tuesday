@@ -96,6 +96,6 @@ h3 {
   font-size: var(--font-ml);
   font-weight: 500;
 }
-::ng-deep .nz-table-out-bordered > .ant-table-container {
+/* ::ng-deep .nz-table-out-bordered > .ant-table-container {
   border-radius: 0px 0px 14px 14px;
-}
+} */

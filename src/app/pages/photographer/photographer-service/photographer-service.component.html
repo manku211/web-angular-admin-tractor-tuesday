@@ -1,0 +1,53 @@
+<app-table-view
+  [data]="photographerServices"
+  [columns]="listOfColumns"
+  [enablePagination]="isDashboard"
+  [enableSorting]="true"
+  [enableSearch]="false"
+  [enableActions]="isDashboard"
+  (sortChange)="onSortChange($event)"
+  [loader]="loader"
+  [totalRecords]="totalCount"
+  [tableRowTemplate]="tableRowTemplate"
+  (pageChange)="onPageChange($event)"
+  (filteredList)="onFilterHandler($event)"
+  [isHeader]="isDashboard"
+  [isDetailTable]="true"
+  [tableTitleTemplate]="tableTitleTemplate"
+>
+  <ng-template #tableTitleTemplate let-columns="columns">
+    <th colspan="12" class="tabletitle-text">
+      <nz-flex nzGap="small">
+        <img src="assets/icons/photoshoot.svg" /> <span>Photoshoot Lists</span>
+      </nz-flex>
+    </th>
+  </ng-template>
+  <ng-template #tableRowTemplate let-data let-columns="columns">
+    <tr *ngFor="let item of data">
+      <td>
+        <span>{{ item["sellerId"]?.address?.state }}</span>
+      </td>
+      <td>
+        <span>{{ item["sellerId"]?.createdAt | date : "d MMM, y" }}</span>
+      </td>
+      <td>
+        <span>{{ "100+" }}</span>
+      </td>
+      <td>
+        <span>{{ item["sellerId"]?.fullName }}</span>
+      </td>
+      <td>
+        <span>{{ item?.status }}</span>
+      </td>
+      <td *ngIf="isDashboard">
+        <button
+          nz-button
+          class="secondary_button"
+          [routerLink]="'/dashboard/photoshoot-requests'"
+        >
+          View More
+        </button>
+      </td>
+    </tr>
+  </ng-template>
+</app-table-view>

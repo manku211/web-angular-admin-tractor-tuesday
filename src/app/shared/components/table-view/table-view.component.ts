@@ -44,8 +44,10 @@ export class TableViewComponent {
   @Input() loader: boolean = false;
   @Input() totalRecords: number = 0;
   @Input() isDetailTable: boolean = false;
+  @Input() isHeader: boolean = false;
   @Input() isBordered: boolean = true;
   @Input() tableRowTemplate!: TemplateRef<any>;
+  @Input() tableTitleTemplate!: TemplateRef<any>;
   @Output() sortChange: EventEmitter<TableColumn> =
     new EventEmitter<TableColumn>();
   @Output() filteredList: EventEmitter<{

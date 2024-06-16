@@ -14,3 +14,6 @@
   background-color: var(--custom-bg-color) !important;
   color: var(--black-color);
 }
+.table-title {
+  color: white;
+}

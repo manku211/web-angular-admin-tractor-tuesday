@@ -21,6 +21,7 @@ import { CountryHelperService } from '../../../utilities/helpers/country-helper.
 import { RouterModule } from '@angular/router';
 import { EquipmentCategory } from '../../../core/models/equipmentCategories';
 import { HttpClient } from '@angular/common/http';
+import { PhotographerServiceComponent } from '../../../pages/photographer/photographer-service/photographer-service.component';
 interface Card {
   imgSrc: string;
   label: string;
@@ -59,6 +60,7 @@ interface ColumnInfo {
     ActiveListComponent,
     TableViewComponent,
     RouterModule,
+    PhotographerServiceComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
