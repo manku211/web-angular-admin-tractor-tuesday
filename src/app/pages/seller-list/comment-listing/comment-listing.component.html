@@ -1,0 +1,188 @@
+<nz-flex [nzVertical]="true" gap="30px" class="comment-listing">
+  <span>Auction Comments ({{ totalComments }})</span>
+  <nz-flex gap="31px">
+    <img [src]="commentData?.image" width="278" height="233" />
+    <nz-flex [nzVertical]="true">
+      <div class="title">{{ commentData.name }}</div>
+      <div>
+        <span>Status</span>
+        <span [ngStyle]="getStatusStyles(commentData.status)">{{
+          commentData.status
+        }}</span>
+      </div>
+      <nz-divider> </nz-divider>
+      <nz-flex nzGap="middle">
+        <div nz-flex [nzVertical]="true" nzAlign="center">
+          <span class="top-bid-key">Top Current Bid</span>
+          <span class="top-bid-amount"
+            >${{ commentData.currentBid || "0" }}</span
+          >
+        </div>
+        <nz-divider nzType="vertical" class="vertical-divider"> </nz-divider>
+        <nz-flex [nzVertical]="true">
+          <div nz-flex nzGap="small">
+            <div class="personal-info-row-key">Ending:</div>
+            <nz-flex nzAlign="center" nzGap="small">
+              <span nz-icon nzType="calendar" nzTheme="outline"></span>
+              <span class="personal-info-row-value">
+                {{
+                  commentData.auctionEndDate &&
+                    commentData.auctionEndDate * 1000 | date : "d MMM, y"
+                }}</span
+              ></nz-flex
+            >
+          </div>
+          <nz-flex nzGap="large">
+            <div class="personal-info-row-key">Bids:</div>
+            <span class="personal-info-row-value">
+              #{{ commentData.totalBids && commentData.totalBids }}</span
+            >
+          </nz-flex>
+        </nz-flex>
+      </nz-flex>
+    </nz-flex>
+  </nz-flex>
+  <nz-divider></nz-divider>
+
+  <div *ngFor="let comment of comments">
+    <nz-flex [nzVertical]="true" class="comment-section">
+      <nz-flex nzGap="small">
+        <nz-flex nzAlign="center" nzGap="small">
+          <img
+            [src]="comment.userId?.profilePicture || 'assets/icons/profile.svg'"
+            alt="user"
+            class="user_image"
+            width="30"
+            height="30"
+          />
+          <div class="user_name">{{ comment.userId?.fullName }}</div>
+        </nz-flex>
+      </nz-flex>
+      <div class="user_qn">Q: {{ comment.message }}</div>
+      <nz-flex nzGap="middle">
+        <div class="user_actions">
+          <span nz-icon nzType="arrow-up" nzTheme="outline"></span>
+          <span>{{ comment.likesCount }}</span>
+        </div>
+        <div class="user_actions" (click)="handleEditModal(comment)">
+          <span nz-icon nzType="edit" nzTheme="outline"></span>
+          <span>Edit</span>
+        </div>
+        <div class="user_actions" (click)="handleDeleteModal(comment)">
+          <span nz-icon nzType="delete" nzTheme="outline"></span>
+          <span>Delete</span>
+        </div>
+      </nz-flex></nz-flex
+    >
+  </div>
+</nz-flex>
+
+<app-modal [showModal]="editModal" (handleCancelModal)="handleCancel()">
+  <div modal-content>
+    <nz-flex
+      nzJustify="center"
+      nzAlign="center"
+      [nzVertical]="true"
+      nzGap="middle"
+    >
+      <img
+        src="assets/icons/user-edit.svg"
+        alt="block"
+        width="50"
+        height="50"
+      />
+      <h3>Please edit the comment</h3>
+      <div class="sub-text">
+        Are you sure you want to proceed with these changes?
+      </div>
+      <button
+        nz-button
+        class="primary-button"
+        (click)="handleEditCommentModal()"
+        [nzLoading]="editLoader"
+      >
+        Proceed
+      </button>
+    </nz-flex>
+  </div>
+</app-modal>
+
+<app-modal [showModal]="editCommentModal" (handleCancelModal)="handleCancel()">
+  <div modal-content>
+    <nz-flex
+      nzJustify="center"
+      nzAlign="center"
+      [nzVertical]="true"
+      nzGap="middle"
+    >
+      <h3>Submit your update</h3>
+      <div class="sub-text">Please add your comment:</div>
+    </nz-flex>
+    <nz-flex *ngIf="commentSelected" nzGap="small">
+      <img
+        [src]="
+          commentSelected.userId?.profilePicture || 'assets/icons/profile.svg'
+        "
+        alt="user"
+        class="user_image"
+        width="30"
+        height="30"
+      />
+      <nz-flex [nzVertical]="true">
+        <span class="user_name">{{ commentSelected.userId?.fullName }}</span>
+        <span class="user_qn">{{ commentSelected.message }}</span></nz-flex
+      >
+    </nz-flex>
+    <textarea
+      class="new-comment"
+      nz-input
+      placeholder="Comment..."
+      [(ngModel)]="editedComment"
+      id="editedComment"
+    ></textarea>
+    <nz-flex
+      nzJustify="center"
+      nzAlign="center"
+      [nzVertical]="true"
+      nzGap="middle"
+    >
+      <button
+        nz-button
+        class="primary-button"
+        (click)="handleEdit()"
+        [nzLoading]="editLoader"
+        [disabled]="!editedComment"
+      >
+        Submit
+      </button>
+      <button nz-button class="secondary-button" (click)="handleCancel()">
+        Later
+      </button>
+    </nz-flex>
+  </div>
+</app-modal>
+
+<app-modal [showModal]="deleteModal" (handleCancelModal)="handleCancel()">
+  <div modal-content>
+    <nz-flex
+      nzJustify="center"
+      nzAlign="center"
+      [nzVertical]="true"
+      nzGap="middle"
+    >
+      <img src="assets/icons/trash.svg" alt="block" width="50" height="50" />
+      <h3>Please delete the comment</h3>
+      <div class="sub-text">
+        Are you sure you want to proceed with these changes?
+      </div>
+      <button
+        nz-button
+        class="primary-button"
+        (click)="handleDelete()"
+        [nzLoading]="deleteLoader"
+      >
+        Delete
+      </button>
+    </nz-flex>
+  </div>
+</app-modal>

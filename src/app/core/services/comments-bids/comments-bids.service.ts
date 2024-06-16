@@ -57,4 +57,12 @@ export class CommentsBidsService {
       params: queryParams,
     });
   }
+
+  updateComment(params: any) {
+    return this.http.patch<any>(this.baseUrl + `comment/edit-comment`, params);
+  }
+
+  deleteComment(params: any) {
+    return this.http.delete<any>(this.baseUrl + `comment`, params);
+  }
 }

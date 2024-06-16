@@ -99,3 +99,6 @@ h3 {
 /* ::ng-deep .nz-table-out-bordered > .ant-table-container {
   border-radius: 0px 0px 14px 14px;
 } */
+.vehicle-status {
+  border-radius: 12px;
+}

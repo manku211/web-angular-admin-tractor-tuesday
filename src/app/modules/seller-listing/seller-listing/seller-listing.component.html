@@ -16,4 +16,11 @@
   >
     <app-vehicle-info></app-vehicle-info>
   </div>
+  <div
+    *ngIf="
+      routePath == '/dashboard/seller-listing/seller-details/comment-listing'
+    "
+  >
+    <app-comment-listing></app-comment-listing>
+  </div>
 </nz-flex>

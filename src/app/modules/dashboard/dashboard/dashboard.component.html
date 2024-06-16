@@ -11,7 +11,14 @@
   <ng-container *ngFor="let item of carouselItems">
     <div nz-carousel-content *ngIf="!loading">
       <div class="carousel-info">
-        <span class="vehicle-year">{{ item.year }}</span>
+        <nz-flex nzGap="middle">
+          <span class="vehicle-year">{{ item.year }}</span>
+          <span
+            class="vehicle-status"
+            [ngStyle]="getStatusStyles(item.status)"
+            >{{ item.status }}</span
+          >
+        </nz-flex>
         <div class="title">{{ item.title }}</div>
         <div class="bid-start-date">
           Starting Bid From {{ item.startingBid }}

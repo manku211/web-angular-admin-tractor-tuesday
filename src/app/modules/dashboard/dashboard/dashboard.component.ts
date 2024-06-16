@@ -4,7 +4,6 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-
 import { SharedModule } from '../../../shared/shared.module';
 import { CommonModule } from '@angular/common';
 import { LocationGraphComponent } from '../../../pages/dashboard/location-graph/location-graph.component';
@@ -13,7 +12,10 @@ import { AuctionReportComponent } from '../../../pages/dashboard/auction-report/
 import { ActiveListComponent } from '../../../pages/dashboard/active-list/active-list.component';
 import { AnalyticsService } from '../../../core/services/dashboard/analytics.service';
 import { CategoryService } from '../../../core/services/category/category.service';
-import { getExteriorImageUrl } from '../../../utilities/helpers/helper';
+import {
+  getExteriorImageUrl,
+  getStatusStyles,
+} from '../../../utilities/helpers/helper';
 import { MessageService } from '../../../core/services/message/message.service';
 import { Chart } from 'chart.js';
 import { TableViewComponent } from '../../../shared/components/table-view/table-view.component';
@@ -33,6 +35,7 @@ interface CarouselItem {
   title: string;
   startingBid: string;
   startDate: string;
+  status: string;
 }
 
 interface ColumnInfo {
@@ -79,6 +82,7 @@ export class DashboardComponent {
   loading: boolean = false;
   carouselItems!: CarouselItem[];
   showNoData: boolean = false;
+  getStatusStyles = getStatusStyles;
 
   getCategoryFilters = () => {
     return Object.entries(EquipmentCategory).map(([key, value]) => ({
@@ -142,10 +146,11 @@ export class DashboardComponent {
           this.auctionInfo = auctionsWithImageUrl;
           this.loading = false;
           this.carouselItems = this.auctionInfo.map((item: any) => ({
-            year: item.tractorId.purchaseYear,
+            year: item.tractorId.year,
             title: item.tractorId.name,
             startingBid: `$${item.currentBid.amount.toLocaleString()}`,
             startDate: this.formatDate(item.startTime),
+            status: item.auctionStatus,
           }));
         }
       },

@@ -76,15 +76,6 @@
   font-size: var(--font-m);
   font-weight: var(--font-weight-bold);
 }
-.top-bid-key {
-  font-size: 13;
-  font-weight: var(--font-weight-bold);
-  color: var(--green-color);
-}
-.top-bid-amount {
-  font-size: var(--font-xxxl);
-  font-weight: var(--font-weight-extra-bold);
-}
 
 .thumbnails-container {
   position: relative;

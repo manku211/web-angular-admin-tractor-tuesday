@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { SellerListingComponent } from './seller-listing/seller-listing.component';
 import { DetailsComponent } from '../../pages/seller-list/details/details.component';
 import { VehicleInfoComponent } from '../../pages/vehicle-info/vehicle-info.component';
+import { CommentListingComponent } from '../../pages/seller-list/comment-listing/comment-listing.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,13 @@ const routes: Routes = [
             component: VehicleInfoComponent,
             data: {
               breadcrumb: 'Vehicle Information',
+            },
+          },
+          {
+            path: 'comment-listing',
+            component: CommentListingComponent,
+            data: {
+              breadcrumb: 'Comment Listing',
             },
           },
         ],

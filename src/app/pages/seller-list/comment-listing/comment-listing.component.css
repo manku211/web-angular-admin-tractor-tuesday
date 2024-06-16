@@ -1,0 +1,37 @@
+.vertical-divider {
+  height: 70px;
+  border-color: var(--border-color);
+  padding: 10px;
+}
+.user_name {
+  font-size: var(--font-s);
+  font-weight: var(--font-weight-semi-bold);
+}
+.user_qn {
+  font-size: 13px;
+  font-weight: var(--font-weight-bold);
+  color: var(--grey-color);
+  padding: 10px 0px;
+}
+.user_actions {
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 3.61px 8.8px 4.39px 8.8px;
+  span {
+    color: #828282;
+  }
+}
+.comment-section {
+  border-bottom: 0.8px solid var(--border-color);
+  padding: 25px 0px;
+}
+.comment-listing {
+  padding: 20px;
+}
+.user_image {
+  border-radius: 50%;
+}
+.new-comment {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}

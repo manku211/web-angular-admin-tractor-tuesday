@@ -304,7 +304,7 @@ body {
   font-weight: var(--font-weight-normal);
   display: flex;
   gap: 3px;
-  align-items: center;
+  /* align-items: center; */
   span:first-child {
     color: var(--primary-color);
   }
@@ -424,4 +424,13 @@ body {
   font-size: var(--font-l);
   font-weight: var(--font-weight-bold);
   line-height: 28px;
+}
+.top-bid-key {
+  font-size: 13;
+  font-weight: var(--font-weight-bold);
+  color: var(--green-color);
+}
+.top-bid-amount {
+  font-size: var(--font-xxxl);
+  font-weight: var(--font-weight-extra-bold);
 }

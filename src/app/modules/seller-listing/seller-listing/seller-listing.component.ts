@@ -5,6 +5,7 @@ import { filter } from 'rxjs';
 import { SellerListComponent } from '../../../pages/seller-list/seller-list.component';
 import { DetailsComponent } from '../../../pages/seller-list/details/details.component';
 import { VehicleInfoComponent } from '../../../pages/vehicle-info/vehicle-info.component';
+import { CommentListingComponent } from '../../../pages/seller-list/comment-listing/comment-listing.component';
 
 @Component({
   selector: 'app-seller-listing',
@@ -14,6 +15,7 @@ import { VehicleInfoComponent } from '../../../pages/vehicle-info/vehicle-info.c
     SellerListComponent,
     DetailsComponent,
     VehicleInfoComponent,
+    CommentListingComponent
   ],
   templateUrl: './seller-listing.component.html',
   styleUrl: './seller-listing.component.css',
