@@ -419,3 +419,9 @@ body {
   opacity: 0.6;
   cursor: not-allowed;
 }
+.tabletitle-text {
+  text-align: left !important;
+  font-size: var(--font-l);
+  font-weight: var(--font-weight-bold);
+  line-height: 28px;
+}

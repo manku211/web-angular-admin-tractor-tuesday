@@ -1,4 +1,61 @@
-<!-- <nz-card> -->
+<!-- <nz-row [nzJustify]="'end'" [nzAlign]="'middle'" class="search-container">
+  <nz-col *ngIf="enableSearch">
+    <nz-input-group [nzSuffix]="suffixIconSearch">
+      <input
+        type="text"
+        nz-input
+        placeholder="Search..."
+        [formControl]="searchInput"
+      />
+    </nz-input-group>
+    <ng-template #suffixIconSearch>
+      <span nz-icon nzType="search"></span>
+    </ng-template>
+  </nz-col>
+</nz-row>
+<nz-table
+  [nzData]="data"
+  [nzBordered]="false"
+  [nzOuterBordered]="isBordered"
+  [nzLoading]="loader"
+  [nzPageIndex]="1"
+  [nzPageSize]="10"
+  [nzShowTotal]="rangeTemplate"
+  [nzFrontPagination]="false"
+  [nzTotal]="totalRecords"
+  (nzPageIndexChange)="onPageIndexChange($event)"
+>
+  <ng-template #rangeTemplate let-range="range" let-total>
+    {{ range[0] }}-{{ range[1] }} of {{ total }} items
+  </ng-template>
+  <thead>
+    <tr>
+      <th
+        *ngFor="let column of columns"
+        [id]="column.key"
+        [nzShowSort]="column.sort"
+        [nzShowFilter]="column.filter"
+        [nzFilters]="column.listOfFilter"
+        [nzSortDirections]="column.sortDirections"
+        (nzSortOrderChange)="onSortChange(column, $event)"
+        [nzFilterMultiple]="column.isMultiple ? true : false"
+        (nzFilterChange)="onFilterHandler(column, $event)"
+      >
+        {{ column.label }}
+      </th>
+      <th *ngIf="enableActions">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container
+      *ngTemplateOutlet="
+        tableRowTemplate;
+        context: { $implicit: data, columns: columns }
+      "
+    >
+    </ng-container>
+  </tbody>
+</nz-table> -->
 <nz-row [nzJustify]="'end'" [nzAlign]="'middle'" class="search-container">
   <nz-col *ngIf="enableSearch">
     <nz-input-group [nzSuffix]="suffixIconSearch">
@@ -30,7 +87,10 @@
     {{ range[0] }}-{{ range[1] }} of {{ total }} items
   </ng-template>
   <thead>
-    <tr [ngClass]="{ 'custom-table-header': isDetailTable }">
+    <tr class="table-title" *ngIf="isHeader">
+      <ng-container *ngTemplateOutlet="tableTitleTemplate"> </ng-container>
+    </tr>
+    <tr>
       <th
         *ngFor="let column of columns"
         [id]="column.key"
@@ -63,4 +123,3 @@
     </ng-container>
   </tbody>
 </nz-table>
-<!-- </nz-card> -->

@@ -1,10 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { PhotographService } from '../../../core/services/photograph/photograph.service';
-import { Router } from '@angular/router';
+import { TableViewComponent } from '../../../shared/components/table-view/table-view.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { CommonModule } from '@angular/common';
-import { TableViewComponent } from '../../../shared/components/table-view/table-view.component';
-import { PhotographerServiceComponent } from '../photographer-service/photographer-service.component';
+import { RouterModule } from '@angular/router';
 
 interface ColumnInfo {
   key: string;
@@ -15,21 +14,16 @@ interface ColumnInfo {
   listOfFilter?: any[];
   filter?: boolean;
 }
+
 @Component({
-  selector: 'app-photographer-detail',
+  selector: 'app-photographer-service',
   standalone: true,
-  imports: [
-    SharedModule,
-    CommonModule,
-    TableViewComponent,
-    PhotographerServiceComponent,
-  ],
-  templateUrl: './photographer-detail.component.html',
-  styleUrl: './photographer-detail.component.css',
+  imports: [TableViewComponent, SharedModule, CommonModule, RouterModule],
+  templateUrl: './photographer-service.component.html',
+  styleUrl: './photographer-service.component.css',
 })
-export class PhotographerDetailComponent {
-  photographerData: any;
-  loading: boolean = false;
+export class PhotographerServiceComponent {
+  @Input() isDashboard: boolean = false;
   photographerServices!: any[];
   totalCount: number = 0;
   loader: boolean = false;
@@ -67,29 +61,11 @@ export class PhotographerDetailComponent {
       ],
     },
   ];
-
-  constructor(
-    private photographService: PhotographService,
-    private router: Router
-  ) {}
+  constructor(private photographService: PhotographService) {}
 
   ngOnInit() {
     const id = String(localStorage.getItem('photographerId'));
-    this.fetchPhotographerById(id);
     this.fetchPhotographerHistory(id);
-  }
-
-  fetchPhotographerById(id: string) {
-    this.photographService.getPhotograherById(id).subscribe({
-      next: (data) => {
-        this.photographerData = data?.data;
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error(err);
-        this.loading = false;
-      },
-    });
   }
 
   fetchPhotographerHistory(id: string) {

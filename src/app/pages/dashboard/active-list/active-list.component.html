@@ -1,6 +1,5 @@
 <nz-row nzJustify="space-between">
   <div nz-col nzSpan="12" class="active-users">
-    <div class="table-head">Active Users</div>
     <app-table-view
       [data]="listOfData"
       [columns]="listOfColumns"
@@ -12,7 +11,16 @@
       [loader]="loader"
       [tableRowTemplate]="tableRowTemplate"
       [isDetailTable]="true"
+      [isHeader]="true"
+      [tableTitleTemplate]="tableTitleTemplate1"
     >
+      <ng-template #tableTitleTemplate1 let-columns="columns">
+        <th colspan="12" class="tabletitle-text">
+          <nz-flex nzGap="small">
+            <img src="assets/icons/list.svg" /> <span>Active User Listing</span>
+          </nz-flex>
+        </th>
+      </ng-template>
       <ng-template #tableRowTemplate let-data let-columns="columns">
         <tr *ngFor="let item of data">
           <td>
@@ -62,7 +70,6 @@
     </app-table-view>
   </div>
   <div nz-col nzSpan="12" class="active-users">
-    <div class="table-head">Active Sellers</div>
     <app-table-view
       [data]="listOfSellerData"
       [columns]="listOfSellerColumns"
@@ -74,7 +81,17 @@
       [loader]="loader"
       [tableRowTemplate]="tableRowTemplate"
       [isDetailTable]="true"
+      [isHeader]="true"
+      [tableTitleTemplate]="tableTitleTemplate2"
     >
+      <ng-template #tableTitleTemplate2 let-columns="columns">
+        <th colspan="12" class="tabletitle-text">
+          <nz-flex nzGap="small">
+            <img src="assets/icons/list.svg" />
+            <span>Active Seller Listing</span>
+          </nz-flex>
+        </th>
+      </ng-template>
       <ng-template #tableRowTemplate let-data let-columns="columns">
         <tr *ngFor="let item of data">
           <td>
