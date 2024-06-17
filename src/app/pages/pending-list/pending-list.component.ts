@@ -10,6 +10,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { DenyModalComponent } from '../seller-list/deny-modal/deny-modal.component';
 import { ApproveModalComponent } from '../seller-list/approve-modal/approve-modal.component';
 import { ModalComponent } from '../../shared/components/modal/modal.component';
+import { Router } from '@angular/router';
 
 interface AuctionInfo {
   _id: string;
@@ -72,16 +73,16 @@ export class PendingListComponent {
       sort: true,
       sortOrder: 'DESC',
     },
-    // {
-    //   key: 'category',
-    //   label: 'Category',
-    //   sort: true,
-    // },
-    // {
-    //   key: 'seller_name',
-    //   label: 'Seller Name',
-    //   sort: false,
-    // },
+    {
+      key: 'category',
+      label: 'Category',
+      sort: true,
+    },
+    {
+      key: 'seller_name',
+      label: 'Seller Name',
+      sort: false,
+    },
 
     {
       key: 'createdAt',
@@ -90,7 +91,7 @@ export class PendingListComponent {
     },
   ];
 
-  constructor(private auctionService: AuctionService) {}
+  constructor(private auctionService: AuctionService, private router: Router) {}
 
   ngOnInit() {
     this.fetchDetails(this.query);
@@ -224,5 +225,12 @@ export class PendingListComponent {
     this.openDenialModal = false;
     this.openApproveModal = false;
     this.openRejectModal = false;
+  }
+
+  handleViewMore(id: any) {
+    localStorage.setItem('selectedAuctionId', id);
+    this.router.navigate([
+      '/dashboard/seller-listing/seller-details/vehicle-info',
+    ]);
   }
 }
