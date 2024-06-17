@@ -22,13 +22,20 @@
             class="tractor-picture"
             alt="profile"
           />
-          &nbsp;<span>{{ item["tractorId"]?.name }}</span>
+          &nbsp;<span
+            (click)="handleViewMore(item['_id'])"
+            class="clickable-name"
+          >
+            {{ item["tractorId"]?.name }}</span
+          >
         </div>
       </td>
-      <!-- <td>
+      <td>
+        <span>{{ item?.['category'] }}</span>
+      </td>
+      <td>
         <span>{{ item["userId"]?.username }}</span>
-      </td> -->
-
+      </td>
       <td>
         <span>{{ item["proposedStartTime"] * 1000 | date : "d MMM, y" }}</span>
       </td>

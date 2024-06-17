@@ -39,6 +39,7 @@ export class VehicleInfoComponent {
   seconds: number = 0;
   isCarouselVisible = false;
   tractorImages: string[] = [];
+  avatarUrl!: string;
   additionalInfo: any[] = [
     {
       label: 'Name Of The Vehicle',
@@ -152,6 +153,7 @@ export class VehicleInfoComponent {
   flawsForm!: FormGroup;
   editIndex: number | null = null;
   flaws: any[] = [];
+  serviceLogs: any[] = [];
   imageLoaded: boolean = false;
   isModificationEditMode: boolean = false;
   modificationsForm!: FormGroup;
@@ -159,6 +161,8 @@ export class VehicleInfoComponent {
   serviceLogsForm!: FormGroup;
   equipmentCategories = Object.values(EquipmentCategory);
   transmissions = Object.values(TranmissionTypes);
+  isEditImagesVisible: boolean = false;
+  tractorImage!: any[];
 
   constructor(
     private auctionService: AuctionService,
@@ -169,6 +173,7 @@ export class VehicleInfoComponent {
     private cdr: ChangeDetectorRef
   ) {
     this.createForm();
+    this.createServiceForm();
   }
 
   ngOnInit(): void {
@@ -190,32 +195,15 @@ export class VehicleInfoComponent {
           );
           this.additionalInfo = this.generateAdditionalInfo(this.vehicleInfo);
           this.flaws = data?.data?.tractorId?.flaws || [];
+          this.serviceLogs = data?.data?.tractorId?.serviceLogs || [];
           this.createForm();
+          this.createServiceForm();
           this.calculateTimeLeft(this.vehicleInfo?.endTime);
         }
       },
       error: (error) => {
         console.error('An error occurred during admin login:', error);
       },
-    });
-  }
-
-  get flawControls() {
-    return (this.flawsForm.get('flaws') as FormArray).controls;
-  }
-
-  createFlawGroup(flaw: any): FormGroup {
-    return this.fb.group({
-      flaw: [flaw.flaw, Validators.required],
-      image: [flaw.image],
-    });
-  }
-
-  createForm() {
-    this.flawsForm = this.fb.group({
-      flaws: this.fb.array(
-        this.flaws.map((flaw) => this.createFlawGroup(flaw))
-      ),
     });
   }
 
@@ -260,16 +248,17 @@ export class VehicleInfoComponent {
           };
           break;
         case 'location':
-          value =
-            vehicleInfo[info.key]?.[info.subkey]?.['streetAddress'] +
-            ', ' +
-            vehicleInfo[info.key]?.[info.subkey]?.['city'] +
-            ', ' +
-            vehicleInfo[info.key]?.[info.subkey]?.['stateOrProvince'] +
-            ', ' +
-            vehicleInfo[info.key]?.[info.subkey]?.['country'] +
-            ', ' +
-            vehicleInfo[info.key]?.[info.subkey]?.['zipOrPlace'];
+          value = vehicleInfo[info.key]?.[info.subkey]
+            ? vehicleInfo[info.key]?.[info.subkey]?.['streetAddress'] +
+              ', ' +
+              vehicleInfo[info.key]?.[info.subkey]?.['city'] +
+              ', ' +
+              vehicleInfo[info.key]?.[info.subkey]?.['stateOrProvince'] +
+              ', ' +
+              vehicleInfo[info.key]?.[info.subkey]?.['country'] +
+              ', ' +
+              vehicleInfo[info.key]?.[info.subkey]?.['zipOrPlace']
+            : '';
           break;
         case 'year':
           value = vehicleInfo[info.key]?.[info.subkey]?.toString() || 'N/A';
@@ -330,6 +319,25 @@ export class VehicleInfoComponent {
     this.updateVehicleInfo(payload);
   }
 
+  get flawControls() {
+    return (this.flawsForm.get('flaws') as FormArray).controls;
+  }
+
+  createFlawGroup(flaw: any): FormGroup {
+    return this.fb.group({
+      flaw: [flaw.flaw, Validators.required],
+      image: [flaw.image],
+    });
+  }
+
+  createForm() {
+    this.flawsForm = this.fb.group({
+      flaws: this.fb.array(
+        this.flaws.map((flaw) => this.createFlawGroup(flaw))
+      ),
+    });
+  }
+
   toggleFlawEditMode() {
     this.isFlawEditMode = !this.isFlawEditMode;
     if (!this.isFlawEditMode) {
@@ -353,6 +361,7 @@ export class VehicleInfoComponent {
 
   onSubmit(): void {
     if (this.flawsForm.valid) {
+      console.log(this.flawsForm.value);
       this.toggleFlawEditMode();
     }
   }
@@ -410,32 +419,35 @@ export class VehicleInfoComponent {
     return (this.serviceLogsForm.get('serviceLogs') as FormArray).controls;
   }
 
-  createServiceLogsForm() {
+  createServiceLogGroup(serviceLog: any): FormGroup {
+    return this.fb.group({
+      fileName: [serviceLog.fileName, Validators.required],
+      fileUrl: [serviceLog.fileUrl, Validators.required],
+      serviceDate: [serviceLog.serviceDate, Validators.required],
+    });
+  }
+
+  createServiceForm() {
     this.serviceLogsForm = this.fb.group({
       serviceLogs: this.fb.array(
-        this.vehicleInfo?.tractorId?.serviceLogs.map((log: any) =>
-          this.createServiceLogGroup(log)
-        ) || []
+        this.serviceLogs.map((log) => this.createServiceLogGroup(log))
       ),
     });
   }
 
-  createServiceLogGroup(log: any): FormGroup {
-    return this.fb.group({
-      serviceDate: [new Date(log.serviceDate * 1000), Validators.required],
-      fileUrl: [log.fileUrl],
-      fileName: [log.fileName],
-      message: [log.message],
-    });
+  toggleServiceLogEditMode() {
+    this.isServiceLogEditMode = !this.isServiceLogEditMode;
+    if (!this.isServiceLogEditMode) {
+      this.editIndex = null;
+    }
   }
 
   addServiceLog() {
     (this.serviceLogsForm.get('serviceLogs') as FormArray).push(
       this.createServiceLogGroup({
-        serviceDate: '',
-        fileUrl: '',
         fileName: '',
-        message: '',
+        fileUrl: '',
+        serviceDate: new Date(),
       })
     );
   }
@@ -444,28 +456,19 @@ export class VehicleInfoComponent {
     (this.serviceLogsForm.get('serviceLogs') as FormArray).removeAt(index);
   }
 
+  editServiceLog(index: number): void {
+    this.editIndex = index;
+  }
+
   onServiceLogsSubmit(): void {
     if (this.serviceLogsForm.valid) {
-      const serviceLogs = this.serviceLogsForm.value.serviceLogs.map(
-        (log: any) => ({
-          ...log,
-          serviceDate: Math.floor(new Date(log.serviceDate).getTime() / 1000),
-        })
-      );
-      this.vehicleInfo.tractorId.serviceLogs = serviceLogs;
+      console.log(this.serviceLogsForm.value);
       this.toggleServiceLogEditMode();
     }
   }
 
-  toggleServiceLogEditMode() {
-    this.isServiceLogEditMode = !this.isServiceLogEditMode;
-    if (this.isServiceLogEditMode) {
-      this.createServiceLogsForm();
-    }
-  }
-
   handleCustomRequest =
-    (index: number) =>
+    (index: number, type: string) =>
     (item: NzUploadXHRArgs): Subscription => {
       this.imageLoaded = true;
       const uploadData = {
@@ -473,16 +476,11 @@ export class VehicleInfoComponent {
         filePath: 'images',
         fileType: item.file.type,
       };
+      console.log('Updating', type);
       return this.profileService.getPresignedUrl(uploadData).subscribe({
         next: (data) => {
           const { url, key } = data?.data;
-          const flawurl = data?.data?.key;
-          const flawControl = (this.flawsForm.get('flaws') as FormArray).at(
-            index
-          );
-          flawControl.get('image')?.setValue(key);
-
-          this.uploadFile(item.file, url);
+          this.uploadFile(item.file, url, key, type, index);
         },
         error: (error) => {
           console.error('Error getting pre-signed URL:', error);
@@ -491,15 +489,82 @@ export class VehicleInfoComponent {
       });
     };
 
-  private uploadFile(file: any, url: any): void {
+  handleImageEdit = (item: NzUploadXHRArgs): Subscription => {
+    const uploadData = {
+      fileName: item.file.name,
+      filePath: 'images',
+      fileType: item.file.type,
+    };
+    return this.profileService.getPresignedUrl(uploadData).subscribe({
+      next: (data) => {
+        const { url, key } = data?.data;
+        this.uploadFile(item.file, url, key, 'tractor');
+      },
+      error: (error) => {
+        console.error('Error getting pre-signed URL:', error);
+        this.msg.error('Failed to get pre-signed URL for upload.');
+      },
+    });
+  };
+
+  updateImages(file: any, index?: any, key?: any, type?: string) {
+    console.log('Updating', file, type);
+    if (type === 'flaw') {
+      const flawControl = (this.flawsForm.get('flaws') as FormArray).at(index);
+      flawControl.get('image')?.setValue(key);
+    }
+    if (type === 'servicelog') {
+      const serviceControl = (
+        this.serviceLogsForm.get('serviceLogs') as FormArray
+      ).at(index);
+      serviceControl.get('fileUrl')?.setValue(key);
+    }
+    if (type === 'tractor') {
+      this.tractorImage.push({
+        link: key,
+        type: file.type,
+      });
+    }
+  }
+
+  private uploadFile(
+    file: any,
+    url: any,
+    key: any,
+    type: string,
+    index?: any
+  ): void {
     this.profileService.uploadFile(url, file).subscribe(
       (data) => {
         this.imageLoaded = false;
+        this.updateImages(file, index, key, type);
         this.cdr.detectChanges();
       },
       (error) => {
-        this.imageLoaded = true;
+        this.imageLoaded = false;
       }
     );
+  }
+
+  editImages() {
+    this.tractorImage = [...this.vehicleInfo.tractorId.images];
+    this.isEditImagesVisible = true;
+  }
+
+  editTractorImages() {
+    console.log('Available Images:', this.tractorImage);
+    let payload = {
+      images: this.tractorImage,
+    };
+    this.updateVehicleInfo(payload);
+    this.isEditImagesVisible = false;
+  }
+
+  deleteImage(index: number) {
+    this.vehicleInfo.tractorId.images.splice(index, 1);
+  }
+
+  uploadImage() {
+    // Handle image upload logic
   }
 }
