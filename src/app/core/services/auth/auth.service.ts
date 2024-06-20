@@ -21,7 +21,7 @@ export class AuthService {
   public $refreshToken = new Subject<boolean>();
 
   constructor(private http: HttpClient, private router: Router) {
-    // console.log(environment.API_URL);
+    console.log(environment.API_URL);
     this.$refreshToken.subscribe((res: any) => {
       this.getRefreshToken();
     });
