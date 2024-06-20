@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subject, Subscription, interval, of } from 'rxjs';
 import { Privileges, Roles } from '../../models/rolePrivileges';
-// import { environment } from '../../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 
 interface Privilege {
   name: string;
