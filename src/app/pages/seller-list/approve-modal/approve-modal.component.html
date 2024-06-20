@@ -42,6 +42,13 @@
         ></nz-time-picker>
       </div>
       <div nz-flex nzJustify="space-between" nzAlign="center">
+        <span>Auction End Date</span>
+        <nz-date-picker
+          [(ngModel)]="endDate"
+          (ngModelChange)="onChange($event)"
+        ></nz-date-picker>
+      </div>
+      <div nz-flex nzJustify="space-between" nzAlign="center">
         <span>Auction End time</span>
         <nz-time-picker
           [(ngModel)]="end_time"

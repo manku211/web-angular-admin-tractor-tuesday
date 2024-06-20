@@ -50,40 +50,6 @@ export class BaseLayoutComponent {
   ) {}
   ngOnInit() {
     this.fetchAdminDetails();
-    // this.menuItems = [
-    //   { label: 'Dashboard', icon: 'home', route: '/dashboard' },
-    //   {
-    //     label: 'User List',
-    //     icon: 'unordered-list',
-    //     route: '/dashboard/user-listing',
-    //     // privilege: Privileges.USER_LISTING,
-    //   },
-    //   {
-    //     label: 'Seller List',
-    //     icon: 'unordered-list',
-    //     route: '/dashboard/seller-listing',
-    //     // privilege: Privileges.SELLER_LISTING,
-    //   },
-    //   {
-    //     label: 'Photoshoot Requests',
-    //     icon: 'camera',
-    //     route: '/dashboard/photoshoot-requests',
-    //     // privilege: Privileges.SELLER_LISTING,
-    //   },
-    //   {
-    //     label: 'Category Listing',
-    //     icon: 'appstore',
-    //     route: '/dashboard/category-listing',
-    //     // privilege: Privileges.CATEGORY_LISTING,
-    //   },
-    //   {
-    //     label: 'Control Panel',
-    //     icon: 'setting',
-    //     route: '/dashboard/control-panel',
-    //     // privilege: Privileges.CONTROL_PANEL,
-    //   },
-    //   // Add other menu items here
-    // ];
     this.profileService.getProfileData().subscribe({
       next: (data) => {
         if (data) {
