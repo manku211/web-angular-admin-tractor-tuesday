@@ -112,10 +112,18 @@ export class DashboardComponent {
     },
     {
       key: 'bidder',
-      label: 'Number of Bidder',
+      label: 'Number of Bids',
       sort: false,
     },
   ];
+
+  countries: { name: string; value: string; flag: string }[] = [
+    { name: 'USA', value: 'usa', flag: 'usflag.png' },
+    { name: 'CANADA', value: 'ca', flag: 'canadaflag.svg' },
+  ];
+
+  selectedCountry: { name: string; value: string; flag: string } =
+    this.countries[0];
 
   constructor(
     private analyticsService: AnalyticsService,
@@ -209,6 +217,16 @@ export class DashboardComponent {
     if (this.chart) {
       this.chart.destroy();
     }
+  }
+
+  onCountrySelect(country: {
+    name: string;
+    value: string;
+    flag: string;
+  }): void {
+    this.selectedCountry = country;
+    const query = { ...this.query, country: country.value };
+    this.fetchCategoryList(query);
   }
 
   fetchStats() {

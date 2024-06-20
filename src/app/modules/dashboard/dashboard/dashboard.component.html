@@ -84,6 +84,43 @@
         </div>
       </div>
       <div nz-col nzSpan="12">
+        <nz-flex nzJustify="space-between" nzAlign="center">
+          <nz-flex nzGap="middle">
+            <img src="assets/icons/list-green.svg" alt="list" />
+            <div class="sub-title">Category Listing</div>
+          </nz-flex>
+          <button
+            nz-button
+            nz-dropdown
+            nzTrigger="click"
+            [nzDropdownMenu]="countryMenu"
+          >
+            <nz-flex nzGap="small" nzAlign="center">
+              <img
+                [src]="'assets/icons/' + selectedCountry?.flag"
+                alt="flag"
+                width="22"
+                height="20"
+              />
+              {{ selectedCountry?.name }}
+              <span nz-icon nzType="down"></span>
+            </nz-flex>
+          </button>
+          <nz-dropdown-menu #countryMenu="nzDropdownMenu">
+            <ul nz-menu>
+              <li
+                nz-menu-item
+                *ngFor="let item of countries"
+                (click)="onCountrySelect(item)"
+              >
+                <nz-flex nzGap="small" nzAlign="center">
+                  <img [src]="'assets/icons/' + item.flag" alt="flag" />
+                  <span> {{ item.name }}</span>
+                </nz-flex>
+              </li>
+            </ul>
+          </nz-dropdown-menu>
+        </nz-flex>
         <app-table-view
           [data]="auctionInfo"
           [columns]="listOfColumns"
@@ -114,7 +151,7 @@
                 {{ item["category"] }}
               </td>
 
-              <td>{{ item["bidders"] }}</td>
+              <td>{{ item["totalBids"] }}</td>
               <td>
                 <button
                   nz-button

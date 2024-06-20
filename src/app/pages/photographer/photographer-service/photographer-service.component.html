@@ -1,7 +1,7 @@
 <app-table-view
   [data]="photographerServices"
   [columns]="listOfColumns"
-  [enablePagination]="isDashboard"
+  [enablePagination]="!isDashboard"
   [enableSorting]="true"
   [enableSearch]="false"
   [enableActions]="isDashboard"

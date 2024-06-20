@@ -51,29 +51,40 @@ export class PhotographerServiceComponent {
       sort: false,
     },
     {
-      key: 'status',
+      key: 'filtering',
       label: 'Request Status',
       sort: false,
       filter: true,
       listOfFilter: [
-        { text: 'Ongoing', value: 'ONGOING' },
-        { text: 'Ended', value: 'ENDED' },
+        { text: 'Waiting', value: 'WAITING' },
+        { text: 'Matched', value: 'MATCHED' },
+        { text: 'Completed', value: 'COMPLETED' },
       ],
     },
   ];
+  photographerId!: string;
+
   constructor(private photographService: PhotographService) {}
 
   ngOnInit() {
-    const id = String(localStorage.getItem('photographerId'));
-    this.fetchPhotographerHistory(id);
+    this.photographerId = String(localStorage.getItem('photographerId'));
+
+    this.fetchPhotographerHistory(this.query);
   }
 
-  fetchPhotographerHistory(id: string) {
+  fetchPhotographerHistory(query: any) {
     this.loader = true;
-    let payload = {
-      filter: 'PHOTOGRAPHER_ID',
-      filterValue: id,
-    };
+    let payload;
+    if (this.isDashboard) {
+      payload = { ...query };
+    } else {
+      payload = {
+        filter: 'PHOTOGRAPHER_ID',
+        filterValue: this.photographerId,
+        ...query,
+      };
+    }
+
     this.photographService.getPhotoshootRequest(payload).subscribe({
       next: (data) => {
         this.photographerServices = data?.data?.photographerRequests;
