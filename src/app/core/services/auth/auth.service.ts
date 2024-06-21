@@ -17,7 +17,7 @@ interface Privilege {
 })
 export class AuthService {
   private refreshSubscription!: Subscription;
-  baseUrl = 'https://api-dev.tractortuesday.xyz/api/v1/';
+  baseUrl = environment.API_URL + '/api/v1/';
   public $refreshToken = new Subject<boolean>();
 
   constructor(private http: HttpClient, private router: Router) {

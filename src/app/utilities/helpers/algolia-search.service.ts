@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import algoliasearch from 'algoliasearch';
+import { environment } from '../../../environments/environment';
 
-const client = algoliasearch('ZH4NQRV649', 'ce9f1890a32db5ad5dfc536cad219b76');
+const client = algoliasearch(
+  environment?.ALGOLIA_APP_ID,
+  environment?.ALGOLIA_API_KEY
+);
 
 @Injectable({
   providedIn: 'root',
@@ -15,15 +19,15 @@ export class AlgoliaSearchService {
     return hits;
   }
 
-  async auctionSearch(query: string) {
+  async auctionSearch(query: string, params?: any) {
     const index = client.initIndex('auction_content');
-    const { hits } = await index.search(query);
+    const { hits } = await index.search(query, params);
     return hits;
   }
 
-  async tractorSearch(query: string) {
+  async tractorSearch(query: string, params?: any) {
     const index = client.initIndex('tractor_content');
-    const { hits } = await index.search(query);
+    const { hits } = await index.search(query, params);
     return hits;
   }
 }
