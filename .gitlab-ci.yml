@@ -16,7 +16,7 @@ build_and_push:
   script:
     - export NODE_OPTIONS=--max-old-space-size=4096
     - npm i
-    - envsubst < .env.tmp > .env
+    - envsubst < .env.uat > .env
     - npm run build
     - cp .env dist/web-admin-angular-tractor-tuesday/browser
     - cd dist/web-admin-angular-tractor-tuesday/browser
