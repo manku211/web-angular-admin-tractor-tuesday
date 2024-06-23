@@ -86,42 +86,50 @@ export class PlatformManagementComponent {
       next: (data) => {
         const settings = data?.data;
         this.platformForm.patchValue({
-          platformFeesSeller: settings.find(
-            (item: any) => item.key === 'platformFeesSeller'
-          )?.setting,
-          platformFeesBuyer: settings.find(
-            (item: any) => item.key === 'platformFeesBuyer'
-          )?.setting,
+          platformFeesSeller: String(
+            settings.find((item: any) => item.key === 'platformFeesSeller')
+              ?.setting
+          ),
+          platformFeesBuyer: String(
+            settings.find((item: any) => item.key === 'platformFeesBuyer')
+              ?.setting
+          ),
         });
 
         this.capForm.patchValue({
-          maxFees: settings.find((item: any) => item.key === 'maxFees')
-            ?.setting,
-          minFees: settings.find((item: any) => item.key === 'minFees')
-            ?.setting,
+          maxFees: String(
+            settings.find((item: any) => item.key === 'maxFees')?.setting
+          ),
+          minFees: String(
+            settings.find((item: any) => item.key === 'minFees')?.setting
+          ),
         });
 
         this.referralForm.patchValue({
-          sellerDiscount: settings.find(
-            (item: any) => item.key === 'sellerDiscount'
-          )?.setting,
-          buyerDiscount: settings.find(
-            (item: any) => item.key === 'buyerDiscount'
-          )?.setting,
+          sellerDiscount: String(
+            settings.find((item: any) => item.key === 'sellerDiscount')?.setting
+          ),
+          buyerDiscount: String(
+            settings.find((item: any) => item.key === 'buyerDiscount')?.setting
+          ),
         });
 
         this.usageForm.patchValue({
-          referralUsageCount: settings.find(
-            (item: any) => item.key === 'referralUsageCount'
-          )?.setting,
-          referralUsedCount: settings.find(
-            (item: any) => item.key === 'referralUsedCount'
-          )?.setting,
+          referralUsageCount: String(
+            settings.find((item: any) => item.key === 'referralUsageCount')
+              ?.setting
+          ),
+          referralUsedCount: String(
+            settings.find((item: any) => item.key === 'referralUsedCount')
+              ?.setting
+          ),
         });
 
         this.isReferralEnabled =
           settings.find((item: any) => item.key === 'isReferralEnabled')
-            ?.setting === 1;
+            ?.setting == 1
+            ? true
+            : false;
       },
       error: (err) => {
         console.error(err);
@@ -130,7 +138,11 @@ export class PlatformManagementComponent {
   }
 
   updatePlatformSettings(payload: any) {
-    this.platformService.updatePlatformSettings(payload).subscribe({
+    const stringPayload = Object.keys(payload).reduce((acc, key) => {
+      acc[key] = String(payload[key]);
+      return acc;
+    }, {} as any);
+    this.platformService.updatePlatformSettings(stringPayload).subscribe({
       next: (data) => {
         if (data?.success) {
           this.messageService.success('Updated Successfully');
@@ -168,6 +180,6 @@ export class PlatformManagementComponent {
   }
 
   handleRefferalEnable(event: boolean) {
-    this.updatePlatformSettings({ isReferralEnabled: event ? '1' : '0' });
+    this.updatePlatformSettings({ isReferralEnabled: event ? '1' : '-1' });
   }
 }

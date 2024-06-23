@@ -7,6 +7,7 @@ import * as L from 'leaflet';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { ModalComponent } from '../../../shared/components/modal/modal.component';
 import { Router } from '@angular/router';
+import { MessageService } from '../../../core/services/message/message.service';
 @Component({
   selector: 'app-photograph-req-details',
   standalone: true,
@@ -29,6 +30,7 @@ export class PhotographReqDetailsComponent {
   contactDialog: boolean = false;
   photographerInfo: any;
   photoshootRequestId: any;
+  validationError: string | null = null;
   mapOptions: L.MapOptions = {
     layers: [
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -52,7 +54,8 @@ export class PhotographReqDetailsComponent {
 
   constructor(
     private photographService: PhotographService,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService
   ) {}
 
   ngOnInit() {
@@ -107,7 +110,36 @@ export class PhotographReqDetailsComponent {
     this.contactDialog = false;
   }
 
-  handleSubmit() {}
+  validatePrice() {
+    if (this.photographerPrice === null || this.photographerPrice <= 0) {
+      this.validationError = 'Price must be a positive number.';
+      return false;
+    }
+    this.validationError = null;
+    return true;
+  }
+
+  handleSubmit() {
+    if (!this.validatePrice()) {
+      return;
+    }
+    let payload = {
+      fees: this.photographerPrice,
+    };
+    this.photographService
+      .updatePhotoshootRequest(this.photoshootRequestId, payload)
+      .subscribe({
+        next: (data) => {
+          this.contactDialog = false;
+          this.messageService.success('Photographer Price Added successfully!');
+          this.fetchPhotograhRequestsById(this.photoshootRequestId);
+        },
+        error: (err) => {
+          console.error(err);
+          this.contactDialog = false;
+        },
+      });
+  }
 
   handleAssign() {
     let payload = {
@@ -119,6 +151,7 @@ export class PhotographReqDetailsComponent {
       .subscribe({
         next: (data) => {
           this.contactDialog = false;
+          this.messageService.success('Photographer Assigned successfully!');
           this.fetchPhotograhRequestsById(this.photoshootRequestId);
         },
         error: (err) => {

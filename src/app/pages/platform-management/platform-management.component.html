@@ -77,7 +77,7 @@
       nz-button
       class="block-unblock-button"
       (click)="handleCap()"
-      [disabled]="capForm.invalid"
+      [disabled]="capForm.invalid || !capForm.dirty"
     >
       Update Cap
     </button>
@@ -129,7 +129,7 @@
       nz-button
       class="block-unblock-button"
       (click)="handleReferralFees()"
-      [disabled]="referralForm.invalid"
+      [disabled]="referralForm.invalid || !referralForm.dirty"
     >
       Update Fees
     </button>
@@ -168,7 +168,7 @@
       nz-button
       class="block-unblock-button update_usage"
       (click)="handleReferralUsage()"
-      [disabled]="usageForm.invalid"
+      [disabled]="usageForm.invalid || !usageForm.dirty"
     >
       Update Usage
     </button>
