@@ -1,7 +1,12 @@
-<nz-flex [nzVertical]="true" gap="30px" class="comment-listing">
-  <span>Auction Comments ({{ totalComments }})</span>
-  <nz-flex gap="31px">
-    <img [src]="commentData?.image" width="278" height="233" />
+<nz-flex [nzVertical]="true" nzGap="30px" class="comment-listing">
+  <div class="comment-header">Auction Comments ({{ totalComments }})</div>
+  <nz-flex nzGap="31px">
+    <img
+      class="auction-image"
+      [src]="commentData?.image"
+      width="278"
+      height="233"
+    />
     <nz-flex [nzVertical]="true">
       <div class="title">{{ commentData.name }}</div>
       <div>

@@ -306,6 +306,7 @@ body {
   font-weight: var(--font-weight-normal);
   display: flex;
   gap: 3px;
+  align-items: center;
   /* align-items: center; */
   span:first-child {
     color: var(--primary-color);

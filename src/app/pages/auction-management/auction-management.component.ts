@@ -8,6 +8,7 @@ import {
   styleObject,
 } from '../../utilities/helpers/helper';
 import { ModalComponent } from '../../shared/components/modal/modal.component';
+import { AlgoliaSearchService } from '../../utilities/helpers/algolia-search.service';
 
 interface AuctionInfo {
   _id: string;
@@ -51,9 +52,8 @@ export class AuctionManagementComponent {
   countryName!: string;
   exteriorImageUrl: string = '';
   auctionDetails: any;
+  page: number = 0;
   showAuctionDetailsModal: boolean = false;
-  auctionDate?: Date;
-  auctionTime?: Date;
   auctionDetailsLoader: boolean = false;
   listOfColumns: ColumnInfo[] = [
     {
@@ -109,7 +109,10 @@ export class AuctionManagementComponent {
     },
   ];
 
-  constructor(private auctionService: AuctionService) {}
+  constructor(
+    private auctionService: AuctionService,
+    private algoliaService: AlgoliaSearchService
+  ) {}
 
   ngOnInit() {
     this.fetchDetails(this.query);
@@ -128,13 +131,6 @@ export class AuctionManagementComponent {
       this.listOfData = auctionsWithImageUrl;
       this.totalRecords = res.data?.count;
     });
-  }
-
-  populateDateTime(): void {
-    if (this.auctionDetails) {
-      this.auctionDate = new Date(this.auctionDetails.proposedStartTime * 1000);
-      this.auctionTime = new Date(this.auctionDetails.proposedStartTime * 1000);
-    }
   }
 
   onSortChange(column: any): void {
@@ -167,13 +163,28 @@ export class AuctionManagementComponent {
     this.fetchDetails(this.query);
   }
 
-  onSearchInput(search: any): void {
+  async onSearchInput(search: any): Promise<void> {
     if (search !== '') {
-      this.query = { ...this.query, search: search };
+      const res: any = await this.algoliaService.auctionSearch(search, {
+        page: this.page,
+        hitsPerPage: 10,
+      });
+
+      this.listOfData = res.map((item: any) => ({
+        tractorId: {
+          name: item?.tractorName,
+          vin: item?.vin,
+        },
+        auctionStatus: item?.auctionStatus,
+        createdAt: item?.createdAt,
+        currentBid: item?.currentBid,
+      }));
+      console.log(this.listOfData);
+
+      this.totalRecords = this.listOfData.length;
     } else {
-      delete this.query.search;
+      this.fetchDetails(this.query);
     }
-    this.fetchDetails(this.query);
   }
 
   openAuctionDetailsModal(id: any) {
@@ -183,8 +194,10 @@ export class AuctionManagementComponent {
       next: (data) => {
         if (data?.data) {
           this.auctionDetails = data?.data;
-          this.auctionDetailsLoader = false;
-          this.populateDateTime();
+          (this.auctionDetails['exteriorImageUrl'] = getExteriorImageUrl(
+            data?.data
+          )),
+            (this.auctionDetailsLoader = false);
         }
       },
       error: (err) => {
