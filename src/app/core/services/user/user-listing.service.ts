@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../../../environments/environment';
 export interface BlockUserParams {
   email: string;
   action: string;
@@ -9,7 +10,7 @@ export interface BlockUserParams {
   providedIn: 'root',
 })
 export class UserListingService {
-  baseUrl = 'https://api-dev.tractortuesday.xyz/api/v1/';
+  baseUrl = environment.API_URL + '/api/v1/';
   constructor(private http: HttpClient) {}
 
   getAllUsers(params: any) {

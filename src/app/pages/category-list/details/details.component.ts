@@ -44,6 +44,7 @@ export class DetailsComponent {
   showBlockReasonModal: boolean = false;
   selectedReason!: string;
   otherReason!: string;
+  page: number = 0;
   totalRecords: number = 0;
   query: any = { skip: 1, take: 10, auctionStatus: 'ONGOING,ENDED' };
   styleObject: any = styleObject;
@@ -173,18 +174,34 @@ export class DetailsComponent {
   }
 
   onPageChange(page: number): void {
+    this.page = page;
     this.query = { ...this.query, skip: page };
     this.fetchAuctionDetails(this.query);
   }
 
   async onSearchInput(search: any): Promise<void> {
-    this.searchResults = await this.algoliaService.tractorSearch(search);
     if (search !== '') {
-      this.query = { ...this.query, search: search };
-    } else {
-      delete this.query.search;
+      const res: any = await this.algoliaService.auctionSearch(search, {
+        page: this.page,
+        hitsPerPage: 10,
+      });
+
+      this.auctionInfo = res.map((item: any) => ({
+        tractorId: {
+          name: item?.tractorName,
+          vin: item?.vin,
+        },
+        auctionStatus: item?.auctionStatus,
+        createdAt: item?.createdAt,
+        currentBid: item?.currentBid,
+      }));
+      console.log(this.auctionInfo);
+
+      this.totalRecords = this.auctionInfo.length;
     }
-    this.fetchAuctionDetails(this.query);
+    if (search === '') {
+      this.fetchAuctionDetails(this.query);
+    }
   }
 
   handleViewMore(id: any) {

@@ -40,6 +40,8 @@ const environmentFileContent = `
   export const environment = {
     production: ${isProduction},
     API_URL: '${process.env.API_URL}',
+    ALGOLIA_APP_ID:'${process.env.ALGOLIA_APP_ID}',
+    ALGOLIA_API_KEY:'${process.env.ALGOLIA_API_KEY}',
   };
 `;
 
