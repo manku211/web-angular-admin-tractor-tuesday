@@ -67,13 +67,12 @@ interface ColumnInfo {
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
-  // encapsulation: ViewEncapsulation.None,
 })
 export class DashboardComponent {
   @ViewChild('doughnutChartRef', { static: true })
   doughnutChartRef!: ElementRef<any>;
   cards: Card[] = [];
-  query: any = { skip: 1, take: 5, auctionStatus: 'ONGOING,ENDED' };
+  query: any = { skip: 1, take: 8, auctionStatus: 'ONGOING, APPROVED' };
   exteriorImageUrl: string = '';
   auctionInfo: any;
   array = [1, 2, 3, 4];
