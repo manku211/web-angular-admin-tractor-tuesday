@@ -35,7 +35,7 @@
         <span
           [ngStyle]="styleObject(item['auctionStatus'])"
           class="status-button"
-          >{{ item["status"] | titlecase }}</span
+          >{{ item["auctionId"]?.auctionStatus | titlecase }}</span
         >
       </td>
       <td>{{ item["auctionId"]?.startTime * 1000 | date : "dd-MM-yyyy" }}</td>

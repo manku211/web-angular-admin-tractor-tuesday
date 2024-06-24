@@ -64,6 +64,7 @@ export class CommentsBidsService {
   }
 
   deleteComment(params: any) {
-    return this.http.delete<any>(this.baseUrl + `comment`, params);
+    console.log(params);
+    return this.http.delete<any>(this.baseUrl + `comment`, { body: params });
   }
 }
