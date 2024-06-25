@@ -164,7 +164,7 @@ export class PhotographReqDetailsComponent {
   handleViewMore(id: any) {
     localStorage.setItem('photographerId', id);
     this.router.navigate([
-      '/dashboard/photoshoot-requests/details/photographer',
+      '/dashboard/photographers/photoshoot-requests/details/photographer',
     ]);
   }
 }

@@ -22,7 +22,7 @@ export class PlatformManagementComponent {
   capForm!: FormGroup;
   referralForm!: FormGroup;
   usageForm!: FormGroup;
-
+  isReserveEnabled: boolean = false;
   isReferralEnabled: boolean = false;
 
   constructor(
@@ -130,6 +130,11 @@ export class PlatformManagementComponent {
             ?.setting == 1
             ? true
             : false;
+        this.isReserveEnabled =
+          settings.find((item: any) => item.key === 'isReserveEnabled')
+            ?.setting == 1
+            ? true
+            : false;
       },
       error: (err) => {
         console.error(err);
@@ -181,5 +186,8 @@ export class PlatformManagementComponent {
 
   handleRefferalEnable(event: boolean) {
     this.updatePlatformSettings({ isReferralEnabled: event ? '1' : '-1' });
+  }
+  handleReserveStatus(event: boolean) {
+    this.updatePlatformSettings({ isReserveEnabled: event ? '1' : '-1' });
   }
 }

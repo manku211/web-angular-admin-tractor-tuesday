@@ -5,6 +5,10 @@ import { SharedModule } from '../../../shared/shared.module';
 import { CommonModule } from '@angular/common';
 import { TableViewComponent } from '../../../shared/components/table-view/table-view.component';
 import { PhotographerServiceComponent } from '../photographer-service/photographer-service.component';
+import { ModalComponent } from '../../../shared/components/modal/modal.component';
+import { FormsModule } from '@angular/forms';
+import { BlockUserParams } from '../../../core/services/user/user-listing.service';
+import { MessageService } from '../../../core/services/message/message.service';
 
 interface ColumnInfo {
   key: string;
@@ -23,6 +27,8 @@ interface ColumnInfo {
     CommonModule,
     TableViewComponent,
     PhotographerServiceComponent,
+    ModalComponent,
+    FormsModule,
   ],
   templateUrl: './photographer-detail.component.html',
   styleUrl: './photographer-detail.component.css',
@@ -35,6 +41,7 @@ export class PhotographerDetailComponent {
   loader: boolean = false;
   statuses = ['MATCHED', 'COMPLETED', 'WAITING', 'PAID', 'UNPAID'];
   query: any = { skip: 1, take: 10 };
+  selectedReason!: string;
   listOfColumns: ColumnInfo[] = [
     {
       key: 'location',
@@ -67,10 +74,22 @@ export class PhotographerDetailComponent {
       ],
     },
   ];
+  userBlockText!: string;
+  showBlockReasonModal: boolean = false;
+  reasons = [
+    'Violation of terms of service',
+    'Inappropriate behavior',
+    'Fraudulent activity',
+    'Security concerns',
+    'Legal compliance',
+    'Disruption of services',
+  ];
+  otherReason!: string;
 
   constructor(
     private photographService: PhotographService,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService
   ) {}
 
   ngOnInit() {
@@ -84,6 +103,7 @@ export class PhotographerDetailComponent {
       next: (data) => {
         this.photographerData = data?.data;
         this.loading = false;
+        this.userBlockText = data?.data?.isBlocked ? 'UnBlock' : 'Block';
       },
       error: (err) => {
         console.error(err);
@@ -139,5 +159,53 @@ export class PhotographerDetailComponent {
   onPageChange(page: any): void {
     this.query = { ...this.query, skip: page };
     this.fetchPhotographerHistory(this.query);
+  }
+
+  openBlockModal() {
+    this.showBlockReasonModal = true;
+  }
+
+  handleCancel() {
+    this.showBlockReasonModal = false;
+  }
+
+  handleUserAccount() {
+    let action = this.userBlockText === 'Block' ? 'deactivate' : 'activate';
+    let payload: any = {
+      isBlocked: this.userBlockText === 'Block' ? true : false,
+      reason: this.selectedReason ? this.selectedReason : this.otherReason,
+    };
+    this.photographService
+      .updatePhotographerByAdmin(this.photographerData?._id, payload)
+      .subscribe({
+        next: (data) => {
+          if (data) {
+            const successMessage = `Photographer ${
+              action === 'deactivate' ? 'deactivated' : 'activated'
+            } successfully.`;
+            this.messageService?.success(successMessage);
+            this.showBlockReasonModal = false;
+            this.otherReason = '';
+            this.selectedReason = '';
+            this.fetchPhotographerById(this.photographerData?._id);
+          }
+        },
+        error: (err) => {
+          this.showBlockReasonModal = false;
+          this.otherReason = '';
+          this.selectedReason = '';
+        },
+      });
+  }
+
+  shouldDisableButton(): boolean {
+    if (
+      this.userBlockText === 'Block' &&
+      !this.selectedReason &&
+      !this.otherReason
+    ) {
+      return true;
+    }
+    return false;
   }
 }

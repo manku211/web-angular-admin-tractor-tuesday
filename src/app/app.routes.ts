@@ -58,16 +58,27 @@ export const routes: Routes = [
         },
       },
       {
-        path: 'photoshoot-requests',
+        path: 'photographers',
         loadChildren: () =>
           import('./modules/photographer/photographer.module').then(
             (m) => m.PhotographerModule
           ),
         canActivate: [PrivilegeGuard],
         data: {
-          breadcrumb: 'Photoshoot Requests',
+          breadcrumb: 'Photographers',
         },
       },
+      // {
+      //   path: 'photoshoot-requests',
+      //   loadChildren: () =>
+      //     import('./modules/photographer/photographer.module').then(
+      //       (m) => m.PhotographerModule
+      //     ),
+      //   canActivate: [PrivilegeGuard],
+      //   data: {
+      //     breadcrumb: 'Photoshoot Requests',
+      //   },
+      // },
       {
         path: 'category-listing',
         loadChildren: () =>

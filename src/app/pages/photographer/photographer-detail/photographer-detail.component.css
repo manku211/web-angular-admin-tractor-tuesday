@@ -1,0 +1,26 @@
+.block-unblock-button {
+  color: var(--white-color);
+  background-color: var(--green-color);
+  border-radius: 5px;
+  box-shadow: 0px 2px 8px 0px rgba(46, 47, 54, 0.08);
+  line-height: 24px;
+  font-weight: var(--font-weight-semi-bold);
+  font-size: 17px;
+  display: flex;
+  padding: 20px 40px;
+  justify-content: center;
+  align-items: center;
+}
+.vertical-divider {
+  height: 180px;
+  border-color: var(--border-color);
+}
+.personal-info-container {
+  margin-top: 10px;
+}
+[nz-radio] {
+  display: block;
+  height: 32px;
+  line-height: 32px;
+  margin: 10px;
+}
