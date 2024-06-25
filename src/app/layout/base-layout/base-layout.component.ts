@@ -93,9 +93,15 @@ export class BaseLayoutComponent {
               privilege: 'SELLER_LISTING',
             },
             {
+              label: 'Photographers',
+              icon: 'camera',
+              route: '/dashboard/photographers',
+              privilege: 'PHOTOSHOOT_REQUESTS',
+            },
+            {
               label: 'Photoshoot Requests',
               icon: 'camera',
-              route: '/dashboard/photoshoot-requests',
+              route: '/dashboard/photographers/photoshoot-requests',
               privilege: 'PHOTOSHOOT_REQUESTS',
             },
             {

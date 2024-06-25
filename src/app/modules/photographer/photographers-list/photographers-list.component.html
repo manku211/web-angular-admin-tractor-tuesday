@@ -1,0 +1,66 @@
+<div *ngIf="routePath == '/dashboard/photographers'">
+  <app-table-view
+    [data]="listOfData"
+    [columns]="listOfColumns"
+    [enablePagination]="true"
+    [enableSorting]="true"
+    [enableSearch]="false"
+    [enableActions]="true"
+    (sortChange)="onSortChange($event)"
+    [loader]="loader"
+    [totalRecords]="totalRecords"
+    [tableRowTemplate]="tableRowTemplate"
+    (pageChange)="onPageChange($event)"
+    (search)="onSearchInput($event)"
+    (filteredList)="onFilterHandler($event)"
+  >
+    <ng-template #tableRowTemplate let-data let-columns="columns">
+      <tr *ngFor="let item of data">
+        <td>
+          <div nz-flex nzAlign="center">
+            <img
+              [src]="item?.profilePic || 'assets/icons/Tractor.png'"
+              class="tractor-picture"
+              alt="profile"
+            />
+            &nbsp;<span
+              (click)="handleViewMore(item['_id'])"
+              class="clickable-name"
+            >
+              {{ item?.fullname }}</span
+            >
+          </div>
+        </td>
+        <td>
+          <span>{{ item?.email }}</span>
+        </td>
+        <td>
+          <span>{{ item?.phoneNumber || "N/A" }}</span>
+        </td>
+        <td>
+          <span [ngClass]="{ block_status: item['isBlocked'] }">{{
+            item["isBlocked"] ? "Blocked" : "N/A"
+          }}</span>
+        </td>
+
+        <td>
+          <span>{{ item["createdAt"] | date : "d MMM, y" }}</span>
+        </td>
+
+        <td>
+          <button
+            nz-button
+            class="secondary_button"
+            (click)="handleViewMore(item['_id'])"
+          >
+            View More
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+  </app-table-view>
+</div>
+
+<div *ngIf="routePath == '/dashboard/photographers/photographer-detail'">
+  <app-photographer-detail></app-photographer-detail>
+</div>

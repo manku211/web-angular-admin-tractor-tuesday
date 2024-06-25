@@ -42,6 +42,20 @@
 </nz-card>
 
 <nz-card class="platform-card">
+  <div nz-flex nzJustify="space-between">
+    <div class="platform-title">Reserve Status</div>
+    <div class="referral_status">
+      <div class="sub-text">Change Status</div>
+      <nz-switch
+        [(ngModel)]="isReserveEnabled"
+        (ngModelChange)="handleReserveStatus($event)"
+      ></nz-switch>
+    </div>
+  </div>
+  <nz-divider></nz-divider>
+</nz-card>
+
+<nz-card class="platform-card">
   <div class="platform-title">Platform Cap</div>
   <nz-divider></nz-divider>
   <form [formGroup]="capForm">
