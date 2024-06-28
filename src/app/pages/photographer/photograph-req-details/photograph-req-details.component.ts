@@ -84,6 +84,7 @@ export class PhotographReqDetailsComponent {
       .subscribe({
         next: (data) => {
           this.photographRequestData = data?.data?.photoshootRequest;
+          this.photographerPrice = data?.data?.photoshootRequest?.fees;
           this.photographerData = data?.data?.photographers;
           this.coordinates = data?.data?.photographers.map(
             (photographer: any) => {

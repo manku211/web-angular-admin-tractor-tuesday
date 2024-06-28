@@ -146,20 +146,30 @@ export class ActiveListComponent {
   }
 
   onSortChange(column: any): void {
-    this.query = {
-      ...this.query,
-      sortOrder: column.sortOrder,
-      sortField: column.sortField ? column.sortField : column.altSortField,
-    };
+    if (column.sortOrder === null) {
+      const { sortOrder, sortField, ...newQuery } = this.query;
+      this.query = newQuery;
+    } else {
+      this.query = {
+        ...this.query,
+        sortOrder: column.sortOrder,
+        sortField: column.sortField,
+      };
+    }
     this.fetchDetails(this.query);
   }
 
   onSortChangeSeller(column: any): void {
-    this.sellerQuery = {
-      ...this.sellerQuery,
-      sortOrder: column.sortOrder,
-      sortField: column.sortField ? column.sortField : column.altSortField,
-    };
+    if (column.sortOrder === null) {
+      const { sortOrder, sortField, ...newQuery } = this.sellerQuery;
+      this.sellerQuery = newQuery;
+    } else {
+      this.sellerQuery = {
+        ...this.sellerQuery,
+        sortOrder: column.sortOrder,
+        sortField: column.sortField ? column.sortField : column.altSortField,
+      };
+    }
     this.fetchSellerDetails(this.sellerQuery);
   }
 }
