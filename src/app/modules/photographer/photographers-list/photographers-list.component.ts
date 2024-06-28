@@ -61,9 +61,9 @@ export class PhotographersListComponent {
   openRejectModal: boolean = false;
   listOfColumns: ColumnInfo[] = [
     {
-      key: 'name',
+      key: 'fullname',
       label: 'Photographer Name',
-      sort: false,
+      sort: true,
       sortOrder: 'DESC',
     },
     {
@@ -86,6 +86,11 @@ export class PhotographersListComponent {
       key: 'status',
       label: 'Status',
       sort: false,
+      filter: true,
+      listOfFilter: [
+        { text: 'Blocked', value: 'blocked' },
+        { text: 'N/A', value: 'unblocked' },
+      ],
     },
     {
       key: 'joiningDate',
@@ -114,7 +119,7 @@ export class PhotographersListComponent {
     this.loader = true;
     this.photographerService.getAllPhotographers(params).subscribe((res) => {
       this.loader = false;
-      this.listOfData = res?.data;
+      this.listOfData = res?.data?.photographers;
       this.totalRecords = res.data?.count;
     });
   }
@@ -127,26 +132,26 @@ export class PhotographersListComponent {
   }
 
   onSortChange(column: any): void {
-    let auctionsFilter: any;
-    if (column?.key === 'tractor_name') {
-      auctionsFilter =
-        column?.sortOrder === 'ASC' ? 'TRACTOR_ASC' : 'TRACTOR_DESC';
+    if (column?.sortOrder === null) {
+      const { sortBy, sorting, ...newQuery } = this.query;
+      this.query = newQuery;
+    } else {
+      this.query = {
+        ...this.query,
+        sorting: column.sortOrder,
+        sortBy: column.key,
+      };
     }
-    this.query = {
-      ...this.query,
-      auctionsFilter: auctionsFilter,
-    };
     this.fetchDetails(this.query);
   }
 
   onFilterHandler(filteredColumn: any): void {
-    const key = filteredColumn?.column?.key;
     if (filteredColumn.event != null) {
-      this.query = { ...this.query, [key]: filteredColumn.event };
+      this.query = { ...this.query, filtering: filteredColumn.event };
       this.fetchDetails(this.query);
     } else {
       const updatedQuery = { ...this.query };
-      delete updatedQuery[key];
+      delete updatedQuery['filtering'];
       this.fetchDetails(updatedQuery);
     }
   }
