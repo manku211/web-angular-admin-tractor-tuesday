@@ -43,6 +43,8 @@ export class PhotographersListComponent {
   query: any = {
     skip: 1,
     take: 10,
+    sortBy: 'createdAt',
+    sorting: 'DESC',
   };
   loader: boolean = false;
   totalRecords: number = 0;
@@ -133,12 +135,15 @@ export class PhotographersListComponent {
 
   onSortChange(column: any): void {
     if (column?.sortOrder === null) {
-      const { sortBy, sorting, ...newQuery } = this.query;
-      this.query = newQuery;
+      this.query = {
+        ...this.query,
+        sorting: 'desc',
+        sortBy: 'createdAt',
+      };
     } else {
       this.query = {
         ...this.query,
-        sorting: column.sortOrder,
+        sorting: column.sortOrder === 'ASC' ? 'asc' : 'desc',
         sortBy: column.key,
       };
     }

@@ -86,7 +86,7 @@ export class SellerListComponent {
   }
 
   onPageChange(page: number): void {
-    this.query = { ...this.query, page: page };
+    this.query = { ...this.query, skip: page };
     this.fetchDetails(this.query);
   }
 

@@ -174,6 +174,10 @@ export class PlatformManagementComponent {
 
   handleReferralFees() {
     if (this.referralForm.valid) {
+      // let payload = {
+      //   sellersReward: this.referralForm?.value?.sellerDiscount,
+      //   buyersReward: this.referralForm?.value?.buyerDiscount,
+      // };
       this.updatePlatformSettings(this.referralForm.value);
     }
   }
