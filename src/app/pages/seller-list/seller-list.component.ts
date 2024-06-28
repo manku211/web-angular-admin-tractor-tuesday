@@ -81,7 +81,12 @@ export class SellerListComponent {
   }
 
   onSortChange(column: any): void {
-    this.query = { ...this.query, sortOrder: column.sortOrder };
+    if (column.sortOrder === null) {
+      const { sortOrder, sortField, ...newQuery } = this.query;
+      this.query = newQuery;
+    } else {
+      this.query = { ...this.query, sortOrder: column.sortOrder };
+    }
     this.fetchDetails(this.query);
   }
 
