@@ -128,7 +128,7 @@ export class CommentEditorComponent {
   }
 
   onPageChange(page: number): void {
-    this.query = { ...this.query, page: page };
+    this.query = { ...this.query, skip: page };
     this.fetchCommentEditorDetails(this.query);
   }
 

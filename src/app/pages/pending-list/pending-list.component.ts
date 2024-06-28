@@ -222,6 +222,7 @@ export class PendingListComponent {
   }
 
   handleClose() {
+    this.fetchDetails(this.query);
     this.openDenialModal = false;
     this.openApproveModal = false;
     this.openRejectModal = false;
