@@ -27,7 +27,6 @@ build_and_push:
     - aws s3 cp build.zip $S3_URL_DEV/build.zip
   only:
    - dev
-   - qa
 
 deploy:
   stage: deploy
@@ -42,4 +41,3 @@ deploy:
     - aws amplify start-deployment --app-id $AMPLIFY_APP_ID --branch-name $CI_COMMIT_BRANCH --source-url $S3_URL_DEV/build.zip
   only:
    - dev
-   - qa
