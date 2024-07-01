@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { ContentManagementService } from '../../core/services/content-management/content-management.service';
 import { MessageService } from '../../core/services/message/message.service';
+import { minMaxValidator } from '../../utilities/helpers/helper';
 
 @Component({
   selector: 'app-platform-management',
@@ -47,16 +48,19 @@ export class PlatformManagementComponent {
       ],
     });
 
-    this.capForm = this.fb.group({
-      maxFees: [
-        null,
-        [Validators.required, Validators.min(0), Validators.max(2000)],
-      ],
-      minFees: [
-        null,
-        [Validators.required, Validators.min(0), Validators.max(1000)],
-      ],
-    });
+    this.capForm = this.fb.group(
+      {
+        maxFees: [
+          null,
+          [Validators.required, Validators.min(0), Validators.max(2000)],
+        ],
+        minFees: [
+          null,
+          [Validators.required, Validators.min(0), Validators.max(1000)],
+        ],
+      },
+      { validators: minMaxValidator() }
+    );
 
     this.referralForm = this.fb.group({
       sellerDiscount: [
