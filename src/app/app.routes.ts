@@ -108,6 +108,7 @@ export const routes: Routes = [
       },
       {
         path: 'create-admin',
+        canActivate: [PrivilegeGuard],
         component: CreateAdminComponent,
       },
     ],

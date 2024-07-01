@@ -38,6 +38,7 @@ export class BaseLayoutComponent {
   menuItems: any[] = [];
   logoutLoader: boolean = false;
   privileges: Privilege[] = [];
+  roles = Roles;
 
   private adminDetailsSubject = new BehaviorSubject<any>(null);
   public adminDetails$ = this.adminDetailsSubject.asObservable();
