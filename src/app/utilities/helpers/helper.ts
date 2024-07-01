@@ -21,15 +21,13 @@ export const getExteriorImageUrl = (tractorData: any) => {
 };
 
 export function minMaxValidator(): ValidatorFn {
-  return (formGroup: AbstractControl): ValidationErrors | null => {
-    const minFees = formGroup.get('minFees')?.value;
-    const maxFees = formGroup.get('maxFees')?.value;
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    const minFees = parseFloat(control.get('minFees')?.value);
+    const maxFees = parseFloat(control.get('maxFees')?.value);
 
-    if (minFees !== null && maxFees !== null && minFees >= maxFees) {
-      return { minMaxInvalid: true };
-    }
-
-    return null;
+    return minFees !== null && maxFees !== null && minFees >= maxFees
+      ? { minMaxInvalid: true }
+      : null;
   };
 }
 

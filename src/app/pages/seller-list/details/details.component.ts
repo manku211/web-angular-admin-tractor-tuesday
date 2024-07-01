@@ -147,16 +147,24 @@ export class DetailsComponent {
       };
       this.fetchAuctionDetails(this.query);
     } else if (index === 1) {
-      const auctionStatusColumn = {
-        key: 'auctionStatus',
-        label: 'Auction Status',
-        sort: false,
-        filter: true,
-        listOfFilter: [
-          { text: 'Ongoing', value: 'ONGOING' },
-          { text: 'Ended', value: 'ENDED' },
-        ],
-      };
+      const auctionStatusColumnExists = this.listOfColumns.some(
+        (column) => column.key === 'auctionStatus'
+      );
+
+      if (!auctionStatusColumnExists) {
+        const auctionStatusColumn = {
+          key: 'auctionStatus',
+          label: 'Auction Status',
+          sort: false,
+          filter: true,
+          listOfFilter: [
+            { text: 'Ongoing', value: 'ONGOING' },
+            { text: 'Ended', value: 'ENDED' },
+          ],
+        };
+
+        this.listOfColumns.splice(4, 0, auctionStatusColumn);
+      }
       this.query = {
         ...this.query,
         sellerId: this.userId,
@@ -169,7 +177,7 @@ export class DetailsComponent {
       if (auctionDateColumnIndex !== -1) {
         this.listOfColumns[auctionDateColumnIndex].label = 'Auction Date';
       }
-      this.listOfColumns.splice(4, 0, auctionStatusColumn);
+      // this.listOfColumns.splice(4, 0, auctionStatusColumn);
     }
   }
 

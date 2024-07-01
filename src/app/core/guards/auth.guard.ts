@@ -34,6 +34,13 @@ export const PrivilegeGuard: CanActivateFn = (route, state) => {
             return;
           }
           const isAdmin = adminDetails?.data.role === Roles.ADMIN;
+          console.log(state.url);
+          if (isAdmin && state.url === '/dashboard/create-admin') {
+            router.navigate(['/']);
+            observer.next(false);
+            observer.complete();
+            return;
+          }
 
           if (!isAdmin) {
             observer.next(true);

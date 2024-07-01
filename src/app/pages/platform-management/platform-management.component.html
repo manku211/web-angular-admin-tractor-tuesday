@@ -90,7 +90,7 @@
       <div *ngIf="capForm.controls['maxFees'].invalid">
         Please enter valid input
       </div>
-      <div *ngIf="capForm.errors?.['minMaxInvalid']" class="error-message">
+      <div *ngIf="capForm.errors?.['minMaxInvalid']">
         Minimum cap should be less than maximum cap
       </div>
     </div>

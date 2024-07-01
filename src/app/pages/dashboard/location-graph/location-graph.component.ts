@@ -12,6 +12,7 @@ import {
 } from 'chartjs-chart-geo';
 import { AnalyticsService } from '../../../core/services/dashboard/analytics.service';
 import { HttpClient } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 interface GeoJSONFeature {
   type: string;
@@ -27,7 +28,7 @@ interface GeoJSONFeature {
 @Component({
   selector: 'app-location-graph',
   standalone: true,
-  imports: [SharedModule, CommonModule],
+  imports: [SharedModule, CommonModule, FormsModule],
   templateUrl: './location-graph.component.html',
   styleUrl: './location-graph.component.css',
 })
@@ -83,7 +84,6 @@ export class LocationGraphComponent {
           allUsers !== 0
             ? ((this.graphData.activeSellers / allUsers) * 100).toFixed(1)
             : 0;
-        this.isLoading = false;
       },
       error: (err) => {
         console.error(err);
@@ -131,6 +131,7 @@ export class LocationGraphComponent {
         if (this.chartInstance) {
           this.chartInstance.destroy();
         }
+        this.isLoading = false;
         this.chartInstance = new Chart(this.context, {
           type: 'choropleth',
           data: {

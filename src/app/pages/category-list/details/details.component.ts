@@ -193,9 +193,11 @@ export class DetailsComponent {
 
       this.auctionInfo = res.map((item: any) => ({
         tractorId: {
+          category: item?.tractorId?.category,
           name: item?.tractorName,
           vin: item?.vin,
         },
+        exteriorImageUrl: getExteriorImageUrl(item),
         auctionStatus: item?.auctionStatus,
         createdAt: item?.createdAt,
         currentBid: item?.currentBid,
