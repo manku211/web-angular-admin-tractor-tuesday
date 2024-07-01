@@ -46,3 +46,12 @@
   font-size: 48px;
   font-weight: var(--font-weight-bold);
 }
+
+.admin-name {
+  white-space: break-spaces;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px; /* Adjust as needed */
+  display: inline-block;
+  vertical-align: middle;
+}

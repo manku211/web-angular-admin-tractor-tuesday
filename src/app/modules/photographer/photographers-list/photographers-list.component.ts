@@ -137,13 +137,13 @@ export class PhotographersListComponent {
     if (column?.sortOrder === null) {
       this.query = {
         ...this.query,
-        sorting: 'desc',
+        sorting: 'DESC',
         sortBy: 'createdAt',
       };
     } else {
       this.query = {
         ...this.query,
-        sorting: column.sortOrder === 'ASC' ? 'asc' : 'desc',
+        sorting: column.sortOrder,
         sortBy: column.key,
       };
     }

@@ -65,28 +65,36 @@
     </nz-input-number-group>
     <div
       *ngIf="
-        capForm.controls['maxFees'].invalid &&
-        (capForm.controls['maxFees'].dirty ||
-          capForm.controls['maxFees'].touched)
+        capForm.controls['maxFees'].dirty || capForm.controls['maxFees'].touched
       "
       class="error-message"
     >
-      Please enter valid input
+      <div *ngIf="capForm.controls['maxFees'].invalid">
+        Please enter valid input
+      </div>
+      <div *ngIf="capForm.errors?.['minMaxInvalid']" class="error-message">
+        Maximum cap should be more than minimum cap
+      </div>
     </div>
+
     <div class="sub-text">Minimum Cap</div>
     <nz-input-number-group nzAddOnAfter="$">
       <nz-input-number formControlName="minFees"></nz-input-number>
     </nz-input-number-group>
     <div
       *ngIf="
-        capForm.controls['minFees'].invalid &&
-        (capForm.controls['minFees'].dirty ||
-          capForm.controls['minFees'].touched)
+        capForm.controls['minFees'].dirty || capForm.controls['minFees'].touched
       "
       class="error-message"
     >
-      Please enter valid input
+      <div *ngIf="capForm.controls['maxFees'].invalid">
+        Please enter valid input
+      </div>
+      <div *ngIf="capForm.errors?.['minMaxInvalid']" class="error-message">
+        Minimum cap should be less than maximum cap
+      </div>
     </div>
+
     <button
       nz-button
       class="block-unblock-button"

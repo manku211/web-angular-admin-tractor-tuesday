@@ -1,4 +1,4 @@
-import { AbstractControl, ValidatorFn } from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 export const styleObject = (status: any) => {
   if (status === 'ONGOING') {
@@ -19,6 +19,19 @@ export const getExteriorImageUrl = (tractorData: any) => {
   }
   return '';
 };
+
+export function minMaxValidator(): ValidatorFn {
+  return (formGroup: AbstractControl): ValidationErrors | null => {
+    const minFees = formGroup.get('minFees')?.value;
+    const maxFees = formGroup.get('maxFees')?.value;
+
+    if (minFees !== null && maxFees !== null && minFees >= maxFees) {
+      return { minMaxInvalid: true };
+    }
+
+    return null;
+  };
+}
 
 export function phoneNumberValidator(): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
