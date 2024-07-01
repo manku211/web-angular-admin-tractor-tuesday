@@ -57,7 +57,9 @@ export class PhotoshootReqComponent {
 
   handleViewMore(data: any) {
     localStorage.setItem('selectedUserId', data?._id);
-    this.router.navigate(['/dashboard/photoshoot-requests/details']);
+    this.router.navigate([
+      '/dashboard/photographers/photoshoot-requests/details',
+    ]);
   }
 
   changeStatus(data: any, newStatus: any): void {

@@ -99,7 +99,11 @@
                     <span nz-icon nzType="user"></span>
                     <span class="profile-menuitem">My Profile</span>
                   </li>
-                  <li nz-menu-item [routerLink]="['create-admin']">
+                  <li
+                    nz-menu-item
+                    [routerLink]="['create-admin']"
+                    *ngIf="adminDetails?.role === roles.SUPER_ADMIN"
+                  >
                     <span nz-icon nzType="user-add"></span>
                     <span class="profile-menuitem"> Create Sub Admin</span>
                   </li>

@@ -81,12 +81,17 @@ export class SellerListComponent {
   }
 
   onSortChange(column: any): void {
-    this.query = { ...this.query, sortOrder: column.sortOrder };
+    if (column.sortOrder === null) {
+      const { sortOrder, sortField, ...newQuery } = this.query;
+      this.query = newQuery;
+    } else {
+      this.query = { ...this.query, sortOrder: column.sortOrder };
+    }
     this.fetchDetails(this.query);
   }
 
   onPageChange(page: number): void {
-    this.query = { ...this.query, page: page };
+    this.query = { ...this.query, skip: page };
     this.fetchDetails(this.query);
   }
 
@@ -100,10 +105,10 @@ export class SellerListComponent {
     }
     if (search !== '') {
       this.query = { ...this.query, search: search };
-      this.fetchDetails(this.query);
     } else {
       delete this.query.search;
     }
+    this.fetchDetails(this.query);
   }
 
   handleViewMore(id: any) {

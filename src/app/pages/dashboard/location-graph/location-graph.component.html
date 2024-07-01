@@ -1,50 +1,37 @@
 <nz-card class="detail-outer-card">
   <nz-flex nzJustify="space-between">
     <div class="sub-heading">Location Graph</div>
-    <nz-flex nzGap="large">
-      <div
-        (click)="selectCountry('usa')"
-        [class.selected]="selectedCountry === 'usa'"
-        class="country-container"
-      >
-        <span>
-          <img src="assets/icons/usflag.png" alt="us" width="28" height="20" />
-          <span class="country-name">USA</span></span
-        >
-        <span
-          *ngIf="selectedCountry === 'usa'"
-          class="checkmark"
-          nz-icon
-          [nzType]="'check-circle'"
-          [nzTheme]="'twotone'"
-          [nzTwotoneColor]="'#52c41a'"
-        ></span>
-      </div>
 
-      <div
-        (click)="selectCountry('ca')"
-        [class.selected]="selectedCountry === 'ca'"
-        class="country-container"
-      >
-        <span>
-          <img
-            src="assets/icons/canadaflag.svg"
-            alt="ca"
-            width="28"
-            height="20"
-          />
-          <span class="country-name">CANADA</span></span
-        >
-        <span
-          *ngIf="selectedCountry === 'ca'"
-          class="checkmark"
-          nz-icon
-          [nzType]="'check-circle'"
-          [nzTheme]="'twotone'"
-          [nzTwotoneColor]="'#52c41a'"
-        ></span>
-      </div>
-    </nz-flex>
+    <nz-radio-group
+      [(ngModel)]="selectedCountry"
+      (ngModelChange)="selectCountry($event)"
+    >
+      <nz-flex nzGap="large">
+        <label nz-radio nzValue="usa" class="country-container">
+          <span>
+            <img
+              src="assets/icons/usflag.png"
+              alt="us"
+              width="28"
+              height="20"
+            />
+            <span class="country-name">USA</span>
+          </span>
+        </label>
+
+        <label nz-radio nzValue="ca" class="country-container">
+          <span>
+            <img
+              src="assets/icons/canadaflag.svg"
+              alt="ca"
+              width="28"
+              height="20"
+            />
+            <span class="country-name">CANADA</span>
+          </span>
+        </label>
+      </nz-flex>
+    </nz-radio-group>
   </nz-flex>
   <nz-divider></nz-divider>
   <nz-row class="geo-graph-container">

@@ -76,7 +76,7 @@ export class PendingListComponent {
     {
       key: 'category',
       label: 'Category',
-      sort: true,
+      sort: false,
     },
     {
       key: 'seller_name',
@@ -121,14 +121,19 @@ export class PendingListComponent {
 
   onSortChange(column: any): void {
     let auctionsFilter: any;
-    if (column?.key === 'tractor_name') {
-      auctionsFilter =
-        column?.sortOrder === 'ASC' ? 'TRACTOR_ASC' : 'TRACTOR_DESC';
+    if (column?.sortOrder === null) {
+      const { auctionsFilter, ...newQuery } = this.query;
+      this.query = newQuery;
+    } else {
+      if (column?.key === 'tractor_name') {
+        auctionsFilter =
+          column?.sortOrder === 'ASC' ? 'TRACTOR_ASC' : 'TRACTOR_DESC';
+      }
+      this.query = {
+        ...this.query,
+        auctionsFilter: auctionsFilter,
+      };
     }
-    this.query = {
-      ...this.query,
-      auctionsFilter: auctionsFilter,
-    };
     this.fetchDetails(this.query);
   }
 
@@ -222,6 +227,7 @@ export class PendingListComponent {
   }
 
   handleClose() {
+    this.fetchDetails(this.query);
     this.openDenialModal = false;
     this.openApproveModal = false;
     this.openRejectModal = false;

@@ -18,6 +18,7 @@ export class ApproveModalComponent {
   @Output() handleClose: EventEmitter<any> = new EventEmitter();
   exteriorImageUrl: string | null = null;
   date: Date | null = null;
+  endDate: Date = new Date();
   start_time: Date | null = null;
   end_time: Date | null = null;
 
@@ -50,7 +51,7 @@ export class ApproveModalComponent {
 
   handleUserAccount() {
     const startTimeStamp = this.combineDateTime(this.date, this.start_time);
-    const endTimeStamp = this.combineDateTime(this.date, this.end_time);
+    const endTimeStamp = this.combineDateTime(this.endDate, this.end_time);
 
     const payload = {
       startTime: startTimeStamp,

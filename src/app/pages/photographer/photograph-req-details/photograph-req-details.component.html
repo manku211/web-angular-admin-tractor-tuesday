@@ -150,13 +150,17 @@
       <nz-input-number
         [(ngModel)]="photographerPrice"
         [nzStep]="1"
+        (ngModelChange)="validatePrice()"
       ></nz-input-number>
     </nz-input-number-group>
-
+    <div *ngIf="validationError" class="error-message">
+      {{ validationError }}
+    </div>
     <button
       nz-button
       class="primary-button submit-button"
       (click)="handleSubmit()"
+      [disabled]="!validatePrice()"
     >
       Submit
     </button>
@@ -182,10 +186,13 @@
       <nz-flex [nzVertical]="true" nzGap="middle">
         <ng-container *ngFor="let user of photographerData">
           <nz-flex nzJustify="space-between" nzAlign="center">
-            <nz-flex nzGap="middle">
+            <nz-flex nzGap="middle" nzAlign="center">
               <img
                 [src]="user.profilePic || 'assets/icons/profile.svg'"
                 alt="profile"
+                width="30"
+                height="30"
+                class="photographer-image"
               />
 
               <nz-flex [nzVertical]="true">
@@ -237,12 +244,18 @@
         <img
           [src]="photographerInfo?.profilePic || 'assets/icons/profile.svg'"
           alt="profile"
+          width="30"
+          height="30"
+          class="photographer-image"
         />
         <nz-flex [nzVertical]="true">
           <span>{{ photographerInfo?.fullname }}</span>
           <span>{{ photographerInfo?.email }}</span>
         </nz-flex>
       </nz-flex>
+      <div class="photographer-contact">
+        {{ photographerInfo?.phoneNumber }}
+      </div>
     </div>
   </div>
 

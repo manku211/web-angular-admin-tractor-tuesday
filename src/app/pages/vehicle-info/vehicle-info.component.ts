@@ -17,6 +17,7 @@ import { ProfileService } from '../../core/services/profile/profile.service';
 import { MessageService } from '../../core/services/message/message.service';
 import { EquipmentCategory } from '../../core/models/equipmentCategories';
 import { TranmissionTypes } from '../../core/models/transmissionTypes';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-vehicle-info',
@@ -170,7 +171,8 @@ export class VehicleInfoComponent {
     private fb: FormBuilder,
     private profileService: ProfileService,
     private msg: MessageService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private http: HttpClient
   ) {
     this.createForm();
     this.createServiceForm();
@@ -566,5 +568,18 @@ export class VehicleInfoComponent {
 
   uploadImage() {
     // Handle image upload logic
+  }
+
+  downloadFile(fileUrl: string, fileName: string) {
+    this.http.get(fileUrl, { responseType: 'blob' }).subscribe((blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    });
   }
 }

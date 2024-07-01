@@ -5,7 +5,7 @@
       [nzAutoGenerate]="true"
     ></nz-breadcrumb>
   </nz-card>
-  <div *ngIf="routePath == '/dashboard/photoshoot-requests'">
+  <div *ngIf="routePath == '/dashboard/photographers/photoshoot-requests'">
     <nz-table #basicTable [nzData]="photographRequests">
       <thead>
         <tr>
@@ -56,12 +56,17 @@
     </nz-table>
   </div>
 
-  <div *ngIf="routePath == '/dashboard/photoshoot-requests/details'">
+  <div
+    *ngIf="routePath == '/dashboard/photographers/photoshoot-requests/details'"
+  >
     <app-photograph-req-details></app-photograph-req-details>
   </div>
 
   <div
-    *ngIf="routePath == '/dashboard/photoshoot-requests/details/photographer'"
+    *ngIf="
+      routePath ==
+      '/dashboard/photographers/photoshoot-requests/details/photographer'
+    "
   >
     <app-photographer-detail></app-photographer-detail>
   </div>

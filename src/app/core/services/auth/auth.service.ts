@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subject, Subscription, interval, of } from 'rxjs';
 import { Privileges, Roles } from '../../models/rolePrivileges';
-// import { environment } from '../../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 
 interface Privilege {
   name: string;
@@ -17,11 +17,11 @@ interface Privilege {
 })
 export class AuthService {
   private refreshSubscription!: Subscription;
-  baseUrl = 'https://api-dev.tractortuesday.xyz/api/v1/';
+  baseUrl = environment.API_URL + '/api/v1/';
   public $refreshToken = new Subject<boolean>();
 
   constructor(private http: HttpClient, private router: Router) {
-    // console.log(environment.API_URL);
+    console.log(environment.API_URL);
     this.$refreshToken.subscribe((res: any) => {
       this.getRefreshToken();
     });

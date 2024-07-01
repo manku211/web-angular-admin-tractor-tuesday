@@ -43,14 +43,9 @@ canvas {
 }
 .country-container {
   display: flex;
-  flex-direction: column;
   align-items: center;
   cursor: pointer;
   position: relative;
-}
-
-.checkmark {
-  margin-top: 10px;
 }
 
 .map-container {

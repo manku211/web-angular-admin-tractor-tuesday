@@ -214,12 +214,16 @@ body {
 .ant-table-tbody > tr > td:first-child {
   text-align: left;
 }
-
+.ant-table-thead > tr > th:first-child .ant-table-column-title {
+  text-align: left;
+}
 .ant-table-thead > tr > th:not(:first-child),
 .ant-table-tbody > tr > td:not(:first-child) {
   text-align: center;
 }
-
+.ant-table-thead > tr > th {
+  white-space: nowrap;
+}
 .ant-pagination-item-active a,
 .ant-pagination-item-active:hover a,
 .ant-pagination-item:hover a,
@@ -243,6 +247,13 @@ body {
 }
 .ant-table-thead > tr > th {
   padding: 16px 8px;
+}
+.ant-table-column-sorter,
+nz-filter-trigger {
+  flex: 1;
+}
+.ant-table-column-title {
+  text-align: end;
 }
 .ant-modal-body {
   padding: 34px;
@@ -304,6 +315,7 @@ body {
   font-weight: var(--font-weight-normal);
   display: flex;
   gap: 3px;
+  align-items: center;
   /* align-items: center; */
   span:first-child {
     color: var(--primary-color);

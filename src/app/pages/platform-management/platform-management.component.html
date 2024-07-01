@@ -42,6 +42,20 @@
 </nz-card>
 
 <nz-card class="platform-card">
+  <div nz-flex nzJustify="space-between">
+    <div class="platform-title">Reserve Status</div>
+    <div class="referral_status">
+      <div class="sub-text">Change Status</div>
+      <nz-switch
+        [(ngModel)]="isReserveEnabled"
+        (ngModelChange)="handleReserveStatus($event)"
+      ></nz-switch>
+    </div>
+  </div>
+  <nz-divider></nz-divider>
+</nz-card>
+
+<nz-card class="platform-card">
   <div class="platform-title">Platform Cap</div>
   <nz-divider></nz-divider>
   <form [formGroup]="capForm">
@@ -51,33 +65,41 @@
     </nz-input-number-group>
     <div
       *ngIf="
-        capForm.controls['maxFees'].invalid &&
-        (capForm.controls['maxFees'].dirty ||
-          capForm.controls['maxFees'].touched)
+        capForm.controls['maxFees'].dirty || capForm.controls['maxFees'].touched
       "
       class="error-message"
     >
-      Please enter valid input
+      <div *ngIf="capForm.controls['maxFees'].invalid">
+        Please enter valid input
+      </div>
+      <div *ngIf="capForm.errors?.['minMaxInvalid']" class="error-message">
+        Maximum cap should be more than minimum cap
+      </div>
     </div>
+
     <div class="sub-text">Minimum Cap</div>
     <nz-input-number-group nzAddOnAfter="$">
       <nz-input-number formControlName="minFees"></nz-input-number>
     </nz-input-number-group>
     <div
       *ngIf="
-        capForm.controls['minFees'].invalid &&
-        (capForm.controls['minFees'].dirty ||
-          capForm.controls['minFees'].touched)
+        capForm.controls['minFees'].dirty || capForm.controls['minFees'].touched
       "
       class="error-message"
     >
-      Please enter valid input
+      <div *ngIf="capForm.controls['maxFees'].invalid">
+        Please enter valid input
+      </div>
+      <div *ngIf="capForm.errors?.['minMaxInvalid']">
+        Minimum cap should be less than maximum cap
+      </div>
     </div>
+
     <button
       nz-button
       class="block-unblock-button"
       (click)="handleCap()"
-      [disabled]="capForm.invalid"
+      [disabled]="capForm.invalid || !capForm.dirty"
     >
       Update Cap
     </button>
@@ -129,7 +151,7 @@
       nz-button
       class="block-unblock-button"
       (click)="handleReferralFees()"
-      [disabled]="referralForm.invalid"
+      [disabled]="referralForm.invalid || !referralForm.dirty"
     >
       Update Fees
     </button>
@@ -168,7 +190,7 @@
       nz-button
       class="block-unblock-button update_usage"
       (click)="handleReferralUsage()"
-      [disabled]="usageForm.invalid"
+      [disabled]="usageForm.invalid || !usageForm.dirty"
     >
       Update Usage
     </button>

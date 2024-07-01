@@ -28,7 +28,7 @@ interface ColumnInfo {
   styleUrl: './comment-editor.component.css',
 })
 export class CommentEditorComponent {
-  query: any = { skip: 1, take: 10 };
+  query: any = { skip: 1, take: 10, auctionStatus: 'ONGOING,ENDED' };
   totalRecords!: number;
   commentEditorData: any[] = [];
   userId: any;
@@ -56,8 +56,8 @@ export class CommentEditorComponent {
       sort: false,
       filter: true,
       listOfFilter: [
-        { text: 'Reserved', value: 'RESERVED' },
-        { text: 'Non-reserved', value: 'UNRESERVED' },
+        { text: 'Ongoing', value: 'ONGOING' },
+        { text: 'Ended', value: 'ENDED' },
       ],
     },
     {
@@ -102,7 +102,16 @@ export class CommentEditorComponent {
   }
 
   onSortChange(column: any): void {
-    this.query = { ...this.query, sortOrder: column.sortOrder };
+    if (column?.sortOrder === null) {
+      const { sortOrder, sortField, ...newQuery } = this.query;
+      this.query = newQuery;
+    } else {
+      this.query = {
+        ...this.query,
+        sortOrder: column.sortOrder,
+        sortField: column.key,
+      };
+    }
     this.fetchCommentEditorDetails(this.query);
   }
 
@@ -119,7 +128,7 @@ export class CommentEditorComponent {
   }
 
   onPageChange(page: number): void {
-    this.query = { ...this.query, page: page };
+    this.query = { ...this.query, skip: page };
     this.fetchCommentEditorDetails(this.query);
   }
 

@@ -41,6 +41,7 @@ export class ActiveListComponent {
   query: any = { skip: 1, take: 5, fetch: 'all' };
   sellerQuery: any = { skip: 1, take: 5, fetch: 'seller' };
   loader: boolean = false;
+  loaderUser: boolean = false;
   totalRecords: number = 0;
   countryFlag!: string;
   countryName!: string;
@@ -116,14 +117,14 @@ export class ActiveListComponent {
   }
 
   fetchDetails(params: any) {
-    this.loader = true;
+    this.loaderUser = true;
     this.userService.getAllUsers(params).subscribe({
       next: (res) => {
-        this.loader = false;
+        this.loaderUser = false;
         this.listOfData = res.data?.users;
       },
       error: (err) => {
-        this.loader = false;
+        this.loaderUser = false;
         this.messageService.error(err?.error?.error);
         console.error(err?.error?.error);
       },
@@ -146,20 +147,30 @@ export class ActiveListComponent {
   }
 
   onSortChange(column: any): void {
-    this.query = {
-      ...this.query,
-      sortOrder: column.sortOrder,
-      sortField: column.sortField ? column.sortField : column.altSortField,
-    };
+    if (column.sortOrder === null) {
+      const { sortOrder, sortField, ...newQuery } = this.query;
+      this.query = newQuery;
+    } else {
+      this.query = {
+        ...this.query,
+        sortOrder: column.sortOrder,
+        sortField: column.sortField,
+      };
+    }
     this.fetchDetails(this.query);
   }
 
   onSortChangeSeller(column: any): void {
-    this.sellerQuery = {
-      ...this.sellerQuery,
-      sortOrder: column.sortOrder,
-      sortField: column.sortField ? column.sortField : column.altSortField,
-    };
+    if (column.sortOrder === null) {
+      const { sortOrder, sortField, ...newQuery } = this.sellerQuery;
+      this.sellerQuery = newQuery;
+    } else {
+      this.sellerQuery = {
+        ...this.sellerQuery,
+        sortOrder: column.sortOrder,
+        sortField: column.sortField ? column.sortField : column.altSortField,
+      };
+    }
     this.fetchSellerDetails(this.sellerQuery);
   }
 }

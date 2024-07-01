@@ -27,6 +27,11 @@
   height: 50px;
 }
 
+::ng-deep .ant-menu-dark .ant-menu-item:hover {
+  color: var(--white-color);
+  background-color: var(--primary-color);
+}
+
 .ant-menu-item.active {
   background-color: var(--primary-color);
 }

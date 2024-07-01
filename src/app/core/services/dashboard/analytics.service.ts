@@ -1,11 +1,12 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AnalyticsService {
-  baseUrl = 'https://api-dev.tractortuesday.xyz/api/v1/';
+  baseUrl = environment.API_URL + '/api/v1/';
   constructor(private http: HttpClient) {}
 
   getLocationGraph(params: any) {

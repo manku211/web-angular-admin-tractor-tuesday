@@ -83,7 +83,7 @@ export class DetailsComponent {
 
   listOfColumns: ColumnInfo[] = [
     {
-      key: 'tractorId',
+      key: 'TRACTOR_NAME',
       label: 'Tractor Name',
       sort: true,
       sortOrder: 'DESC',
@@ -239,7 +239,16 @@ export class DetailsComponent {
   }
 
   onSortChange(column: any): void {
-    this.query = { ...this.query, sortOrder: column.sortOrder };
+    if (column?.sortOrder === null) {
+      const { sortOrder, sortField, ...newQuery } = this.query;
+      this.query = newQuery;
+    } else {
+      this.query = {
+        ...this.query,
+        sortOrder: column.sortOrder,
+        sortField: column?.key,
+      };
+    }
     this.fetchAuctionDetails(this.query);
   }
 

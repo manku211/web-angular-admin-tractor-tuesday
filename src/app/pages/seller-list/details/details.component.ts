@@ -76,7 +76,7 @@ export class DetailsComponent {
 
   listOfColumns: ColumnInfo[] = [
     {
-      key: 'tractorId',
+      key: 'tractor_name',
       label: 'Tractor Name',
       sort: true,
       sortOrder: 'DESC',
@@ -130,7 +130,6 @@ export class DetailsComponent {
       ...this.query,
       sellerId: this.userId,
       auctionStatus: 'PENDING',
-      auctionsFilter: 'CREATED_AT_LAST',
     };
     this.fetchAuctionDetails(this.query);
   }
@@ -145,25 +144,31 @@ export class DetailsComponent {
         ...this.query,
         sellerId: this.userId,
         auctionStatus: 'PENDING',
-        auctionsFilter: 'CREATED_AT_LAST',
       };
       this.fetchAuctionDetails(this.query);
     } else if (index === 1) {
-      const auctionStatusColumn = {
-        key: 'auctionStatus',
-        label: 'Auction Status',
-        sort: false,
-        filter: true,
-        listOfFilter: [
-          { text: 'Ongoing', value: 'ONGOING' },
-          { text: 'Ended', value: 'ENDED' },
-        ],
-      };
+      const auctionStatusColumnExists = this.listOfColumns.some(
+        (column) => column.key === 'auctionStatus'
+      );
+
+      if (!auctionStatusColumnExists) {
+        const auctionStatusColumn = {
+          key: 'auctionStatus',
+          label: 'Auction Status',
+          sort: false,
+          filter: true,
+          listOfFilter: [
+            { text: 'Ongoing', value: 'ONGOING' },
+            { text: 'Ended', value: 'ENDED' },
+          ],
+        };
+
+        this.listOfColumns.splice(4, 0, auctionStatusColumn);
+      }
       this.query = {
         ...this.query,
         sellerId: this.userId,
-        auctionStatus: 'ONGOING, ENDED',
-        auctionsFilter: 'CREATED_AT_LAST',
+        auctionStatus: 'ONGOING,ENDED',
       };
       this.fetchAuctionDetails(this.query);
       const auctionDateColumnIndex = this.listOfColumns.findIndex(
@@ -172,7 +177,7 @@ export class DetailsComponent {
       if (auctionDateColumnIndex !== -1) {
         this.listOfColumns[auctionDateColumnIndex].label = 'Auction Date';
       }
-      this.listOfColumns.splice(4, 0, auctionStatusColumn);
+      // this.listOfColumns.splice(4, 0, auctionStatusColumn);
     }
   }
 
@@ -220,7 +225,21 @@ export class DetailsComponent {
   }
 
   onSortChange(column: any): void {
-    this.query = { ...this.query, sortOrder: column.sortOrder };
+    console.log(column);
+    let auctionsFilter: any;
+    if (column?.sortOrder === null) {
+      const { auctionsFilter, ...newQuery } = this.query;
+      this.query = newQuery;
+    } else {
+      if (column?.key === 'tractor_name') {
+        auctionsFilter =
+          column?.sortOrder === 'ASC' ? 'TRACTOR_ASC' : 'TRACTOR_DESC';
+      }
+      this.query = {
+        ...this.query,
+        auctionsFilter: auctionsFilter,
+      };
+    }
     this.fetchAuctionDetails(this.query);
   }
 
@@ -237,7 +256,7 @@ export class DetailsComponent {
   }
 
   onPageChange(page: number): void {
-    this.query = { ...this.query, page: page };
+    this.query = { ...this.query, skip: page };
     this.fetchAuctionDetails(this.query);
   }
 

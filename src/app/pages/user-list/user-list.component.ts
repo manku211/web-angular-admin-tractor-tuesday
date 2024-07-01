@@ -162,10 +162,10 @@ export class UserListComponent {
 
     if (search !== '') {
       this.query = { ...this.query, search: search };
-      this.fetchDetails(this.query);
     } else {
       delete this.query.search;
     }
+    this.fetchDetails(this.query);
   }
 
   handleViewMore(id: any) {

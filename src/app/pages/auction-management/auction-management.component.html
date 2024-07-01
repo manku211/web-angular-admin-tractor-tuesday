@@ -84,10 +84,10 @@
       *ngIf="!auctionDetailsLoader"
     >
       <img
-        [src]="exteriorImageUrl || 'assets/icons/Tractor.svg'"
+        [src]="auctionDetails?.exteriorImageUrl || 'assets/icons/Tractor.svg'"
         alt="Exterior Image"
-        width="30"
-        height="30"
+        width="60"
+        height="60"
       />
       <div nz-flex [nzVertical]="true">
         <h3>{{ auctionDetails?.tractorId?.name }}</h3>
@@ -109,11 +109,13 @@
       <div *ngIf="!auctionDetailsLoader">
         <div nz-flex nzJustify="space-between" nzAlign="center">
           <span>Auction Date</span>
-          <span>{{ auctionDate | date : "dd-MM-yyyy" }}</span>
+          <span>{{
+            auctionDetails?.startTime * 1000 | date : "dd-MM-yyyy"
+          }}</span>
         </div>
         <div nz-flex nzJustify="space-between" nzAlign="center">
           <span>Auction Start time</span>
-          {{ auctionTime | date : "hh:mm a" }}
+          {{ auctionDetails?.startTime * 1000 | date : "hh:mm a" }}
         </div>
         <div nz-flex nzJustify="space-between" nzAlign="center">
           <span>Winning Bidding Amount</span>

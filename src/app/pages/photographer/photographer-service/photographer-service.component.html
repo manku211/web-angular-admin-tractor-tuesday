@@ -1,7 +1,7 @@
 <app-table-view
   [data]="photographerServices"
   [columns]="listOfColumns"
-  [enablePagination]="isDashboard"
+  [enablePagination]="!isDashboard"
   [enableSorting]="true"
   [enableSearch]="false"
   [enableActions]="isDashboard"
@@ -43,7 +43,7 @@
         <button
           nz-button
           class="secondary_button"
-          [routerLink]="'/dashboard/photoshoot-requests'"
+          [routerLink]="'/dashboard/photographers/photoshoot-requests'"
         >
           View More
         </button>

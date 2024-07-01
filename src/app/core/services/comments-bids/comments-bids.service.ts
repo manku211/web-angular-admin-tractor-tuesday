@@ -1,11 +1,12 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CommentsBidsService {
-  baseUrl = 'https://api-dev.tractortuesday.xyz/api/v1/';
+  baseUrl = environment.API_URL + '/api/v1/';
   constructor(private http: HttpClient) {}
 
   getCommentsByTractorID(params: any) {
@@ -63,6 +64,7 @@ export class CommentsBidsService {
   }
 
   deleteComment(params: any) {
-    return this.http.delete<any>(this.baseUrl + `comment`, params);
+    console.log(params);
+    return this.http.delete<any>(this.baseUrl + `comment`, { body: params });
   }
 }
