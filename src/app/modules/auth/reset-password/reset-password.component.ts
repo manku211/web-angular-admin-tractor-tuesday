@@ -83,7 +83,7 @@ export class ResetPasswordComponent {
       const resettoken_email = localStorage.getItem(
         'resetpassword_token_email'
       );
-      if (resettoken_email) {
+      if (resettoken_email != 'null') {
         let payload = {
           password: password,
           token: resettoken_email,

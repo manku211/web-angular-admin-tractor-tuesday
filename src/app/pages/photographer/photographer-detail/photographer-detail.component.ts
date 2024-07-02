@@ -39,7 +39,7 @@ export class PhotographerDetailComponent {
   photographerServices!: any[];
   totalCount: number = 0;
   loader: boolean = false;
-  statuses = ['MATCHED', 'COMPLETED', 'WAITING', 'PAID', 'UNPAID'];
+  statuses = ['MATCHED', 'COMPLETED', 'WAITING'];
   query: any = { skip: 1, take: 10 };
   selectedReason!: string;
   listOfColumns: ColumnInfo[] = [

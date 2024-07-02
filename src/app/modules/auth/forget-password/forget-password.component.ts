@@ -62,6 +62,7 @@ export class ForgetPasswordComponent {
 
   submitForm(): void {
     if (this.validateForm.valid) {
+      console.log(this.validateForm.value);
       let payload;
       if (this.validateForm.controls.email.value != '') {
         payload = {
@@ -81,6 +82,7 @@ export class ForgetPasswordComponent {
           otp: this.validateForm?.value.otp,
           hash: this.otpHash,
         };
+        console.log(payload);
         this.authService.otpVerify(payload).subscribe({
           next: (data) => {
             if (data?.data) {

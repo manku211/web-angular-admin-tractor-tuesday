@@ -26,8 +26,15 @@
           <td>100+</td>
           <td>{{ data?.sellerId?.fullName }}</td>
           <td>
-            <button nz-button nz-dropdown [nzDropdownMenu]="menu4">
-              {{ data.status }}
+            <button
+              nz-button
+              nz-dropdown
+              [nzDropdownMenu]="menu4"
+              class="status-button"
+            >
+              <span [ngStyle]="getStatusStyles(data.status)">{{
+                data.status | titlecase
+              }}</span>
               <span nz-icon nzType="down"></span>
             </button>
             <nz-dropdown-menu #menu4="nzDropdownMenu">
@@ -37,7 +44,7 @@
                   *ngFor="let status of statuses"
                   (click)="changeStatus(data, status)"
                 >
-                  {{ status }}
+                  {{ status | titlecase }}
                 </li>
               </ul>
             </nz-dropdown-menu>

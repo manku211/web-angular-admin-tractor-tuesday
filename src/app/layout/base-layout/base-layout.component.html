@@ -73,9 +73,11 @@
             />
             <div nz-flex nzGap="large" class="user-profile" nzAlign="center">
               <img
+                [routerLink]="['profile']"
                 [src]="
                   adminDetails?.profilePicture || 'assets/icons/profile.svg'
                 "
+                class="clickable-name"
                 alt="profile"
                 width="40"
                 height="42"

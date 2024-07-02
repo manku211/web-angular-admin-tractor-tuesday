@@ -85,7 +85,11 @@ export class SellerListComponent {
       const { sortOrder, sortField, ...newQuery } = this.query;
       this.query = newQuery;
     } else {
-      this.query = { ...this.query, sortOrder: column.sortOrder };
+      this.query = {
+        ...this.query,
+        sortOrder: column.sortOrder,
+        sortField: column.key,
+      };
     }
     this.fetchDetails(this.query);
   }

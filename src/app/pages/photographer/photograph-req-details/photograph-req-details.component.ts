@@ -8,6 +8,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { ModalComponent } from '../../../shared/components/modal/modal.component';
 import { Router } from '@angular/router';
 import { MessageService } from '../../../core/services/message/message.service';
+import { getStatusStyles } from '../../../utilities/helpers/helper';
 @Component({
   selector: 'app-photograph-req-details',
   standalone: true,
@@ -30,6 +31,7 @@ export class PhotographReqDetailsComponent {
   contactDialog: boolean = false;
   photographerInfo: any;
   photoshootRequestId: any;
+  getStatusStyles = getStatusStyles;
   validationError: string | null = null;
   mapOptions: L.MapOptions = {
     layers: [
