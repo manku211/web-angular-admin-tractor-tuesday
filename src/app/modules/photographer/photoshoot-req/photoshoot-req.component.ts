@@ -5,6 +5,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { PhotographReqDetailsComponent } from '../../../pages/photographer/photograph-req-details/photograph-req-details.component';
 import { PhotographerDetailComponent } from '../../../pages/photographer/photographer-detail/photographer-detail.component';
+import { getStatusStyles } from '../../../utilities/helpers/helper';
 
 @Component({
   selector: 'app-photoshoot-req',
@@ -23,7 +24,8 @@ export class PhotoshootReqComponent {
   totalRecords!: number;
   loading: boolean = false;
   routePath!: string;
-  statuses = ['MATCHED', 'COMPLETED', 'WAITING', 'PAID', 'UNPAID'];
+  statuses = ['MATCHED', 'COMPLETED', 'WAITING'];
+  getStatusStyles = getStatusStyles;
   constructor(
     private photographService: PhotographService,
     private router: Router

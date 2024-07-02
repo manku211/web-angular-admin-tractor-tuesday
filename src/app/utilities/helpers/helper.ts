@@ -61,6 +61,8 @@ export const getStatusStyles = (
     ENDED: { 'background-color': '#5E2EBA', color: '#FFF' },
     DENIED: { 'background-color': '#E57373', color: '#FFF' },
     COMPLETED: { 'background-color': '#81C784', color: '#FFF' },
+    MATCHED: { 'background-color': '#7572EE', color: '#FFF' },
+    WAITING: { 'background-color': '#FFF3B2', color: '#7B6807' },
   };
   return (
     {

@@ -38,7 +38,7 @@ export class CommentEditorComponent {
     {
       key: 'message',
       label: 'Comments',
-      sort: true,
+      sort: false,
     },
     {
       key: 'fullName',

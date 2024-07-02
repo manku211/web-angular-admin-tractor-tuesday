@@ -26,7 +26,11 @@
         </div>
         <div nz-flex nzJustify="center" nzAlign="center" [nzVertical]="true">
           <span>Member Since:</span>
-          <!-- <span> {{ userInfo.createdAt | date : "d MMM, y" }}</span> -->
+          <span>
+            {{
+              photographRequestData?.sellerId?.createdAt | date : "d MMM, y"
+            }}</span
+          >
         </div>
       </div>
     </div>
@@ -108,8 +112,11 @@
               <span nz-icon nzType="reconciliation" nzTheme="outline"></span
               >&nbsp;<span>Status:</span>
             </div>
-            <span class="personal-info-row-value">
-              {{ photographRequestData?.status }}</span
+            <span
+              class="personal-info-row-value"
+              [ngStyle]="getStatusStyles(photographRequestData?.status)"
+            >
+              {{ photographRequestData?.status | titlecase }}</span
             >
           </div>
         </div>
