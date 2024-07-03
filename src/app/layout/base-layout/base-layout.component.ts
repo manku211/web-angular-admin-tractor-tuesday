@@ -97,13 +97,13 @@ export class BaseLayoutComponent {
               label: 'Photographers',
               icon: 'camera',
               route: '/dashboard/photographers',
-              privilege: 'PHOTOSHOOT_REQUESTS',
+              privilege: 'PHOTOGRAPHER_MANAGEMENT',
             },
             {
               label: 'Photoshoot Requests',
               icon: 'camera',
               route: '/dashboard/photographers/photoshoot-requests',
-              privilege: 'PHOTOSHOOT_REQUESTS',
+              privilege: 'PHOTOGRAPHER_MANAGEMENT',
             },
             {
               label: 'Category Listing',

@@ -22,7 +22,26 @@
           </li>
         </ul>
       </nz-dropdown-menu>
-
+      <button
+        nz-button
+        nz-dropdown
+        nzTrigger="click"
+        [nzDropdownMenu]="tractor"
+      >
+        {{ selectedTractor?.name }}
+        <span nz-icon nzType="down"></span>
+      </button>
+      <nz-dropdown-menu #tractor="nzDropdownMenu">
+        <ul nz-menu>
+          <li
+            nz-menu-item
+            *ngFor="let data of tractorData"
+            (click)="onTractorSelect(data)"
+          >
+            {{ data?.name }}
+          </li>
+        </ul>
+      </nz-dropdown-menu>
       <button
         nz-button
         nz-dropdown

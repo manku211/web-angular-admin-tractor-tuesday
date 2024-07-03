@@ -47,6 +47,7 @@ export class TableViewComponent {
   @Input() isHeader: boolean = false;
   @Input() isBordered: boolean = true;
   @Input() tableRowTemplate!: TemplateRef<any>;
+  @Input() photographer: boolean = false;
   @Input() tableTitleTemplate!: TemplateRef<any>;
   @Output() sortChange: EventEmitter<TableColumn> =
     new EventEmitter<TableColumn>();

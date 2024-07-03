@@ -24,15 +24,17 @@ export class AuctionReportComponent {
   selectedCategory: string = 'Tractors';
   selectedPeriod: string = 'MONTH';
   graphData: any[] = [];
+  tractorData: any[] = [];
   private chart!: Chart;
   isLoading = true;
+  selectedTractor: any;
   constructor(
     private analyticsService: AnalyticsService,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
-    this.fetchGraphDetails();
+    this.fetchTractors(this.selectedCategory);
     this.equipmentCategories = Object.values(EquipmentCategory);
     this.timePeriods = Object.values(TimePeriods);
   }
@@ -43,10 +45,28 @@ export class AuctionReportComponent {
     }
   }
 
+  fetchTractors(category: string) {
+    let payload = {
+      category: category,
+    };
+    this.analyticsService.getAllTractors(payload).subscribe({
+      next: (data) => {
+        console.log(data);
+        this.tractorData = data?.data;
+        this.selectedTractor = data?.data[0];
+        this.fetchGraphDetails();
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }
+
   fetchGraphDetails() {
     let payload = {
       category: this.selectedCategory,
       duration: this.selectedPeriod,
+      tractorId: this.selectedTractor?._id,
     };
     this.analyticsService.getAuctionGraph(payload).subscribe({
       next: (data: any) => {
@@ -71,6 +91,11 @@ export class AuctionReportComponent {
 
   onTimePeriodSelect(period: string): void {
     this.selectedPeriod = period;
+    this.fetchGraphDetails();
+  }
+
+  onTractorSelect(data: string): void {
+    this.selectedTractor = data;
     this.fetchGraphDetails();
   }
 

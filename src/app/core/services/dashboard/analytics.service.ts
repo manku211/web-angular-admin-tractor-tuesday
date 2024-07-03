@@ -48,4 +48,14 @@ export class AnalyticsService {
   getCategoryAnalytics() {
     return this.http.get<any>(this.baseUrl + `analytics/top-selling-category`);
   }
+
+  getAllTractors(params: any) {
+    let queryParams = new HttpParams();
+    Object.keys(params).forEach((key) => {
+      queryParams = queryParams.set(key, params[key]);
+    });
+    return this.http.get<any>(this.baseUrl + `tractors/get-all-tractors`, {
+      params: queryParams,
+    });
+  }
 }
