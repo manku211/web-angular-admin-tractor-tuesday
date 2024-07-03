@@ -36,8 +36,7 @@ export class CreateAdminComponent {
     { label: 'Control Panel', value: 'CONTROL_PANEL' },
     { label: 'Content Management', value: 'CONTENT_MANAGEMENT' },
     { label: 'Category Listing', value: 'CATEGORY_LISTING' },
-    { label: 'Photoshoot Request', value: 'PHOTOSHOOT_REQUEST' },
-    { label: 'Photographer Form', value: 'PHOTOGRAPHER_FORM' },
+    { label: 'Photoshoot Request', value: 'PHOTOGRAPHER_MANAGEMENT' },
   ];
   constructor(
     private fb: FormBuilder,

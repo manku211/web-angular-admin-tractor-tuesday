@@ -11,10 +11,6 @@
           <span class="admin-label-info">Total Admins </span>
           <span class="admin-value-info">{{ totalAdmins }}</span>
         </nz-flex>
-        <!-- <nz-flex nzAlign="center" [nzVertical]="true">
-          <span class="admin-label-info">Active Users </span>
-          <span class="admin-value-info">2</span>
-        </nz-flex> -->
       </nz-flex>
     </div>
     <div nz-col nzSpan="4">
@@ -24,99 +20,7 @@
     </div>
   </div>
   <nz-divider></nz-divider>
-  <!-- <div nz-row class="privileges-list">
-    <div nz-col nzSpan="4" class="list-header">
-      <div nz-flex>
-        <span>Sub Admin Lists</span>
-      </div>
-    </div>
-    <div nz-col nzSpan="20" class="scrollable-col">
-      <div class="horizontal-scroll">
-        <ng-container *ngFor="let privilege of privileges">
-          <div
-            nz-flex
-            [nzVertical]="true"
-            nzAlign="center"
-            class="privilege-item"
-          >
-            <span>{{ privilege?.label }}</span>
-            <div nz-flex nzGap="small">
-              <span>Read</span>
-              <span>Read/Write</span>
-            </div>
-          </div>
-        </ng-container>
-      </div>
-    </div>
-  </div>
-  <div nz-row *ngFor="let item of adminList; let i = index" class="admin-item">
-    <div nz-col nzSpan="4" class="list-header">
-      <div nz-flex nzAlign="center" nzJustify="space-between">
-        <span>{{ item?.name }}</span>
 
-        <button
-          nz-button
-          nzType="text"
-          nz-popover
-          [nzPopoverVisible]="visibleIndex === i"
-          (nzPopoverVisibleChange)="change($event, i)"
-          nzPopoverTrigger="click"
-          nzPopoverPlacement="right"
-          [nzPopoverContent]="contentTemplate"
-        >
-          <span
-            nz-icon
-            nzType="ellipsis"
-            nzTheme="outline"
-            style="font-size: 24px"
-          ></span>
-        </button>
-        <ng-template #contentTemplate>
-          <nz-flex [nzVertical]="true" nzGap="small">
-            <button nz-button nzType="text" (click)="editAdmin(item?._id)">
-              <span>Edit Admin Details</span>
-            </button>
-            <button nz-button nzType="text" (click)="removeAdmin(item?._id)">
-              <span>Remove Admin</span>
-            </button>
-          </nz-flex>
-        </ng-template>
-      </div>
-    </div>
-    <div nz-col nzSpan="20" class="scrollable-col">
-      <div class="horizontal-scroll">
-        <ng-container *ngFor="let privilege of privileges">
-          <div
-            nz-flex
-            [nzVertical]="true"
-            nzAlign="center"
-            class="privilege-item"
-          >
-            <div nz-flex nzGap="large">
-              <label
-                nz-checkbox
-                [ngModel]="
-                  getPrivilegeStatus(item._id, privilege?.value, 'read')
-                "
-                (ngModelChange)="
-                  updatePrivilege($event, item._id, privilege?.value, 'read')
-                "
-              ></label>
-              <label
-                nz-checkbox
-                [ngModel]="
-                  getPrivilegeStatus(item._id, privilege?.value, 'write')
-                "
-                (ngModelChange)="
-                  updatePrivilege($event, item._id, privilege?.value, 'write')
-                "
-              ></label>
-            </div>
-          </div>
-        </ng-container>
-      </div>
-    </div>
-  </div> -->
   <nz-table #subAdminTable [nzData]="adminList" [nzScroll]="{ x: '1300px' }">
     <thead>
       <tr>
